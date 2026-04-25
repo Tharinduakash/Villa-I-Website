@@ -87,7 +87,7 @@ export default function DashboardPage() {
               View all
             </Link>
           </div>
-          <div className="divide-y" style={{ divideColor: 'rgba(255,255,255,0.04)' }}>
+          <div className="divide-y divide-[rgba(255,255,255,0.04)]">
             {recent.length === 0 ? (
               <p className="px-6 py-8 font-lato text-sm text-center" style={{ color: 'rgba(255,255,255,0.3)' }}>No bookings yet</p>
             ) : (
@@ -120,7 +120,7 @@ export default function DashboardPage() {
               Manage
             </Link>
           </div>
-          <div className="divide-y" style={{ divideColor: 'rgba(255,255,255,0.04)' }}>
+          <div className="divide-y divide-[rgba(255,255,255,0.04)]">
             {rooms.length === 0 ? (
               <p className="px-6 py-8 font-lato text-sm text-center" style={{ color: 'rgba(255,255,255,0.3)' }}>No rooms yet</p>
             ) : (

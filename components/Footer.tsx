@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { FaFacebook, FaInstagram, FaWhatsapp, FaTripadvisor } from 'react-icons/fa'
-import { SiBookingdotcom, SiAgora } from 'react-icons/si'
+import { SiBookingdotcom } from 'react-icons/si'
 import { MdEmail, MdPhone, MdLocationOn } from 'react-icons/md'
 import { HiArrowRight } from 'react-icons/hi'
 
@@ -38,8 +38,16 @@ const socials = [
   { Icon: FaWhatsapp,     href: 'https://wa.me/94XXXXXXXX', label: 'WhatsApp', hoverColor: 'rgba(37,211,102,0.9)'  },
   { Icon: FaTripadvisor,  href: '#',                      label: 'TripAdvisor', hoverColor: 'rgba(52,168,83,0.9)'   },
   { Icon: SiBookingdotcom,href: '#',                      label: 'Booking',     hoverColor: 'rgba(0,114,255,0.9)'   },
-  { Icon: SiAgora,        href: '#',                      label: 'Agoda',       hoverColor: 'rgba(230,0,100,0.9)'   },
+  { Icon: AgodaIcon,      href: '#',                      label: 'Agoda',       hoverColor: 'rgba(230,0,100,0.9)'   },
 ]
+
+function AgodaIcon({ size = 17, ...props }: { size?: number } & React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path d="M12 2L3 21h4.5l1.8-4h5.4l1.8 4H21L12 2zm0 5.5 2 5h-4l2-5z" />
+    </svg>
+  )
+}
 
 const GOLD = 'rgba(201,169,110,1)'
 const GOLD_DIM = 'rgba(201,169,110,0.55)'
