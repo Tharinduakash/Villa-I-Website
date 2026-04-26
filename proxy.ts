@@ -7,7 +7,7 @@ const JWT_SECRET = new TextEncoder().encode(
 )
 const COOKIE_NAME = 'villa-admin-token'
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Only protect /admin routes (except /admin/login)

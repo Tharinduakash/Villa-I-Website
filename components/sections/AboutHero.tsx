@@ -1,0 +1,31 @@
+'use client'
+import Image from 'next/image'
+import { motion } from 'framer-motion'
+
+export default function AboutHero() {
+  return (
+    <section className="relative h-[70vh] min-h-[500px] overflow-hidden flex items-end">
+      <Image
+        src="/webp/hotel.png"
+        alt="Villa i Hotel Exterior"
+        fill
+        priority
+        className="object-cover"
+        sizes="100vw"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-luxury-black via-luxury-black/40 to-luxury-black/20" />
+      <div className="relative z-10 container-padding w-full pb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.3 }}
+        >
+          <p className="text-luxury-gold font-lato text-xs tracking-[0.4em] uppercase mb-3">Our Story</p>
+          <h1 className="font-playfair text-5xl md:text-7xl text-white">
+            About <span className="italic text-luxury-gold">Villa i</span>
+          </h1>
+        </motion.div>
+      </div>
+    </section>
+  )
+}

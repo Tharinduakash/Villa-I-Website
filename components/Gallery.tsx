@@ -1,178 +1,594 @@
 'use client'
-import Image from 'next/image'
-import { motion } from 'framer-motion'
-import { galleryImages } from '@/lib/data'
 
-// Grid layout config per index
-const gridClasses = [
-  'col-span-2 row-span-2',  // 0 — large feature
-  'col-span-1 row-span-1',  // 1
-  'col-span-1 row-span-1',  // 2
-  'col-span-1 row-span-1',  // 3
-  'col-span-1 row-span-1',  // 4
-  'col-span-1 row-span-1',  // 5
+import { motion } from 'framer-motion'
+import Image from 'next/image'
+import Link from 'next/link'
+
+// ── Types ──────────────────────────────────────────────────────────
+export interface GalleryPhoto {
+  id: number
+  title: string
+  image: string
+  guestName: string
+  roomType?: string
+  rating?: number
+  review?: string
+  year?: number
+  span?: 1 | 2 | 3
+}
+
+// ── Shared photo data (used in both section + page) ────────────────
+export const GALLERY_PHOTOS: GalleryPhoto[] = [
+  {
+    id: 1,
+    title: 'Ocean View at Sunrise',
+    image: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=800&q=85',
+    guestName: 'Sarah Mitchell',
+    roomType: 'A/C Room',
+    rating: 5,
+    review: 'Waking up to this view every morning was absolutely magical.',
+    year: 2025,
+    span: 3,
+  },
+  {
+    id: 2,
+    title: 'Garden Villa Morning',
+    image: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800&q=85',
+    guestName: 'James O\'Brien',
+    roomType: 'Full Villa',
+    rating: 5,
+    review: 'Complete privacy, lush garden, absolute peace.',
+    year: 2025,
+    span: 2,
+  },
+  {
+    id: 3,
+    title: 'Luxury Suite Interior',
+    image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=85',
+    guestName: 'Lena Hoffmann',
+    roomType: 'A/C Room',
+    rating: 5,
+    review: 'Spotless, elegant and so comfortable.',
+    year: 2024,
+    span: 1,
+  },
+  {
+    id: 4,
+    title: 'Beach Walk at Dusk',
+    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=85',
+    guestName: 'Priya Wijesekara',
+    roomType: 'Family Room',
+    rating: 5,
+    review: 'The beach literally steps away. We went every evening.',
+    year: 2025,
+    span: 2,
+  },
+  {
+    id: 5,
+    title: 'Sri Lankan Breakfast Spread',
+    image: 'https://images.unsplash.com/photo-1596178060671-7a80dc8059ea?w=800&q=85',
+    guestName: 'Marco Rossi',
+    roomType: 'Non A/C Room',
+    rating: 5,
+    review: 'The home-cooked meals were the highlight of our stay.',
+    year: 2024,
+    span: 3,
+  },
+  {
+    id: 6,
+    title: 'Villa Pool & Garden',
+    image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=85',
+    guestName: 'Emma Thornton',
+    roomType: 'Full Villa',
+    rating: 5,
+    review: 'Booked the whole villa for our family — best decision.',
+    year: 2025,
+    span: 1,
+  },
+  {
+    id: 7,
+    title: 'Sunset from the Balcony',
+    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=85',
+    guestName: 'Amal Perera',
+    roomType: 'A/C Room',
+    rating: 5,
+    review: 'That golden hour from our balcony — unforgettable.',
+    year: 2024,
+    span: 2,
+  },
+  {
+    id: 8,
+    title: 'Family Suite Living Area',
+    image: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=800&q=85',
+    guestName: 'Thilini Kumari',
+    roomType: 'Family Room',
+    rating: 4,
+    review: 'Plenty of space for all four of us. Kids loved it.',
+    year: 2025,
+    span: 1,
+  },
+  {
+    id: 9,
+    title: 'Mount Lavinia Shoreline',
+    image: 'https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?w=800&q=85',
+    guestName: 'Chathu Silva',
+    roomType: 'Non A/C Room',
+    rating: 5,
+    review: 'Incredible location. The sound of waves all night long.',
+    year: 2025,
+    span: 3,
+  },
+  {
+    id: 10,
+    title: 'Room with Tropical Breeze',
+    image: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=85',
+    guestName: 'Dinesh Rathnayake',
+    roomType: 'Non A/C Room',
+    rating: 4,
+    review: 'Loved the natural ventilation. Very calm and relaxing.',
+    year: 2024,
+    span: 2,
+  },
+  {
+    id: 11,
+    title: 'Evening by the Shore',
+    image: 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800&q=85',
+    guestName: 'Nina Schreiber',
+    roomType: 'A/C Room',
+    rating: 5,
+    review: 'We sat here for hours. Nothing but the ocean and stars.',
+    year: 2025,
+    span: 1,
+  },
+  {
+    id: 12,
+    title: 'Villa Exterior at Night',
+    image: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&q=85',
+    guestName: 'Oliver Jensen',
+    roomType: 'Full Villa',
+    rating: 5,
+    review: 'The whole property glows beautifully at night.',
+    year: 2024,
+    span: 1,
+  },
 ]
 
-export default function Gallery() {
-  return (
-    <section className="py-24 bg-luxury-dark overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
+const H: Record<number, string> = { 1: '160px', 2: '240px', 3: '320px' }
+const GOLD     = 'rgba(201,169,110,1)'
+const GOLD_DIM = 'rgba(176,141,87,0.55)'
 
-        {/* ── Section header ───────────────────────────────────────── */}
+// ── Desktop masonry card ───────────────────────────────────────────
+function PhotoCard({ photo, index }: { photo: GalleryPhoto; index: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.97 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true, margin: '-20px' }}
+      transition={{ duration: 0.45, delay: (index % 12) * 0.04 }}
+      className="group cursor-pointer"
+      style={{ breakInside: 'avoid', marginBottom: '8px', display: 'inline-block', width: '100%' }}
+    >
+      <div
+        className="relative w-full overflow-hidden transition-all duration-350"
+        style={{
+          height: H[photo.span ?? 2],
+          border: '1px solid rgba(176,141,87,0.10)',
+          boxShadow: '0 2px 16px rgba(0,0,0,0.35)',
+        }}
+      >
+        <Image
+          src={photo.image}
+          alt={photo.title}
+          fill
+          sizes="(max-width:640px) 50vw, (max-width:1024px) 25vw, 17vw"
+          className="object-cover object-center transition-transform duration-600 group-hover:scale-105"
+        />
+
+        {/* Base gradient */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: 'linear-gradient(to top, rgba(8,7,5,0.90) 0%, rgba(8,7,5,0.08) 55%, transparent 100%)' }}
+        />
+
+        {/* Gold shimmer on hover */}
+        <div
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-350 pointer-events-none"
+          style={{ background: 'linear-gradient(to top, rgba(176,141,87,0.18) 0%, transparent 55%)' }}
+        />
+
+        {/* Left gold accent bar */}
+        <div
+          className="absolute left-0 top-0 bottom-0 w-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          style={{ background: `linear-gradient(to bottom, ${GOLD}, rgba(176,141,87,0.3))` }}
+        />
+
+        {/* Inner gold border glow */}
+        <div
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+          style={{ boxShadow: 'inset 0 0 0 1px rgba(176,141,87,0.35)' }}
+        />
+
+        {/* Room type + year top row */}
+        <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
+          {photo.roomType && (
+            <span
+              className="font-lato text-[8px] tracking-[0.25em] uppercase px-2 py-0.5"
+              style={{
+                background: 'rgba(8,7,5,0.75)',
+                backdropFilter: 'blur(8px)',
+                border: '1px solid rgba(176,141,87,0.25)',
+                color: GOLD_DIM,
+              }}
+            >
+              {photo.roomType}
+            </span>
+          )}
+          {photo.year && (
+            <span
+              className="font-lato text-[8px] text-white/40 px-1.5 py-0.5"
+              style={{ background: 'rgba(0,0,0,0.45)' }}
+            >
+              {photo.year}
+            </span>
+          )}
+        </div>
+
+        {/* Bottom info */}
+        <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-1 group-hover:translate-y-0 transition-transform duration-250">
+          {/* Stars */}
+          {photo.rating && (
+            <div className="flex gap-0.5 mb-1">
+              {Array.from({ length: photo.rating }).map((_, i) => (
+                <span key={i} style={{ color: GOLD, fontSize: '8px' }}>★</span>
+              ))}
+            </div>
+          )}
+
+          <h3
+            className="font-playfair text-white text-[11px] leading-tight mb-1 line-clamp-1"
+          >
+            {photo.title}
+          </h3>
+
+          {/* Review snippet */}
+          {photo.review && (
+            <p
+              className="font-lato text-[9px] leading-relaxed line-clamp-1 mb-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              style={{ color: 'rgba(255,255,255,0.55)', fontStyle: 'italic' }}
+            >
+              "{photo.review}"
+            </p>
+          )}
+
+          {/* Guest row */}
+          <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div
+              className="w-4 h-4 flex items-center justify-center text-white flex-shrink-0 font-bold"
+              style={{ background: GOLD, fontSize: '7px', color: '#0a0906' }}
+            >
+              {photo.guestName.charAt(0)}
+            </div>
+            <span className="font-lato text-[9px] text-white/65 truncate">{photo.guestName}</span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
+// ── Mobile horizontal scroll card ─────────────────────────────────
+function MobileCard({ photo, index }: { photo: GalleryPhoto; index: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: 20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.35, delay: index * 0.05 }}
+      className="hg-mob-card flex-shrink-0"
+    >
+      <div className="hg-mob-img">
+        <Image
+          src={photo.image}
+          alt={photo.title}
+          fill
+          sizes="160px"
+          className="object-cover object-center"
+        />
+        <div
+          style={{
+            position: 'absolute', inset: 0,
+            background: 'linear-gradient(to top, rgba(8,7,5,0.92) 0%, rgba(8,7,5,0.08) 55%, transparent 100%)',
+          }}
+        />
+        {photo.roomType && (
+          <span className="hg-mob-tag">{photo.roomType}</span>
+        )}
+        {photo.rating && (
+          <div className="hg-mob-stars">
+            {Array.from({ length: photo.rating }).map((_, i) => (
+              <span key={i}>★</span>
+            ))}
+          </div>
+        )}
+        <div className="hg-mob-foot">
+          <h3 className="hg-mob-title">{photo.title}</h3>
+        </div>
+      </div>
+
+      {/* Guest info */}
+      <div className="hg-mob-meta">
+        <div className="hg-mob-avatar">{photo.guestName.charAt(0)}</div>
+        <div className="hg-mob-metainfo">
+          <span className="hg-mob-guest">{photo.guestName}</span>
+          {photo.review && (
+            <span className="hg-mob-review">"{photo.review.slice(0, 40)}…"</span>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
+// ── Main section ───────────────────────────────────────────────────
+export default function Gallery() {
+  const preview = GALLERY_PHOTOS.slice(0, 12)
+
+  return (
+    <section
+      id="gallery"
+      className="relative py-20 overflow-hidden"
+      style={{ background: 'linear-gradient(160deg, #0f0e0b 0%, #090806 60%, #0d0c09 100%)' }}
+    >
+      {/* Dot texture */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-30"
+        style={{
+          backgroundImage: 'radial-gradient(circle, rgba(176,141,87,0.07) 1px, transparent 1px)',
+          backgroundSize: '30px 30px',
+        }}
+      />
+      {/* Gold ambient glow */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse 55% 40% at 50% 60%, rgba(176,141,87,0.07) 0%, transparent 70%)',
+        }}
+      />
+
+      <div className="relative max-w-7xl mx-auto">
+
+        {/* ── Header ── */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="flex flex-col items-center text-center mb-14"
+          transition={{ duration: 0.6 }}
+          className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10 px-6 lg:px-10"
         >
-          {/* Decorative line + label */}
-          <div className="flex items-center gap-5 mb-5">
-            <span className="block h-px w-14" style={{ background: 'rgba(201,169,110,0.45)' }} />
-            <p className="font-lato text-xs tracking-[0.35em] uppercase" style={{ color: '#C9A96E' }}>
-              Visual Journey
+          <div>
+            <div className="flex items-center gap-4 mb-4">
+              <span className="block h-px w-8" style={{ background: GOLD_DIM }} />
+              <p className="font-lato text-[10px] tracking-[0.4em] uppercase" style={{ color: GOLD_DIM }}>
+                Guest Memories
+              </p>
+            </div>
+            <h2
+              className="font-playfair text-white leading-tight"
+              style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)' }}
+            >
+              Life at{' '}
+              <span className="italic" style={{ color: GOLD }}>Villa i</span>
+            </h2>
+            <div
+              className="h-px w-14 mt-3"
+              style={{ background: `linear-gradient(to right, ${GOLD}, rgba(176,141,87,0.2))` }}
+            />
+            <p
+              className="font-lato text-sm mt-3 max-w-sm leading-relaxed"
+              style={{ color: 'rgba(255,255,255,0.38)' }}
+            >
+              Real moments captured by our guests — from sunrise balconies to beach evenings.
             </p>
-            <span className="block h-px w-14" style={{ background: 'rgba(201,169,110,0.45)' }} />
           </div>
 
-          <h2 className="font-playfair text-4xl md:text-5xl text-white mb-4">
-            Life at <span className="italic" style={{ color: '#C9A96E' }}>Villa i</span>
-          </h2>
-
-          <p className="font-lato text-sm leading-relaxed max-w-md" style={{ color: 'rgba(255,255,255,0.4)' }}>
-            From sun-drenched mornings to candlelit evenings — every corner of Villa i tells a story.
-          </p>
-
-          {/* Divider ornament */}
-          <div className="flex items-center gap-3 mt-5">
-            <span className="block h-px w-10" style={{ background: 'rgba(201,169,110,0.3)' }} />
-            <span className="block w-1.5 h-1.5 rotate-45" style={{ background: 'rgba(201,169,110,0.5)' }} />
-            <span className="block h-px w-10" style={{ background: 'rgba(201,169,110,0.3)' }} />
-          </div>
+          {/* Desktop CTA */}
+          <motion.div
+            initial={{ opacity: 0, x: 16 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="hidden sm:block shrink-0"
+          >
+            <Link
+              href="/gallery"
+              className="group inline-flex items-center gap-3 font-lato text-xs tracking-[0.25em] uppercase transition-all duration-300"
+              style={{ color: GOLD }}
+              onMouseEnter={(e) => (e.currentTarget.style.gap = '16px')}
+              onMouseLeave={(e) => (e.currentTarget.style.gap = '12px')}
+            >
+              View All Photos
+              <span
+                className="flex items-center justify-center w-9 h-9 transition-all duration-300 group-hover:bg-luxury-gold"
+                style={{ border: `1px solid rgba(176,141,87,0.4)` }}
+              >
+                <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </span>
+            </Link>
+          </motion.div>
         </motion.div>
 
-        {/* ── Grid ─────────────────────────────────────────────────── */}
-        <div
-          className="grid grid-cols-2 md:grid-cols-3 gap-2.5"
-          style={{ gridTemplateRows: 'repeat(3, 260px)' }}
-        >
-          {galleryImages.map((img, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.7, delay: i * 0.09 }}
-              className={`group relative overflow-hidden ${gridClasses[i] ?? ''}`}
-              style={{ border: '1px solid rgba(255,255,255,0.04)' }}
-            >
-              {/* Image */}
-              <Image
-                src={img.src}
-                alt={img.alt}
-                fill
-                className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07]"
-                sizes="(max-width: 768px) 50vw, 33vw"
-              />
-
-              {/* Base dark vignette — always present, subtle */}
-              <div
-                className="absolute inset-0"
-                style={{
-                  background:
-                    'linear-gradient(to top, rgba(8,7,5,0.55) 0%, rgba(8,7,5,0.08) 50%, transparent 100%)',
-                }}
-              />
-
-              {/* Hover overlay — gold-tinted gradient */}
-              <div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                style={{
-                  background:
-                    'linear-gradient(to top, rgba(8,7,5,0.88) 0%, rgba(8,7,5,0.35) 50%, rgba(176,141,87,0.06) 100%)',
-                }}
-              />
-
-              {/* Gold corner ornament top-left — reveals on hover */}
-              <div className="absolute top-0 left-0 z-10 pointer-events-none">
-                <div
-                  className="absolute top-0 left-0 h-px transition-all duration-500 ease-out w-0 group-hover:w-10"
-                  style={{ background: 'rgba(201,169,110,0.9)' }}
-                />
-                <div
-                  className="absolute top-0 left-0 w-px transition-all duration-500 ease-out h-0 group-hover:h-10"
-                  style={{ background: 'rgba(201,169,110,0.9)' }}
-                />
-              </div>
-
-              {/* Gold corner ornament bottom-right — reveals on hover */}
-              <div className="absolute bottom-0 right-0 z-10 pointer-events-none">
-                <div
-                  className="absolute bottom-0 right-0 h-px transition-all duration-500 ease-out w-0 group-hover:w-10"
-                  style={{ background: 'rgba(201,169,110,0.9)' }}
-                />
-                <div
-                  className="absolute bottom-0 right-0 w-px transition-all duration-500 ease-out h-0 group-hover:h-10"
-                  style={{ background: 'rgba(201,169,110,0.9)' }}
-                />
-              </div>
-
-              {/* Index number — decorative watermark, always subtle */}
-              <span
-                className="absolute top-4 right-5 font-playfair font-bold leading-none select-none z-10 transition-opacity duration-500 group-hover:opacity-0"
-                style={{ color: 'rgba(255,255,255,0.06)', fontSize: i === 0 ? '5rem' : '3.5rem' }}
-              >
-                {String(i + 1).padStart(2, '0')}
-              </span>
-
-              {/* Caption — slides up on hover */}
-              <div className="absolute bottom-0 left-0 right-0 z-10 p-5 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-400 ease-out">
-                <div className="flex items-end justify-between">
-                  <div>
-                    <p
-                      className="font-lato text-[10px] tracking-[0.3em] uppercase mb-1"
-                      style={{ color: 'rgba(201,169,110,0.8)' }}
-                    >
-                      Villa i Hotel
-                    </p>
-                    <p className="font-playfair text-white leading-tight"
-                      style={{ fontSize: i === 0 ? '1.2rem' : '1rem' }}>
-                      {img.alt}
-                    </p>
-                  </div>
-                  {/* Gold diamond accent */}
-                  <span
-                    className="flex-shrink-0 w-2 h-2 rotate-45 mb-1"
-                    style={{ background: 'rgba(201,169,110,0.7)' }}
-                  />
+        {/* ── Mobile: horizontal scroll ── */}
+        <div className="hg-mob-wrap sm:hidden">
+          <div className="hg-mob-fade-l" />
+          <div className="hg-mob-fade-r" />
+          <div className="hg-mob-track">
+            {GALLERY_PHOTOS.map((photo, i) => (
+              <MobileCard key={photo.id} photo={photo} index={i} />
+            ))}
+            {/* View all card */}
+            <Link href="/gallery" className="hg-mob-viewall flex-shrink-0">
+              <div className="hg-mob-viewall-inner">
+                <div className="hg-mob-viewall-icon">
+                  <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" viewBox="0 0 24 24">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
                 </div>
+                <p className="hg-mob-viewall-text">View<br />All</p>
+                <p className="hg-mob-viewall-count">{GALLERY_PHOTOS.length}+ photos</p>
               </div>
+            </Link>
+          </div>
+        </div>
 
-              {/* Left gold border — slides in on hover */}
-              <div
-                className="absolute left-0 top-0 bottom-0 w-px transition-all duration-500 ease-out opacity-0 group-hover:opacity-100"
-                style={{ background: 'linear-gradient(to bottom, transparent, rgba(201,169,110,0.7), transparent)' }}
-              />
-            </motion.div>
+        {/* ── Desktop: masonry ── */}
+        <div
+          className="hg-masonry hidden sm:block px-6 lg:px-10"
+          style={{ columnGap: '8px' }}
+        >
+          {preview.map((photo, i) => (
+            <PhotoCard key={photo.id} photo={photo} index={i} />
           ))}
         </div>
 
-        {/* ── Bottom CTA ───────────────────────────────────────────── */}
+        {/* Mobile CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.5 }}
-          className="flex items-center justify-center mt-12 gap-5"
+          className="flex justify-center mt-8 sm:hidden px-6"
         >
-          <span className="block h-px w-16" style={{ background: 'rgba(201,169,110,0.2)' }} />
-          <p className="font-lato text-xs tracking-[0.25em] uppercase" style={{ color: 'rgba(255,255,255,0.3)' }}>
-            Mount Lavinia · Sri Lanka
-          </p>
-          <span className="block h-px w-16" style={{ background: 'rgba(201,169,110,0.2)' }} />
+          <Link
+            href="/gallery"
+            className="group font-lato text-xs tracking-[0.25em] uppercase"
+            style={{ color: GOLD }}
+          >
+            View All Photos
+            <span
+              className="block h-px w-0 mt-1.5 transition-all duration-300 group-hover:w-full"
+              style={{ background: GOLD }}
+            />
+          </Link>
         </motion.div>
 
+        <p
+          className="font-lato text-center mt-8 px-6"
+          style={{ fontSize: '9px', letterSpacing: '0.3em', color: 'rgba(255,255,255,0.18)', textTransform: 'uppercase' }}
+        >
+          Showing {preview.length} of {GALLERY_PHOTOS.length}+ guest moments
+        </p>
       </div>
+
+      <style>{`
+        .hg-masonry { columns: 2; }
+        @media (min-width: 640px)  { .hg-masonry { columns: 4; } }
+        @media (min-width: 1024px) { .hg-masonry { columns: 5; } }
+        @media (min-width: 1280px) { .hg-masonry { columns: 6; } }
+
+        .hg-mob-wrap { position: relative; width: 100%; }
+        .hg-mob-fade-l, .hg-mob-fade-r {
+          position: absolute; top: 0; bottom: 0; width: 24px; z-index: 2; pointer-events: none;
+        }
+        .hg-mob-fade-l { left: 0;  background: linear-gradient(to right, #0f0e0b, transparent); }
+        .hg-mob-fade-r { right: 0; background: linear-gradient(to left, #0d0c09, transparent); }
+
+        .hg-mob-track {
+          display: flex; gap: 10px;
+          overflow-x: auto; overflow-y: hidden;
+          padding: 4px 20px 16px;
+          scroll-snap-type: x mandatory;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+        }
+        .hg-mob-track::-webkit-scrollbar { display: none; }
+
+        .hg-mob-card { scroll-snap-align: start; width: 148px; cursor: pointer; }
+
+        .hg-mob-img {
+          position: relative; width: 148px; height: 200px;
+          overflow: hidden; background: #1a1710;
+          border: 1px solid rgba(176,141,87,0.15);
+          box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .hg-mob-tag {
+          position: absolute; top: 8px; left: 8px;
+          font-family: var(--font-lato, sans-serif);
+          font-size: 7px; letter-spacing: 0.25em; text-transform: uppercase;
+          color: rgba(201,169,110,0.75);
+          background: rgba(8,7,5,0.80);
+          padding: 2px 6px;
+          border: 1px solid rgba(176,141,87,0.2);
+          z-index: 2;
+        }
+
+        .hg-mob-stars {
+          position: absolute; top: 8px; right: 8px;
+          font-size: 8px; color: rgba(201,169,110,0.9);
+          z-index: 2; letter-spacing: 1px;
+        }
+
+        .hg-mob-foot {
+          position: absolute; bottom: 0; left: 0; right: 0;
+          padding: 8px 10px; z-index: 2;
+        }
+        .hg-mob-title {
+          font-family: var(--font-playfair, Georgia, serif);
+          font-size: 11px; font-weight: 700; color: #fff; line-height: 1.3;
+          display: -webkit-box; -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical; overflow: hidden;
+        }
+
+        .hg-mob-meta {
+          display: flex; align-items: flex-start; gap: 7px;
+          margin-top: 8px; padding: 0 2px;
+        }
+        .hg-mob-avatar {
+          width: 22px; height: 22px; flex-shrink: 0;
+          display: flex; align-items: center; justify-content: center;
+          background: rgba(201,169,110,1); color: #0a0906;
+          font-size: 9px; font-weight: 700;
+          font-family: var(--font-lato, sans-serif);
+        }
+        .hg-mob-metainfo { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+        .hg-mob-guest {
+          font-family: var(--font-lato, sans-serif);
+          font-size: 10px; font-weight: 600;
+          color: rgba(255,255,255,0.65);
+          white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .hg-mob-review {
+          font-family: var(--font-lato, sans-serif);
+          font-size: 8px; color: rgba(255,255,255,0.28); font-style: italic;
+          white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        .hg-mob-viewall {
+          scroll-snap-align: start; width: 110px; height: 200px;
+          border: 1px dashed rgba(176,141,87,0.30);
+          background: rgba(26,23,16,0.9);
+          display: flex; align-items: center; justify-content: center;
+          text-decoration: none; transition: border-color 0.2s, background 0.2s;
+        }
+        .hg-mob-viewall:active { background: rgba(176,141,87,0.08); border-color: rgba(176,141,87,0.6); }
+        .hg-mob-viewall-inner { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .hg-mob-viewall-icon {
+          width: 38px; height: 38px;
+          border: 1px solid rgba(176,141,87,0.45);
+          display: flex; align-items: center; justify-content: center;
+          color: rgba(201,169,110,0.9);
+        }
+        .hg-mob-viewall-text {
+          font-family: var(--font-playfair, Georgia, serif);
+          font-size: 13px; font-weight: 700;
+          color: rgba(201,169,110,0.9); text-align: center; line-height: 1.2;
+        }
+        .hg-mob-viewall-count {
+          font-family: var(--font-lato, sans-serif);
+          font-size: 8px; color: rgba(255,255,255,0.25); text-align: center; letter-spacing: 0.05em;
+        }
+      `}</style>
     </section>
   )
 }
