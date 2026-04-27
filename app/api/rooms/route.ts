@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json()
-    const { name, shortName, description, features, pricePerNight, priceLabel, image, capacity, size, available } = body
+    const { name, shortName, description, features, pricePerNight, priceLabel, image, images, capacity, size, available } = body
 
     if (!name || !shortName || !description || !pricePerNight || !image || !capacity || !size) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
@@ -37,6 +37,7 @@ export async function POST(request: NextRequest) {
         pricePerNight: parseFloat(pricePerNight),
         priceLabel: priceLabel ?? `From $${pricePerNight}/night`,
         image,
+        images: images ?? [],
         capacity,
         size,
         available: available ?? true,

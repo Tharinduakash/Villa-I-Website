@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import AnimatedSection from '@/components/AnimatedSection'
 
 const GOLD     = 'rgba(201,169,110,1)'
@@ -67,10 +68,17 @@ export default function AboutStory() {
             </p>
             <span className="block h-px w-10" style={{ background: GOLD_DIM }} />
           </div>
-          <h2 className="font-playfair text-4xl md:text-5xl text-white">
-            The Villa i{' '}
+          <div className="font-playfair text-4xl md:text-5xl text-white">
+            <Image
+                        src="/webp/villa_logo_transparent.png"
+                        alt="Villa i"
+                        width={90}
+                        height={70}
+                        className="object-contain inline-block"
+                        style={{ verticalAlign: 'middle' }}
+                      />
             <span className="italic" style={{ color: GOLD }}>Story</span>
-          </h2>
+          </div>
           <p
             className="font-lato text-sm leading-relaxed mt-4 mx-auto"
             style={{ color: 'rgba(255,255,255,0.38)', maxWidth: '28rem' }}

@@ -21,7 +21,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   try {
     const { id } = await params
     const body = await request.json()
-    const { title, description, icon, features } = body
+    const { title, description, icon, image, features } = body
 
     const service = await prisma.service.update({
       where: { id },
@@ -29,6 +29,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
         ...(title !== undefined && { title }),
         ...(description !== undefined && { description }),
         ...(icon !== undefined && { icon }),
+        ...(image !== undefined && { image }),
         ...(features !== undefined && { features }),
       },
     })

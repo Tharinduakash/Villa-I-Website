@@ -61,6 +61,7 @@ export const services = [
     title: 'Luxury Accommodation',
     description:
       'Choose from our range of thoughtfully designed rooms and suites, each offering a unique blend of comfort and coastal charm.',
+    image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=900&q=85',
     features: ['A/C & Non A/C options', 'Family suites available', 'Full villa booking', 'Daily housekeeping'],
   },
   {
@@ -68,6 +69,7 @@ export const services = [
     title: 'Culinary Experience',
     description:
       'Savor authentic Sri Lankan cuisine and international favorites, prepared fresh with local ingredients and ocean-inspired flavors.',
+    image: 'https://images.unsplash.com/photo-1596178060671-7a80dc8059ea?w=900&q=85',
     features: ['Breakfast included', 'Sri Lankan cuisine', 'Western menu options', 'Dietary needs catered'],
   },
   {
@@ -75,6 +77,7 @@ export const services = [
     title: 'Beach Access',
     description:
       'Steps away from the pristine shores of Mount Lavinia beach, perfect for morning swims, sunset walks, and water activities.',
+    image: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=900&q=85',
     features: ['100m to beach', 'Beach equipment', 'Stunning sunset views', 'Water activities nearby'],
   },
   {
@@ -82,6 +85,7 @@ export const services = [
     title: 'Relaxation & Wellness',
     description:
       'Unwind in our serene garden spaces, enjoy tropical breezes, and experience the restorative calm of coastal living.',
+    image: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=900&q=85',
     features: ['Tropical garden spaces', 'Meditation areas', 'Yoga sessions on request', 'Spa treatments'],
   },
 ]

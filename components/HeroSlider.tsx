@@ -6,22 +6,22 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { HiArrowRight } from 'react-icons/hi'
 
 const slides = [
-  {
-    image: '/webp/hotel.png',
-    eyebrow: 'Mount Lavinia, Sri Lanka',
-    title: 'Escape to',
-    titleItalic: 'Villa i',
-    titleEnd: 'by the Sea',
-  
-    cta: { label: 'Reserve Your Stay', href: '/contact' },
-    ctaSecondary: { label: 'Explore Rooms', href: '/rooms' },
-  },
+ {
+  image: '/webp/hotel.png',
+  eyebrow: 'Mount Lavinia, Sri Lanka',
+  title: 'Ocean Meets',
+  titleItalic: 'Paradise',
+  titleEnd: 'Luxury Living',
+
+  cta: { label: 'Reserve Your Stay', href: '/contact' },
+  ctaSecondary: { label: 'Explore Rooms', href: '/rooms' },
+},
 
   {
     image: '/webp/room1.jpg',
     eyebrow: 'Comfort for Every Stay',
     title: 'Relax in',
-    titleItalic: 'A/C & Non A/C',
+    titleItalic: 'Non A/C  A/C',
     titleEnd: 'Rooms',
    
     cta: { label: 'View Rooms', href: '/rooms' },
@@ -321,16 +321,55 @@ export default function HeroSlider() {
                 initial={{ opacity: 0, y: 32 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.9, delay: 0.55 }}
-                className="font-playfair leading-[1.08] mb-5"
-                style={{ fontSize: 'clamp(2.4rem, 5.5vw, 4.2rem)' }}
+                className="font-playfair mb-5"
+                style={{ lineHeight: 1 }}
               >
-                <span className="text-white">{slide.title}</span>
-                <br />
-                <span style={{ color: 'rgba(201,169,110,1)', fontStyle: 'italic' }}>
+                {/* Supporting intro — small, tracked, muted */}
+                <span
+                  style={{
+                    display: 'block',
+                    fontSize: 'clamp(0.85rem, 1.8vw, 1.25rem)',
+                    fontWeight: 400,
+                    letterSpacing: '0.22em',
+                    textTransform: 'uppercase',
+                    color: 'rgba(255,255,255,0.55)',
+                    lineHeight: 1.2,
+                    marginBottom: '0.3em',
+                  }}
+                >
+                  {slide.title}
+                </span>
+
+                {/* Hero word — dominant bold italic, gold */}
+                <span
+                  style={{
+                    display: 'block',
+                    fontSize: 'clamp(3.8rem, 9vw, 7.2rem)',
+                    fontWeight: 800,
+                    fontStyle: 'italic',
+                    color: 'rgba(201,169,110,1)',
+                    letterSpacing: '-0.02em',
+                    lineHeight: 0.92,
+                    marginBottom: '0.18em',
+                  }}
+                >
                   {slide.titleItalic}
                 </span>
-                <br />
-                <span style={{ color: 'rgba(255,255,255,0.88)' }}>{slide.titleEnd}</span>
+
+                {/* Closing line — medium, tracked, white */}
+                <span
+                  style={{
+                    display: 'block',
+                    fontSize: 'clamp(1rem, 2.2vw, 1.6rem)',
+                    fontWeight: 700,
+                    letterSpacing: '0.18em',
+                    textTransform: 'uppercase',
+                    color: 'rgba(255,255,255,0.88)',
+                    lineHeight: 1.2,
+                  }}
+                >
+                  {slide.titleEnd}
+                </span>
               </motion.h1>
 
               {/* Divider */}

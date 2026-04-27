@@ -168,10 +168,14 @@ export default function Footer() {
           <div>
             {/* Logo text */}
             <div className="mb-6">
-              <span className="font-playfair text-3xl font-bold tracking-wider text-white">
-                VILLA{' '}
-                <span className="italic font-light" style={{ color: GOLD }}>i</span>
-              </span>
+              <Image
+                          src="/webp/villa_logo_transparent.png"
+                          alt="Villa i"
+                          width={80}
+                          height={50}
+                          className="object-contain inline-block"
+                          style={{ verticalAlign: 'middle' }}
+                        />
               <div className="flex items-center gap-2 mt-1.5">
                 <span className="block h-px w-4" style={{ background: GOLD_DIM }} />
                 <p className="font-lato text-[9px] tracking-[0.3em] uppercase" style={{ color: GOLD_DIM }}>

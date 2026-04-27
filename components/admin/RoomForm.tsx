@@ -18,7 +18,7 @@ export interface RoomFormData {
 }
 
 interface Props {
-  defaultValues?: Partial<RoomFormData & { features: string[] }>
+  defaultValues?: Partial<RoomFormData & { features: string[]; images: string[] }>
   roomId?: string
 }
 
@@ -26,6 +26,8 @@ export default function RoomForm({ defaultValues, roomId }: Props) {
   const router = useRouter()
   const [features, setFeatures] = useState<string[]>(defaultValues?.features ?? [])
   const [featureInput, setFeatureInput] = useState('')
+  const [images, setImages] = useState<string[]>(defaultValues?.images ?? [])
+  const [imageInput, setImageInput] = useState('')
   const [serverError, setServerError] = useState('')
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<RoomFormData>({
@@ -54,9 +56,21 @@ export default function RoomForm({ defaultValues, roomId }: Props) {
     setFeatures((prev) => prev.filter((x) => x !== f))
   }
 
+  function addImage() {
+    const val = imageInput.trim()
+    if (val && !images.includes(val)) {
+      setImages((prev) => [...prev, val])
+    }
+    setImageInput('')
+  }
+
+  function removeImage(url: string) {
+    setImages((prev) => prev.filter((x) => x !== url))
+  }
+
   const onSubmit = async (data: RoomFormData) => {
     setServerError('')
-    const payload = { ...data, features }
+    const payload = { ...data, features, images }
     const url = roomId ? `/api/rooms/${roomId}` : '/api/rooms'
     const method = roomId ? 'PUT' : 'POST'
 
@@ -158,10 +172,41 @@ export default function RoomForm({ defaultValues, roomId }: Props) {
             </div>
           </div>
           <div className="mt-5">
-            <label className={labelClass} style={labelStyle}>Image URL *</label>
+            <label className={labelClass} style={labelStyle}>Main Image URL *</label>
             <input {...register('image', { required: 'Required' })}
               className={inputClass} style={inputStyle}
               placeholder="https://images.unsplash.com/..." />
+          </div>
+          <div className="mt-5">
+            <label className={labelClass} style={labelStyle}>Additional Images (Gallery)</label>
+            <div className="flex gap-2 mb-3">
+              <input
+                value={imageInput}
+                onChange={(e) => setImageInput(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addImage() } }}
+                className={inputClass + ' flex-1'} style={inputStyle}
+                placeholder="https://images.unsplash.com/..."
+              />
+              <button type="button" onClick={addImage}
+                className="flex items-center gap-1.5 px-4 py-2.5 font-lato text-xs tracking-wider uppercase flex-shrink-0"
+                style={{ background: 'rgba(201,169,110,0.15)', color: '#C9A96E', border: '1px solid rgba(201,169,110,0.2)' }}>
+                <Plus size={13} /> Add
+              </button>
+            </div>
+            <div className="flex flex-col gap-2">
+              {images.map((url, i) => (
+                <div key={i} className="flex items-center gap-2 px-3 py-2 font-lato text-xs"
+                  style={{ background: 'rgba(201,169,110,0.06)', border: '1px solid rgba(201,169,110,0.12)' }}>
+                  <span className="flex-1 truncate" style={{ color: '#C9A96E' }}>{url}</span>
+                  <button type="button" onClick={() => removeImage(url)} className="hover:opacity-70 flex-shrink-0" style={{ color: '#C9A96E' }}>
+                    <X size={11} />
+                  </button>
+                </div>
+              ))}
+              {images.length === 0 && (
+                <p className="font-lato text-xs" style={{ color: 'rgba(255,255,255,0.25)' }}>No additional images added yet</p>
+              )}
+            </div>
           </div>
           <div className="mt-5 flex items-center gap-3">
             <input {...register('available')} type="checkbox" id="available"

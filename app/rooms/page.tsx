@@ -7,7 +7,7 @@ import { prisma } from '@/lib/prisma'
 
 export default async function RoomsPage() {
   const dbRooms = await prisma.room.findMany({ orderBy: { createdAt: 'asc' } })
-  const rooms = dbRooms.map((r) => ({
+  const rooms = dbRooms.map((r: { id: any; name: any; shortName: any; description: any; features: any; priceLabel: any; image: any; images: any; capacity: any; size: any }) => ({
     id: r.id,
     name: r.name,
     shortName: r.shortName,
@@ -15,6 +15,7 @@ export default async function RoomsPage() {
     features: r.features,
     price: r.priceLabel,
     image: r.image,
+    images: r.images ?? [],
     capacity: r.capacity,
     size: r.size,
   }))

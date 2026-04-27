@@ -23,7 +23,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   try {
     const { id } = await params
     const body = await request.json()
-    const { name, shortName, description, features, pricePerNight, priceLabel, image, capacity, size, available } = body
+    const { name, shortName, description, features, pricePerNight, priceLabel, image, images, capacity, size, available } = body
 
     const room = await prisma.room.update({
       where: { id },
@@ -35,6 +35,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
         ...(pricePerNight !== undefined && { pricePerNight: parseFloat(pricePerNight) }),
         ...(priceLabel !== undefined && { priceLabel }),
         ...(image !== undefined && { image }),
+        ...(images !== undefined && { images }),
         ...(capacity !== undefined && { capacity }),
         ...(size !== undefined && { size }),
         ...(available !== undefined && { available }),

@@ -22,7 +22,14 @@ export default function AboutHero() {
         >
           <p className="text-luxury-gold font-lato text-xs tracking-[0.4em] uppercase mb-3">Our Story</p>
           <h1 className="font-playfair text-5xl md:text-7xl text-white">
-            About <span className="italic text-luxury-gold">Villa i</span>
+            About <Image
+            src="/webp/villa_logo_transparent.png"
+            alt="Villa i"
+            width={80}
+            height={50}
+            className="object-contain inline-block"
+            style={{ verticalAlign: 'middle' }}
+          />
           </h1>
         </motion.div>
       </div>
