@@ -377,7 +377,14 @@ export default function Gallery() {
               style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)' }}
             >
               Life at{' '}
-              <span className="italic" style={{ color: GOLD }}>Villa i</span>
+              <Image
+                src="/webp/villa_logo_transparent.png"
+                alt="Villa i"
+                width={220}
+                height={80}
+                className="object-contain inline-block w-36 md:w-44 lg:w-50"
+                style={{ verticalAlign: 'middle' }}
+              />
             </h2>
             <div
               className="h-px w-14 mt-3"

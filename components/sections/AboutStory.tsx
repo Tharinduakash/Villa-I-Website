@@ -1,8 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Image from 'next/image'
 import AnimatedSection from '@/components/AnimatedSection'
+import Image from 'next/image'
 
 const GOLD     = 'rgba(201,169,110,1)'
 const GOLD_DIM = 'rgba(176,141,87,0.55)'
@@ -69,14 +69,14 @@ export default function AboutStory() {
             <span className="block h-px w-10" style={{ background: GOLD_DIM }} />
           </div>
           <div className="font-playfair text-4xl md:text-5xl text-white">
-            <Image
-                        src="/webp/villa_logo_transparent.png"
-                        alt="Villa i"
-                        width={90}
-                        height={70}
-                        className="object-contain inline-block"
-                        style={{ verticalAlign: 'middle' }}
-                      />
+                        <Image
+              src="/webp/villa_logo_transparent.png"
+              alt="Villa i"
+              width={220}
+              height={80}
+              className="object-contain inline-block w-36 md:w-48 lg:w-56"
+              style={{ verticalAlign: 'middle' }}
+            />
             <span className="italic" style={{ color: GOLD }}>Story</span>
           </div>
           <p

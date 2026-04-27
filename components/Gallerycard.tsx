@@ -36,7 +36,14 @@ export default function Gallery() {
           </div>
 
           <h2 className="font-playfair text-4xl md:text-5xl text-white mb-4">
-            Life at <span className="italic" style={{ color: '#C9A96E' }}>Villa i</span>
+            Life at <Image
+              src="/webp/villa_logo_transparent.png"
+              alt="Villa i"
+              width={220}
+              height={80}
+              className="object-contain inline-block w-36 md:w-48 lg:w-56"
+              style={{ verticalAlign: 'middle' }}
+            />
           </h2>
 
           <p className="font-lato text-sm leading-relaxed max-w-md" style={{ color: 'rgba(255,255,255,0.4)' }}>

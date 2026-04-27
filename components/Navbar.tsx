@@ -39,8 +39,9 @@ const megaColumns = [
     links: [
       { href: '/',        label: 'Home'    },
       { href: '/about',   label: 'About'   },
-      { href: '/rooms',   label: 'Rooms'   },
-      { href: '/contact', label: 'Contact' },
+      { href: '/rooms',     label: 'Rooms'    },
+      { href: '/services', label: 'Services' },
+      { href: '/contact',  label: 'Contact'  },
     ],
   },
 ]
