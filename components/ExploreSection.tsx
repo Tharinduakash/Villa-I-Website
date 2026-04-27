@@ -62,7 +62,7 @@ export function ExploreSection() {
     <>
       <style>{`
         .exp-section {
-          background: linear-gradient(160deg, #0f0e0b 0%, #090806 60%, #0d0c09 100%);
+          background: linear-gradient(160deg, #0a0d1c 0%, #06080f 60%, #080b18 100%);
           padding: 72px 0 0;
           position: relative;
           overflow: hidden;
@@ -154,11 +154,11 @@ export function ExploreSection() {
         /* Dark base overlay */
         .exp-panel-overlay {
           position: absolute; inset: 0;
-          background: linear-gradient(to top, rgba(8,7,5,0.88) 0%, rgba(8,7,5,0.35) 50%, rgba(8,7,5,0.10) 100%);
+          background: linear-gradient(to top, rgba(5,7,14,0.90) 0%, rgba(5,7,14,0.38) 50%, rgba(5,7,14,0.10) 100%);
           transition: background 0.4s ease;
         }
         .exp-panel:hover .exp-panel-overlay {
-          background: linear-gradient(to top, rgba(8,7,5,0.94) 0%, rgba(8,7,5,0.50) 55%, rgba(8,7,5,0.18) 100%);
+          background: linear-gradient(to top, rgba(5,7,14,0.96) 0%, rgba(5,7,14,0.55) 55%, rgba(5,7,14,0.20) 100%);
         }
 
         /* Gold shimmer on hover */
@@ -209,7 +209,7 @@ export function ExploreSection() {
           font-size: 8px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
           padding: 3px 9px;
           color: rgba(201,169,110,0.85);
-          background: rgba(8,7,5,0.70);
+          background: rgba(5,7,14,0.78);
           border: 1px solid rgba(176,141,87,0.25);
           backdrop-filter: blur(8px);
           transition: border-color 0.3s, color 0.3s;
@@ -263,7 +263,7 @@ export function ExploreSection() {
           font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
           color: rgba(201,169,110,0.85);
           border: 1px solid rgba(176,141,87,0.35);
-          background: rgba(8,7,5,0.55);
+          background: rgba(5,7,14,0.65);
           backdrop-filter: blur(8px);
           align-self: flex-start;
           transition: background 0.3s, border-color 0.3s, color 0.3s, transform 0.2s;

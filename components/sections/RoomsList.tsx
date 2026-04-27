@@ -3,11 +3,22 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { MdPeople, MdSquareFoot, MdCheckCircle } from 'react-icons/md'
-import { rooms } from '@/lib/data'
 
-export default function RoomsList() {
+interface Room {
+  id: string
+  name: string
+  shortName: string
+  description: string
+  features: string[]
+  price: string
+  image: string
+  capacity: string
+  size: string
+}
+
+export default function RoomsList({ rooms }: { rooms: Room[] }) {
   return (
-    <section className="section-padding bg-luxury-black">
+    <section className="section-padding section-gradient-b">
       <div className="container-padding space-y-24">
         {rooms.map((room, i) => (
           <motion.div

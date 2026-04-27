@@ -9,14 +9,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'luxury-black': '#0B0B0B',
-        'luxury-dark': '#111111',
-        'luxury-gold': '#C9A96E',
+        'luxury-black':      '#06080f',  // deep midnight navy
+        'luxury-dark':       '#0a0d1c',  // mid navy
+        'luxury-deep':       '#0f1228',  // elevated card surface
+        'luxury-midnight':   '#040608',  // absolute dark
+        'luxury-gold':       '#C9A96E',
         'luxury-gold-light': '#E8D5B0',
-        'luxury-gold-dark': '#A67C52',
-        'luxury-cream': '#FAF7F2',
-        'luxury-beige': '#F5F0E8',
-        'luxury-gray': '#6B6B6B',
+        'luxury-gold-dark':  '#A67C52',
+        'luxury-cream':      '#FAF7F2',
+        'luxury-beige':      '#F5F0E8',
+        'luxury-gray':       '#6B6B6B',
       },
       fontFamily: {
         playfair: ['var(--font-playfair)', 'Georgia', 'serif'],

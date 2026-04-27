@@ -10,7 +10,7 @@ const values = [
 
 export default function AboutStats() {
   return (
-    <section className="bg-luxury-dark border-y border-white/5 py-14">
+    <section className="section-gradient-mid border-y border-white/5 py-14">
       <div className="container-padding">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {values.map((item, i) => (

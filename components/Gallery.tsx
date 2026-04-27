@@ -187,7 +187,7 @@ function PhotoCard({ photo, index }: { photo: GalleryPhoto; index: number }) {
         {/* Base gradient */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: 'linear-gradient(to top, rgba(8,7,5,0.90) 0%, rgba(8,7,5,0.08) 55%, transparent 100%)' }}
+          style={{ background: 'linear-gradient(to top, rgba(5,7,14,0.90) 0%, rgba(5,7,14,0.08) 55%, transparent 100%)' }}
         />
 
         {/* Gold shimmer on hover */}
@@ -214,7 +214,7 @@ function PhotoCard({ photo, index }: { photo: GalleryPhoto; index: number }) {
             <span
               className="font-lato text-[8px] tracking-[0.25em] uppercase px-2 py-0.5"
               style={{
-                background: 'rgba(8,7,5,0.75)',
+                background: 'rgba(5,7,14,0.82)',
                 backdropFilter: 'blur(8px)',
                 border: '1px solid rgba(176,141,87,0.25)',
                 color: GOLD_DIM,
@@ -297,7 +297,7 @@ function MobileCard({ photo, index }: { photo: GalleryPhoto; index: number }) {
         <div
           style={{
             position: 'absolute', inset: 0,
-            background: 'linear-gradient(to top, rgba(8,7,5,0.92) 0%, rgba(8,7,5,0.08) 55%, transparent 100%)',
+            background: 'linear-gradient(to top, rgba(5,7,14,0.92) 0%, rgba(5,7,14,0.08) 55%, transparent 100%)',
           }}
         />
         {photo.roomType && (
@@ -337,7 +337,7 @@ export default function Gallery() {
     <section
       id="gallery"
       className="relative py-20 overflow-hidden"
-      style={{ background: 'linear-gradient(160deg, #0f0e0b 0%, #090806 60%, #0d0c09 100%)' }}
+      style={{ background: 'linear-gradient(160deg, #0a0d1c 0%, #06080f 60%, #080b18 100%)' }}
     >
       {/* Dot texture */}
       <div
@@ -490,8 +490,8 @@ export default function Gallery() {
         .hg-mob-fade-l, .hg-mob-fade-r {
           position: absolute; top: 0; bottom: 0; width: 24px; z-index: 2; pointer-events: none;
         }
-        .hg-mob-fade-l { left: 0;  background: linear-gradient(to right, #0f0e0b, transparent); }
-        .hg-mob-fade-r { right: 0; background: linear-gradient(to left, #0d0c09, transparent); }
+        .hg-mob-fade-l { left: 0;  background: linear-gradient(to right, #080b18, transparent); }
+        .hg-mob-fade-r { right: 0; background: linear-gradient(to left, #080b18, transparent); }
 
         .hg-mob-track {
           display: flex; gap: 10px;
@@ -507,7 +507,7 @@ export default function Gallery() {
 
         .hg-mob-img {
           position: relative; width: 148px; height: 200px;
-          overflow: hidden; background: #1a1710;
+          overflow: hidden; background: #080a1c;
           border: 1px solid rgba(176,141,87,0.15);
           box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
@@ -517,7 +517,7 @@ export default function Gallery() {
           font-family: var(--font-lato, sans-serif);
           font-size: 7px; letter-spacing: 0.25em; text-transform: uppercase;
           color: rgba(201,169,110,0.75);
-          background: rgba(8,7,5,0.80);
+          background: rgba(5,7,14,0.85);
           padding: 2px 6px;
           border: 1px solid rgba(176,141,87,0.2);
           z-index: 2;
@@ -567,7 +567,7 @@ export default function Gallery() {
         .hg-mob-viewall {
           scroll-snap-align: start; width: 110px; height: 200px;
           border: 1px dashed rgba(176,141,87,0.30);
-          background: rgba(26,23,16,0.9);
+          background: rgba(8,10,22,0.9);
           display: flex; align-items: center; justify-content: center;
           text-decoration: none; transition: border-color 0.2s, background 0.2s;
         }

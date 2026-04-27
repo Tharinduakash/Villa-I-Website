@@ -5,7 +5,7 @@ import AnimatedSection from '@/components/AnimatedSection'
 
 export default function AboutIntro() {
   return (
-    <section className="section-padding bg-luxury-black">
+    <section className="section-padding section-gradient-a">
       <div className="container-padding">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <AnimatedSection direction="left">

@@ -8,14 +8,16 @@
   }
 
   body {
-    @apply bg-luxury-black text-white font-lato;
+    background: linear-gradient(135deg, #06080f 0%, #080b16 100%);
+    min-height: 100vh;
+    @apply text-white font-lato;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   ::selection {
     background-color: #C9A96E;
-    color: #0B0B0B;
+    color: #06080f;
   }
 
   ::-webkit-scrollbar {
@@ -23,7 +25,7 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #0B0B0B;
+    background: #06080f;
   }
 
   ::-webkit-scrollbar-thumb {
@@ -52,6 +54,26 @@
 
   .container-padding {
     @apply max-w-7xl mx-auto px-6 lg:px-10;
+  }
+
+  /* ── Section gradient utilities ─────────────────────────────────── */
+  .section-gradient-a {
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201,169,110,0.04) 0%, transparent 60%),
+      linear-gradient(160deg, #0a0d1c 0%, #06080f 100%);
+  }
+  .section-gradient-b {
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(201,169,110,0.04) 0%, transparent 60%),
+      linear-gradient(135deg, #06080f 0%, #0a0d1c 100%);
+  }
+  .section-gradient-mid {
+    background: linear-gradient(160deg, #0c0f22 0%, #080b18 50%, #0a0d1c 100%);
+  }
+
+  /* ── Card gradient ───────────────────────────────────────────────── */
+  .card-gradient {
+    background: linear-gradient(145deg, #0f1228 0%, #080a1c 100%);
   }
 }
 

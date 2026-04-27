@@ -224,7 +224,7 @@ export default function HeroSlider() {
       <section
         ref={heroRef}
         className="relative h-screen min-h-[680px] overflow-hidden"
-        style={{ background: '#090806' }}
+        style={{ background: '#06080f' }}
       >
 
         {/* ── Outgoing slide ── */}
@@ -240,10 +240,10 @@ export default function HeroSlider() {
               />
             </motion.div>
             <div className="absolute inset-0" style={{
-              background: 'linear-gradient(105deg, rgba(8,7,5,0.93) 0%, rgba(8,7,5,0.62) 45%, rgba(8,7,5,0.14) 100%)',
+              background: 'linear-gradient(105deg, rgba(5,7,14,0.93) 0%, rgba(5,7,14,0.62) 45%, rgba(5,7,14,0.14) 100%)',
             }} />
             <div className="absolute inset-0" style={{
-              background: 'linear-gradient(to top, rgba(8,7,5,0.90) 0%, rgba(8,7,5,0.18) 30%, transparent 55%)',
+              background: 'linear-gradient(to top, rgba(5,7,14,0.90) 0%, rgba(5,7,14,0.18) 30%, transparent 55%)',
             }} />
           </div>
         )}
@@ -264,10 +264,10 @@ export default function HeroSlider() {
             />
           </motion.div>
           <div className="absolute inset-0" style={{
-            background: 'linear-gradient(105deg, rgba(8,7,5,0.93) 0%, rgba(8,7,5,0.62) 45%, rgba(8,7,5,0.12) 100%)',
+            background: 'linear-gradient(105deg, rgba(5,7,14,0.93) 0%, rgba(5,7,14,0.62) 45%, rgba(5,7,14,0.12) 100%)',
           }} />
           <div className="absolute inset-0" style={{
-            background: 'linear-gradient(to top, rgba(8,7,5,0.92) 0%, rgba(8,7,5,0.18) 30%, rgba(8,7,5,0.32) 100%)',
+            background: 'linear-gradient(to top, rgba(5,7,14,0.92) 0%, rgba(5,7,14,0.18) 30%, rgba(5,7,14,0.32) 100%)',
           }} />
         </div>
 

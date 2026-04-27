@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { Trash2, Filter } from 'lucide-react'
+import { Trash2 } from 'lucide-react'
 
 interface Booking {
   id: string

@@ -8,14 +8,28 @@ import { ExploreSection } from '@/components/ExploreSection'
 import WhyChooseUs from '@/components/sections/WhyChooseUs'
 import Gallery from '@/components/Gallery'
 import BookingBanner from '@/components/BookingBanner'
+import { prisma } from '@/lib/prisma'
 
-export default function HomePage() {
+export default async function HomePage() {
+  const dbRooms = await prisma.room.findMany({ orderBy: { createdAt: 'asc' } })
+  const rooms = dbRooms.map((r: { id: any; name: any; shortName: any; description: any; features: any; priceLabel: any; image: any; capacity: any; size: any }) => ({
+    id: r.id,
+    name: r.name,
+    shortName: r.shortName,
+    description: r.description,
+    features: r.features,
+    price: r.priceLabel,
+    image: r.image,
+    capacity: r.capacity,
+    size: r.size,
+  }))
+
   return (
     <>
       <HeroSlider />
       <FloatingWidgets />
       <HighlightsBar />
-      <RoomsPreview />
+      <RoomsPreview rooms={rooms} />
       <HomeAboutSection />
       <GalleryCard />
       <ExploreSection />

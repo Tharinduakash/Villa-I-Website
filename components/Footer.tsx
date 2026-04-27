@@ -120,7 +120,7 @@ export default function Footer() {
       </div>
 
       {/* Dark base overlay */}
-      <div className="absolute inset-0" style={{ background: 'rgba(7,6,4,0.96)' }} />
+      <div className="absolute inset-0" style={{ background: 'rgba(5,7,14,0.97)' }} />
 
       {/* Warm gold radial ambient */}
       <div

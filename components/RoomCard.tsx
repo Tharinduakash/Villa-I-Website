@@ -29,7 +29,7 @@ export default function RoomCard({ room, index = 0 }: { room: Room; index?: numb
       whileHover={{ y: -8 }}
       className="group relative flex flex-col overflow-hidden"
       style={{
-        background: 'linear-gradient(145deg, #1a1710 0%, #0f0e0b 40%, #090806 100%)',
+        background: 'linear-gradient(145deg, #0f1228 0%, #0a0d1c 40%, #06080f 100%)',
         border: '1px solid rgba(176,141,87,0.12)',
         boxShadow: '0 4px 24px rgba(0,0,0,0.5)',
         transition: 'border-color 0.4s ease, box-shadow 0.4s ease',
@@ -95,7 +95,7 @@ export default function RoomCard({ room, index = 0 }: { room: Room; index?: numb
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(180deg, rgba(9,8,6,0.05) 0%, rgba(9,8,6,0.0) 25%, rgba(15,14,11,0.55) 65%, rgba(15,14,11,0.98) 100%)',
+              'linear-gradient(180deg, rgba(5,7,14,0.05) 0%, rgba(5,7,14,0.0) 25%, rgba(8,10,22,0.60) 65%, rgba(8,10,22,0.98) 100%)',
           }}
         />
 
@@ -123,7 +123,7 @@ export default function RoomCard({ room, index = 0 }: { room: Room; index?: numb
         <div
           className="absolute top-4 right-4 px-2.5 py-1"
           style={{
-            background: 'rgba(9,8,6,0.75)',
+            background: 'rgba(5,7,14,0.82)',
             backdropFilter: 'blur(10px)',
             border: '1px solid rgba(176,141,87,0.25)',
           }}

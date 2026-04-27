@@ -25,7 +25,7 @@ export default function BookingBanner() {
         className="absolute inset-0"
         style={{
           background:
-            'linear-gradient(135deg, rgba(8,7,5,0.96) 0%, rgba(8,7,5,0.88) 40%, rgba(8,7,5,0.78) 100%)',
+            'linear-gradient(135deg, rgba(5,7,14,0.96) 0%, rgba(5,7,14,0.88) 40%, rgba(5,7,14,0.78) 100%)',
         }}
       />
       {/* Warm gold tint from bottom-right corner */}
@@ -40,7 +40,7 @@ export default function BookingBanner() {
       <div
         className="absolute inset-0"
         style={{
-          background: 'linear-gradient(to bottom, rgba(8,7,5,0.5) 0%, transparent 30%)',
+          background: 'linear-gradient(to bottom, rgba(5,7,14,0.55) 0%, transparent 30%)',
         }}
       />
 

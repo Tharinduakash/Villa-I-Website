@@ -3,11 +3,22 @@ import Link from 'next/link'
 import { HiArrowRight } from 'react-icons/hi'
 import RoomCard from '@/components/RoomCard'
 import AnimatedSection from '@/components/AnimatedSection'
-import { rooms } from '@/lib/data'
 
-export default function RoomsPreview() {
+interface Room {
+  id: string
+  name: string
+  shortName: string
+  description: string
+  features: string[]
+  price: string
+  image: string
+  capacity: string
+  size: string
+}
+
+export default function RoomsPreview({ rooms }: { rooms: Room[] }) {
   return (
-    <section className="section-padding bg-luxury-black">
+    <section className="section-padding section-gradient-a">
       <div className="container-padding">
         <AnimatedSection className="text-center mb-14">
           <p className="text-luxury-gold font-lato text-xs tracking-[0.3em] uppercase mb-3">Accommodation</p>

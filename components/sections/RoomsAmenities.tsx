@@ -12,7 +12,7 @@ const amenities = [
 
 export default function RoomsAmenities() {
   return (
-    <section className="bg-luxury-dark border-y border-white/5 py-16">
+    <section className="section-gradient-mid border-y border-white/5 py-16">
       <div className="container-padding">
         <AnimatedSection className="text-center mb-10">
           <h3 className="font-playfair text-2xl text-white">All Rooms Include</h3>

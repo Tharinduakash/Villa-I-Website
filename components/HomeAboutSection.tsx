@@ -20,10 +20,8 @@ const highlights = [
   'Personalised hospitality from a local family',
 ]
 
-const GOLD       = 'rgba(201,169,110,1)'
-const GOLD_DIM   = 'rgba(176,141,87,0.55)'
-const GOLD_FAINT = 'rgba(176,141,87,0.12)'
-const DARK       = 'rgba(8,7,5,1)'
+const GOLD     = 'rgba(201,169,110,1)'
+const GOLD_DIM = 'rgba(176,141,87,0.55)'
 
 // ── Animated stat counter ──────────────────────────────────────────
 function StatCounter({ value, label }: { value: string; label: string }) {
@@ -97,7 +95,7 @@ export default function HomeAboutSection() {
     <section
       ref={sectionRef}
       className="relative py-24 md:py-32 overflow-hidden"
-      style={{ background: 'linear-gradient(160deg, #0f0e0b 0%, #090806 60%, #0d0c09 100%)' }}
+      style={{ background: 'linear-gradient(160deg, #0c0f22 0%, #06080f 60%, #090c1c 100%)' }}
     >
       {/* ── Background texture ── */}
       <div
@@ -172,14 +170,14 @@ export default function HomeAboutSection() {
                 className="absolute inset-0"
                 style={{
                   background:
-                    'linear-gradient(180deg, rgba(8,7,5,0.05) 0%, rgba(8,7,5,0.70) 100%)',
+                    'linear-gradient(180deg, rgba(5,7,14,0.05) 0%, rgba(5,7,14,0.75) 100%)',
                 }}
               />
               {/* Caption chip */}
               <div
                 className="absolute bottom-5 left-5 right-5 px-4 py-3"
                 style={{
-                  background: 'rgba(8,7,5,0.80)',
+                  background: 'rgba(5,7,14,0.88)',
                   backdropFilter: 'blur(12px)',
                   border: '1px solid rgba(176,141,87,0.20)',
                 }}
@@ -203,7 +201,7 @@ export default function HomeAboutSection() {
             <div
               className="p-8 md:p-10"
               style={{
-                background: 'linear-gradient(145deg, rgba(26,23,16,1) 0%, rgba(12,11,8,1) 100%)',
+                background: 'linear-gradient(145deg, rgba(15,18,34,1) 0%, rgba(8,10,22,1) 100%)',
                 border: '1px solid rgba(176,141,87,0.15)',
                 boxShadow: '0 8px 40px rgba(0,0,0,0.5)',
               }}
@@ -301,13 +299,13 @@ export default function HomeAboutSection() {
                 className="absolute inset-0"
                 style={{
                   background:
-                    'linear-gradient(180deg, rgba(8,7,5,0.05) 0%, rgba(8,7,5,0.70) 100%)',
+                    'linear-gradient(180deg, rgba(5,7,14,0.05) 0%, rgba(5,7,14,0.75) 100%)',
                 }}
               />
               <div
                 className="absolute bottom-5 left-5 right-5 px-4 py-3"
                 style={{
-                  background: 'rgba(8,7,5,0.80)',
+                  background: 'rgba(5,7,14,0.88)',
                   backdropFilter: 'blur(12px)',
                   border: '1px solid rgba(176,141,87,0.20)',
                 }}
@@ -353,12 +351,12 @@ export default function HomeAboutSection() {
                 <Image src={img.src} alt={img.sub} fill className="object-cover" />
                 <div
                   className="absolute inset-0"
-                  style={{ background: 'linear-gradient(to top, rgba(8,7,5,0.85) 0%, transparent 55%)' }}
+                  style={{ background: 'linear-gradient(to top, rgba(5,7,14,0.88) 0%, transparent 55%)' }}
                 />
                 <div
                   className="absolute bottom-0 left-0 right-0 px-3 py-3"
                   style={{
-                    background: 'rgba(8,7,5,0.60)',
+                    background: 'rgba(5,7,14,0.72)',
                     backdropFilter: 'blur(8px)',
                     borderTop: '1px solid rgba(176,141,87,0.15)',
                   }}
@@ -376,7 +374,7 @@ export default function HomeAboutSection() {
           <motion.div
             className="p-6 sm:p-8 mb-8"
             style={{
-              background: 'linear-gradient(145deg, rgba(26,23,16,1) 0%, rgba(12,11,8,1) 100%)',
+              background: 'linear-gradient(145deg, rgba(15,18,34,1) 0%, rgba(8,10,22,1) 100%)',
               border: '1px solid rgba(176,141,87,0.15)',
             }}
             initial={{ opacity: 0, y: 20 }}

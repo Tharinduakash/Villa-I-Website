@@ -36,7 +36,7 @@ const highlightIcons: Record<string, React.ReactNode> = {
 
 export default function HighlightsBar() {
   return (
-    <section className="bg-luxury-dark border-y border-white/5">
+    <section className="section-gradient-b border-y border-white/5">
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <div className="grid grid-cols-2 md:grid-cols-4">
           {highlights.map((item, i) => (

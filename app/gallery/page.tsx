@@ -60,7 +60,7 @@ function PhotoCard({ photo, index }: { photo: GalleryPhoto; index: number }) {
           sizes="(max-width:640px) 50vw, (max-width:1024px) 25vw, 17vw"
           className="object-cover object-center transition-transform duration-600 group-hover:scale-105"
         />
-        <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(8,7,5,0.92) 0%, rgba(8,7,5,0.08) 55%, transparent 100%)' }} />
+        <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(5,7,14,0.92) 0%, rgba(5,7,14,0.08) 55%, transparent 100%)' }} />
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-350 pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(176,141,87,0.16) 0%, transparent 55%)' }} />
         <div className="absolute left-0 top-0 bottom-0 w-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: `linear-gradient(to bottom, ${GOLD}, rgba(176,141,87,0.25))` }} />
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ boxShadow: 'inset 0 0 0 1px rgba(176,141,87,0.30)' }} />
@@ -68,7 +68,7 @@ function PhotoCard({ photo, index }: { photo: GalleryPhoto; index: number }) {
         {/* Top badges */}
         <div className="absolute top-3 left-3 right-3 flex items-start justify-between gap-2">
           {photo.roomType && (
-            <span className="font-lato text-[8px] tracking-[0.22em] uppercase px-2 py-0.5" style={{ background: 'rgba(8,7,5,0.80)', backdropFilter: 'blur(8px)', border: '1px solid rgba(176,141,87,0.22)', color: GOLD_DIM }}>
+            <span className="font-lato text-[8px] tracking-[0.22em] uppercase px-2 py-0.5" style={{ background: 'rgba(5,7,14,0.85)', backdropFilter: 'blur(8px)', border: '1px solid rgba(176,141,87,0.22)', color: GOLD_DIM }}>
               {photo.roomType}
             </span>
           )}
@@ -141,7 +141,7 @@ export default function GalleryPage() {
         .hgp-noscroll { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
 
-      <div className="min-h-screen" style={{ background: 'linear-gradient(160deg, #0f0e0b 0%, #090806 60%, #0d0c09 100%)' }}>
+      <div className="min-h-screen" style={{ background: 'linear-gradient(160deg, #0a0d1c 0%, #06080f 60%, #080b18 100%)' }}>
 
         {/* Dot texture */}
         <div className="fixed inset-0 pointer-events-none z-0 opacity-25"
@@ -199,7 +199,7 @@ export default function GalleryPage() {
 
         {/* ── Sticky filters ── */}
         <div className="sticky top-0 z-30 border-b"
-          style={{ background: 'rgba(9,8,6,0.94)', backdropFilter: 'blur(20px)', borderColor: 'rgba(176,141,87,0.12)' }}>
+          style={{ background: 'rgba(6,8,15,0.94)', backdropFilter: 'blur(20px)', borderColor: 'rgba(176,141,87,0.12)' }}>
           <div className="max-w-7xl mx-auto px-6 lg:px-10 py-3 flex flex-col sm:flex-row gap-3 sm:items-center">
             {/* Search */}
             <div className="relative flex-shrink-0 sm:w-56">

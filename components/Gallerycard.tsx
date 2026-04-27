@@ -80,7 +80,7 @@ export default function Gallery() {
                 className="absolute inset-0"
                 style={{
                   background:
-                    'linear-gradient(to top, rgba(8,7,5,0.55) 0%, rgba(8,7,5,0.08) 50%, transparent 100%)',
+                    'linear-gradient(to top, rgba(5,7,14,0.60) 0%, rgba(5,7,14,0.08) 50%, transparent 100%)',
                 }}
               />
 
@@ -89,7 +89,7 @@ export default function Gallery() {
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                 style={{
                   background:
-                    'linear-gradient(to top, rgba(8,7,5,0.88) 0%, rgba(8,7,5,0.35) 50%, rgba(176,141,87,0.06) 100%)',
+                    'linear-gradient(to top, rgba(5,7,14,0.90) 0%, rgba(5,7,14,0.35) 50%, rgba(176,141,87,0.06) 100%)',
                 }}
               />
 

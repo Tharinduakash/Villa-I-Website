@@ -1,11 +1,19 @@
 'use client'
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { useForm } from 'react-hook-form'
-import { MdEmail, MdPhone, MdLocationOn, MdCheckCircle } from 'react-icons/md'
-import { FaWhatsapp, FaInstagram, FaFacebook } from 'react-icons/fa'
+import { useState, useRef, useEffect } from 'react'
+import { useForm, Controller } from 'react-hook-form'
+import { Calendar } from '@/components/ui/calendar'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { Button } from '@/components/ui/button'
+import { MdEmail, MdPhone, MdLocationOn } from 'react-icons/md'
+import { FaWhatsapp, FaInstagram, FaFacebook, FaTripadvisor } from 'react-icons/fa'
+import { SiBookingdotcom } from 'react-icons/si'
+import { CalendarDays, ChevronDown, CheckCircle2, Minus, Plus, ArrowRight } from 'lucide-react'
 import AnimatedSection from '@/components/AnimatedSection'
+import { cn } from '@/lib/utils'
 
+// ── Types ─────────────────────────────────────────────────────────────
 type FormData = {
   name: string
   email: string
@@ -17,245 +25,540 @@ type FormData = {
   message: string
 }
 
+const ROOM_TYPES = [
+  { value: 'ac-room',     label: 'A/C Room'    },
+  { value: 'non-ac-room', label: 'Non A/C'     },
+  { value: 'family-room', label: 'Family Suite' },
+  { value: 'full-villa',  label: 'Full Villa'  },
+]
+
+// ── Custom Agoda SVG (SiAgoda doesn't exist in react-icons) ───────────
+function AgodaIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2L3 21h4.5l1.8-4h5.4l1.8 4H21L12 2zm0 5.5 2 5h-4l2-5z" />
+    </svg>
+  )
+}
+
+// ── Date helpers (no external lib) ────────────────────────────────────
+function fmtDisplay(date: Date) {
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+}
+function fmtAPI(date: Date) {
+  const y = date.getFullYear()
+  const m = String(date.getMonth() + 1).padStart(2, '0')
+  const d = String(date.getDate()).padStart(2, '0')
+  return `${y}-${m}-${d}`
+}
+function parseLocal(iso: string) {
+  // Parse as local noon to avoid timezone off-by-one
+  return new Date(`${iso}T12:00:00`)
+}
+
+// ── Inline date-picker field ───────────────────────────────────────────
+interface DateFieldProps {
+  label: string
+  placeholder: string
+  value: string
+  onChange: (v: string) => void
+  error?: string
+  disabledBefore?: Date
+}
+
+function DatePickerField({ label, placeholder, value, onChange, error, disabledBefore }: DateFieldProps) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  const selected = value ? parseLocal(value) : undefined
+
+  useEffect(() => {
+    function handle(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handle)
+    return () => document.removeEventListener('mousedown', handle)
+  }, [])
+
+  return (
+    <div ref={ref} className="relative">
+      <Label>{label}</Label>
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className={cn(
+          'flex w-full items-center justify-between bg-white/[0.03] border px-4 py-3 font-lato text-sm outline-none transition-all duration-300',
+          open
+            ? 'border-luxury-gold/50 ring-1 ring-luxury-gold/[0.15]'
+            : 'border-luxury-gold/15 hover:border-luxury-gold/30',
+          error && 'border-red-500/50'
+        )}
+      >
+        <span className={cn('flex items-center gap-2.5', selected ? 'text-white' : 'text-white/25')}>
+          <CalendarDays size={14} className="text-luxury-gold/50 shrink-0" />
+          {selected ? fmtDisplay(selected) : placeholder}
+        </span>
+        <ChevronDown
+          size={13}
+          className={cn('text-white/20 transition-transform duration-200 shrink-0', open && 'rotate-180')}
+        />
+      </button>
+      {error && <p className="font-lato text-xs mt-1.5 text-red-400/80">{error}</p>}
+
+      {open && (
+        <div
+          className="absolute top-full left-0 z-50 mt-1.5 border border-luxury-gold/15 shadow-[0_20px_60px_rgba(0,0,0,0.75)]"
+          style={{ background: '#090c1c' }}
+        >
+          <Calendar
+            mode="single"
+            selected={selected}
+            onSelect={(date) => {
+              onChange(date ? fmtAPI(date) : '')
+              setOpen(false)
+            }}
+            disabled={disabledBefore ? { before: disabledBefore } : undefined}
+            initialFocus
+          />
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ── Main component ─────────────────────────────────────────────────────
 export default function ContactSection() {
   const [submitted, setSubmitted] = useState(false)
+  const [guestCount, setGuestCount] = useState(2)
+  const [roomType, setRoomType] = useState('')
+
   const {
     register,
     handleSubmit,
     reset,
+    control,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<FormData>()
 
+  const checkInValue = watch('checkIn')
+  const checkInDate  = checkInValue ? parseLocal(checkInValue) : undefined
+
+  // ── Backend logic preserved ──────────────────────────────────────
   const onSubmit = async (data: FormData) => {
     const res = await fetch('/api/bookings', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        ...data,
+        guests:   String(guestCount),
+        roomType: roomType || 'Not specified',
+      }),
     })
     if (!res.ok) {
       const json = await res.json()
-      console.error('Booking submission error:', json.error)
+      console.error('Booking error:', json.error)
     }
     setSubmitted(true)
     reset()
+    setGuestCount(2)
+    setRoomType('')
   }
 
+  // ── Contact items ─────────────────────────────────────────────────
+  const contactItems = [
+    {
+      icon: <MdLocationOn size={15} />,
+      label: 'Address',
+      value: 'Mount Lavinia, Colombo\nSri Lanka',
+      href: '#map',
+    },
+    {
+      icon: <MdPhone size={15} />,
+      label: 'Phone',
+      value: '+94 XX XXX XXXX',
+      href: 'tel:+94XXXXXXXXX',
+    },
+    {
+      icon: <MdEmail size={15} />,
+      label: 'Email',
+      value: 'info@villaihotel.com',
+      href: 'mailto:info@villaihotel.com',
+    },
+    {
+      icon: <FaWhatsapp size={15} />,
+      label: 'WhatsApp',
+      value: 'Message Us Directly',
+      href: 'https://wa.me/94XXXXXXXXX',
+    },
+  ]
+
+  const socials = [
+    { icon: <FaInstagram size={16} />,     href: '#', label: 'Instagram',   hover: 'hover:border-pink-500/40   hover:text-pink-400' },
+    { icon: <FaFacebook size={16} />,      href: '#', label: 'Facebook',    hover: 'hover:border-blue-500/40   hover:text-blue-400' },
+    { icon: <FaTripadvisor size={16} />,   href: '#', label: 'TripAdvisor', hover: 'hover:border-green-500/40  hover:text-green-400' },
+    { icon: <SiBookingdotcom size={16} />, href: '#', label: 'Booking.com', hover: 'hover:border-blue-600/40   hover:text-blue-500' },
+    { icon: <AgodaIcon size={16} />,       href: '#', label: 'Agoda',       hover: 'hover:border-red-500/40    hover:text-red-400' },
+    { icon: <FaWhatsapp size={16} />,      href: 'https://wa.me/94XXXXXXXXX', label: 'WhatsApp', hover: 'hover:border-green-500/40 hover:text-green-400' },
+  ]
+
   return (
-    <section className="section-padding bg-luxury-black">
-      <div className="container-padding">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-16">
+    <section className="section-gradient-a">
+      <div className="grid grid-cols-1 lg:grid-cols-5">
 
-          {/* Contact Info */}
-          <div className="lg:col-span-2">
-            <AnimatedSection direction="left">
-              <p className="text-luxury-gold font-lato text-xs tracking-[0.3em] uppercase mb-3">Reach Us</p>
-              <h2 className="font-playfair text-3xl text-white mb-8">
-                We&apos;d Love to<br />
-                <span className="italic text-luxury-gold">Hear From You</span>
-              </h2>
+        {/* ══ LEFT PANEL ═══════════════════════════════════════════════ */}
+        <div
+          className="lg:col-span-2 px-8 sm:px-12 py-16 lg:py-24 border-r"
+          style={{ background: '#090c1c', borderColor: 'rgba(201,169,110,0.08)' }}
+        >
+          <AnimatedSection direction="left">
+            <div className="max-w-xs">
 
-              <div className="space-y-6 mb-10">
-                {[
-                  {
-                    icon: <MdLocationOn className="text-luxury-gold" size={18} />,
-                    label: 'Address',
-                    content: (
-                      <p className="text-white/70 font-lato text-sm leading-relaxed">
-                        Villa i Hotel<br />Mount Lavinia, Colombo<br />Sri Lanka
+              {/* Brand header */}
+              <div className="mb-12">
+                <p className="font-lato text-[9px] tracking-[0.45em] uppercase mb-3"
+                  style={{ color: 'rgba(201,169,110,0.45)' }}>
+                  Villa i Hotel
+                </p>
+                <h2 className="font-playfair text-3xl text-white mb-4">
+                  Let&apos;s{' '}
+                  <span className="italic text-luxury-gold">Connect</span>
+                </h2>
+                <p className="font-lato text-sm leading-relaxed"
+                  style={{ color: 'rgba(255,255,255,0.38)' }}>
+                  Our team is ready to help you plan the perfect coastal escape. Reach out anytime.
+                </p>
+              </div>
+
+              {/* Contact items */}
+              <div className="space-y-1 mb-12">
+                {contactItems.map(({ icon, label, value, href }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    className="group flex items-start gap-4 p-3 transition-all duration-200 -mx-3"
+                    style={{ borderRadius: 0 }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'rgba(201,169,110,0.04)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent'
+                    }}
+                  >
+                    <span
+                      className="mt-0.5 w-8 h-8 flex items-center justify-center shrink-0 border transition-all duration-200 group-hover:border-luxury-gold/40"
+                      style={{
+                        borderColor: 'rgba(201,169,110,0.15)',
+                        color: 'rgba(201,169,110,0.55)',
+                      }}
+                    >
+                      {icon}
+                    </span>
+                    <div className="pt-1 min-w-0">
+                      <p className="font-lato text-[9px] tracking-[0.2em] uppercase mb-1"
+                        style={{ color: 'rgba(255,255,255,0.22)' }}>
+                        {label}
                       </p>
-                    ),
-                  },
-                  {
-                    icon: <MdPhone className="text-luxury-gold" size={18} />,
-                    label: 'Phone',
-                    content: (
-                      <a href="tel:+94XXXXXXXXX" className="text-white/70 font-lato text-sm hover:text-luxury-gold transition-colors">
-                        +94 XX XXX XXXX
-                      </a>
-                    ),
-                  },
-                  {
-                    icon: <MdEmail className="text-luxury-gold" size={18} />,
-                    label: 'Email',
-                    content: (
-                      <a href="mailto:info@villaihotel.com" className="text-white/70 font-lato text-sm hover:text-luxury-gold transition-colors">
-                        info@villaihotel.com
-                      </a>
-                    ),
-                  },
-                  {
-                    icon: <FaWhatsapp className="text-luxury-gold" size={18} />,
-                    label: 'WhatsApp',
-                    content: (
-                      <a href="https://wa.me/94XXXXXXXXX" className="text-white/70 font-lato text-sm hover:text-luxury-gold transition-colors">
-                        Message Us Directly
-                      </a>
-                    ),
-                  },
-                ].map((item) => (
-                  <div key={item.label} className="flex items-start gap-4">
-                    <div className="w-10 h-10 border border-luxury-gold/30 flex items-center justify-center shrink-0">
-                      {item.icon}
+                      <p className="font-lato text-sm whitespace-pre-line transition-colors duration-200 group-hover:text-white"
+                        style={{ color: 'rgba(255,255,255,0.50)' }}>
+                        {value}
+                      </p>
                     </div>
-                    <div>
-                      <p className="text-white/30 font-lato text-xs tracking-wider uppercase mb-1">{item.label}</p>
-                      {item.content}
-                    </div>
-                  </div>
+                  </a>
                 ))}
               </div>
 
-              <div>
-                <p className="text-white/30 font-lato text-xs tracking-wider uppercase mb-4">Follow Us</p>
-                <div className="flex gap-4">
-                  {[
-                    { icon: <FaInstagram size={16} />, href: '#' },
-                    { icon: <FaFacebook size={16} />, href: '#' },
-                    { icon: <FaWhatsapp size={16} />, href: 'https://wa.me/94XXXXXXXXX' },
-                  ].map(({ icon, href }, i) => (
+              {/* Divider */}
+              <div className="flex items-center gap-3 mb-8">
+                <span className="h-px flex-1" style={{ background: 'rgba(201,169,110,0.10)' }} />
+                <span className="w-1 h-1 rotate-45" style={{ background: 'rgba(201,169,110,0.30)' }} />
+                <span className="h-px flex-1" style={{ background: 'rgba(201,169,110,0.10)' }} />
+              </div>
+
+              {/* Social links */}
+              <div className="mb-10">
+                <p className="font-lato text-[9px] tracking-[0.35em] uppercase mb-5"
+                  style={{ color: 'rgba(255,255,255,0.20)' }}>
+                  Follow &amp; Book
+                </p>
+                <div className="flex flex-wrap gap-2.5">
+                  {socials.map(({ icon, href, label, hover }) => (
                     <a
-                      key={i}
+                      key={label}
                       href={href}
-                      className="w-10 h-10 border border-white/10 flex items-center justify-center text-white/40 hover:border-luxury-gold hover:text-luxury-gold transition-all duration-300"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={label}
+                      title={label}
+                      className={cn(
+                        'w-9 h-9 flex items-center justify-center border transition-all duration-200',
+                        'text-white/28 border-white/8',
+                        hover
+                      )}
                     >
                       {icon}
                     </a>
                   ))}
                 </div>
               </div>
-            </AnimatedSection>
-          </div>
 
-          {/* Booking Form */}
-          <div className="lg:col-span-3">
-            <AnimatedSection direction="right">
-              <div className="border border-white/8 p-8 md:p-10 bg-luxury-dark">
-                <h3 className="font-playfair text-2xl text-white mb-8">Reserve Your Stay</h3>
-
-                {submitted ? (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="text-center py-16"
-                  >
-                    <MdCheckCircle className="text-luxury-gold mx-auto mb-4" size={56} />
-                    <h4 className="font-playfair text-2xl text-white mb-3">Inquiry Received!</h4>
-                    <p className="text-white/50 font-lato text-sm leading-relaxed max-w-sm mx-auto mb-8">
-                      Thank you for reaching out. Our team will respond within 24 hours to confirm your booking.
-                    </p>
-                    <button
-                      onClick={() => setSubmitted(false)}
-                      className="px-8 py-3 border border-luxury-gold text-luxury-gold font-lato text-xs tracking-[0.2em] uppercase hover:bg-luxury-gold hover:text-luxury-black transition-all duration-300"
-                    >
-                      Send Another
-                    </button>
-                  </motion.div>
-                ) : (
-                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                      <div>
-                        <label className="block text-white/40 font-lato text-xs tracking-[0.15em] uppercase mb-2">Full Name *</label>
-                        <input
-                          {...register('name', { required: 'Name is required' })}
-                          className="w-full bg-luxury-black border border-white/10 focus:border-luxury-gold px-4 py-3 text-white font-lato text-sm outline-none transition-colors duration-300 placeholder:text-white/20"
-                          placeholder="Your name"
-                        />
-                        {errors.name && <p className="text-red-400 font-lato text-xs mt-1">{errors.name.message}</p>}
-                      </div>
-                      <div>
-                        <label className="block text-white/40 font-lato text-xs tracking-[0.15em] uppercase mb-2">Email *</label>
-                        <input
-                          {...register('email', { required: 'Email is required', pattern: { value: /^\S+@\S+$/i, message: 'Invalid email' } })}
-                          type="email"
-                          className="w-full bg-luxury-black border border-white/10 focus:border-luxury-gold px-4 py-3 text-white font-lato text-sm outline-none transition-colors duration-300 placeholder:text-white/20"
-                          placeholder="your@email.com"
-                        />
-                        {errors.email && <p className="text-red-400 font-lato text-xs mt-1">{errors.email.message}</p>}
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                      <div>
-                        <label className="block text-white/40 font-lato text-xs tracking-[0.15em] uppercase mb-2">Phone / WhatsApp</label>
-                        <input
-                          {...register('phone')}
-                          className="w-full bg-luxury-black border border-white/10 focus:border-luxury-gold px-4 py-3 text-white font-lato text-sm outline-none transition-colors duration-300 placeholder:text-white/20"
-                          placeholder="+94 XX XXX XXXX"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-white/40 font-lato text-xs tracking-[0.15em] uppercase mb-2">Number of Guests</label>
-                        <select
-                          {...register('guests')}
-                          className="w-full bg-luxury-black border border-white/10 focus:border-luxury-gold px-4 py-3 text-white font-lato text-sm outline-none transition-colors duration-300"
-                        >
-                          <option value="">Select guests</option>
-                          <option value="1">1 Guest</option>
-                          <option value="2">2 Guests</option>
-                          <option value="3-4">3–4 Guests</option>
-                          <option value="5+">5+ Guests</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                      <div>
-                        <label className="block text-white/40 font-lato text-xs tracking-[0.15em] uppercase mb-2">Check-In Date *</label>
-                        <input
-                          {...register('checkIn', { required: 'Check-in date is required' })}
-                          type="date"
-                          className="w-full bg-luxury-black border border-white/10 focus:border-luxury-gold px-4 py-3 text-white font-lato text-sm outline-none transition-colors duration-300"
-                        />
-                        {errors.checkIn && <p className="text-red-400 font-lato text-xs mt-1">{errors.checkIn.message}</p>}
-                      </div>
-                      <div>
-                        <label className="block text-white/40 font-lato text-xs tracking-[0.15em] uppercase mb-2">Check-Out Date *</label>
-                        <input
-                          {...register('checkOut', { required: 'Check-out date is required' })}
-                          type="date"
-                          className="w-full bg-luxury-black border border-white/10 focus:border-luxury-gold px-4 py-3 text-white font-lato text-sm outline-none transition-colors duration-300"
-                        />
-                        {errors.checkOut && <p className="text-red-400 font-lato text-xs mt-1">{errors.checkOut.message}</p>}
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-white/40 font-lato text-xs tracking-[0.15em] uppercase mb-2">Room Type</label>
-                      <select
-                        {...register('roomType')}
-                        className="w-full bg-luxury-black border border-white/10 focus:border-luxury-gold px-4 py-3 text-white font-lato text-sm outline-none transition-colors duration-300"
-                      >
-                        <option value="">Select room type</option>
-                        <option value="ac-room">A/C Room</option>
-                        <option value="non-ac-room">Non A/C Room</option>
-                        <option value="family-room">Family Suite</option>
-                        <option value="full-villa">Full Villa Exclusive</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-white/40 font-lato text-xs tracking-[0.15em] uppercase mb-2">Message / Special Requests</label>
-                      <textarea
-                        {...register('message')}
-                        rows={4}
-                        className="w-full bg-luxury-black border border-white/10 focus:border-luxury-gold px-4 py-3 text-white font-lato text-sm outline-none transition-colors duration-300 resize-none placeholder:text-white/20"
-                        placeholder="Any special requests or questions..."
-                      />
-                    </div>
-
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full py-4 bg-luxury-gold text-luxury-black font-lato text-xs tracking-[0.3em] uppercase hover:bg-luxury-gold-light transition-colors duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
-                    >
-                      {isSubmitting ? 'Sending...' : 'Send Booking Inquiry'}
-                    </button>
-                  </form>
-                )}
+              {/* Response guarantee */}
+              <div
+                className="flex items-center gap-3 px-4 py-3 border"
+                style={{
+                  border: '1px solid rgba(201,169,110,0.12)',
+                  background: 'rgba(201,169,110,0.04)',
+                }}
+              >
+                <CheckCircle2 size={14} className="text-luxury-gold shrink-0" />
+                <p className="font-lato text-xs" style={{ color: 'rgba(255,255,255,0.38)' }}>
+                  Typically respond within{' '}
+                  <span className="text-luxury-gold">24 hours</span>
+                </p>
               </div>
-            </AnimatedSection>
-          </div>
+            </div>
+          </AnimatedSection>
         </div>
+
+        {/* ══ RIGHT PANEL (form) ════════════════════════════════════════ */}
+        <div className="lg:col-span-3 px-8 sm:px-12 xl:px-16 py-16 lg:py-24" style={{ background: 'linear-gradient(135deg, #07090f 0%, #0a0d1c 100%)' }}>
+          <AnimatedSection direction="right">
+            {submitted ? (
+              // ── Success state ──────────────────────────────────────
+              <div className="max-w-md mx-auto text-center py-20 lg:py-28">
+                <div
+                  className="w-20 h-20 mx-auto mb-7 flex items-center justify-center border text-luxury-gold"
+                  style={{ borderColor: 'rgba(201,169,110,0.30)' }}
+                >
+                  <CheckCircle2 size={38} />
+                </div>
+                <h3 className="font-playfair text-3xl text-white mb-3">Inquiry Received!</h3>
+                <p className="font-lato text-sm leading-relaxed mb-10 max-w-xs mx-auto"
+                  style={{ color: 'rgba(255,255,255,0.38)' }}>
+                  Thank you for reaching out. Our team will confirm your reservation within 24 hours.
+                </p>
+                <Button variant="outline" onClick={() => setSubmitted(false)}>
+                  Send Another Inquiry
+                </Button>
+              </div>
+            ) : (
+              // ── Booking form ────────────────────────────────────────
+              <div className="max-w-2xl">
+                <div className="mb-10">
+                  <p className="font-lato text-[9px] tracking-[0.4em] uppercase mb-3"
+                    style={{ color: 'rgba(201,169,110,0.50)' }}>
+                    Reservation Request
+                  </p>
+                  <h2 className="font-playfair text-4xl text-white mb-2">
+                    Reserve Your{' '}
+                    <span className="italic text-luxury-gold">Stay</span>
+                  </h2>
+                  <p className="font-lato text-sm" style={{ color: 'rgba(255,255,255,0.32)' }}>
+                    Fill in your details and we&apos;ll confirm within 24 hours.
+                  </p>
+                </div>
+
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+
+                  {/* Row 1: Name + Email */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <Label>Full Name *</Label>
+                      <Input
+                        {...register('name', { required: 'Name is required' })}
+                        placeholder="Your name"
+                        className={errors.name ? 'border-red-500/50' : ''}
+                      />
+                      {errors.name && (
+                        <p className="font-lato text-xs mt-1.5 text-red-400/80">{errors.name.message}</p>
+                      )}
+                    </div>
+                    <div>
+                      <Label>Email Address *</Label>
+                      <Input
+                        {...register('email', {
+                          required: 'Email is required',
+                          pattern: { value: /^\S+@\S+$/i, message: 'Invalid email' },
+                        })}
+                        type="email"
+                        placeholder="your@email.com"
+                        className={errors.email ? 'border-red-500/50' : ''}
+                      />
+                      {errors.email && (
+                        <p className="font-lato text-xs mt-1.5 text-red-400/80">{errors.email.message}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Row 2: Date pickers */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <Controller
+                      name="checkIn"
+                      control={control}
+                      rules={{ required: 'Check-in date required' }}
+                      render={({ field }) => (
+                        <DatePickerField
+                          label="Check-In Date *"
+                          placeholder="Select date"
+                          value={field.value ?? ''}
+                          onChange={field.onChange}
+                          error={errors.checkIn?.message}
+                          disabledBefore={new Date()}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="checkOut"
+                      control={control}
+                      rules={{ required: 'Check-out date required' }}
+                      render={({ field }) => (
+                        <DatePickerField
+                          label="Check-Out Date *"
+                          placeholder="Select date"
+                          value={field.value ?? ''}
+                          onChange={field.onChange}
+                          error={errors.checkOut?.message}
+                          disabledBefore={
+                            checkInDate
+                              ? new Date(checkInDate.getTime() + 86_400_000)
+                              : new Date()
+                          }
+                        />
+                      )}
+                    />
+                  </div>
+
+                  {/* Row 3: Guest stepper + Phone */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Guest count stepper */}
+                    <div>
+                      <Label>Number of Guests</Label>
+                      <div
+                        className="flex items-center border transition-all duration-300"
+                        style={{
+                          background: 'rgba(255,255,255,0.03)',
+                          borderColor: 'rgba(201,169,110,0.15)',
+                          height: '46px',
+                        }}
+                      >
+                        <button
+                          type="button"
+                          onClick={() => setGuestCount((c) => Math.max(1, c - 1))}
+                          className="w-12 h-full flex items-center justify-center transition-all duration-200 border-r shrink-0"
+                          style={{
+                            color: 'rgba(255,255,255,0.35)',
+                            borderColor: 'rgba(201,169,110,0.10)',
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.background = 'rgba(255,255,255,0.04)'
+                            e.currentTarget.style.color = 'white'
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.background = 'transparent'
+                            e.currentTarget.style.color = 'rgba(255,255,255,0.35)'
+                          }}
+                        >
+                          <Minus size={13} />
+                        </button>
+                        <div className="flex-1 flex items-center justify-center gap-2 font-lato text-sm text-white">
+                          <span style={{ color: 'rgba(201,169,110,0.55)', fontSize: 13 }}>⊛</span>
+                          {guestCount} {guestCount === 1 ? 'Guest' : 'Guests'}
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setGuestCount((c) => Math.min(12, c + 1))}
+                          className="w-12 h-full flex items-center justify-center transition-all duration-200 border-l shrink-0"
+                          style={{
+                            color: 'rgba(255,255,255,0.35)',
+                            borderColor: 'rgba(201,169,110,0.10)',
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.background = 'rgba(255,255,255,0.04)'
+                            e.currentTarget.style.color = 'white'
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.background = 'transparent'
+                            e.currentTarget.style.color = 'rgba(255,255,255,0.35)'
+                          }}
+                        >
+                          <Plus size={13} />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Phone */}
+                    <div>
+                      <Label>Phone / WhatsApp</Label>
+                      <Input {...register('phone')} placeholder="+94 XX XXX XXXX" />
+                    </div>
+                  </div>
+
+                  {/* Room type pills */}
+                  <div>
+                    <Label>Room Type</Label>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                      {ROOM_TYPES.map((r) => (
+                        <button
+                          key={r.value}
+                          type="button"
+                          onClick={() => setRoomType(r.value === roomType ? '' : r.value)}
+                          className={cn(
+                            'py-2.5 px-3 font-lato text-xs tracking-wide border transition-all duration-200',
+                            roomType === r.value
+                              ? 'bg-luxury-gold/10 border-luxury-gold/55 text-luxury-gold'
+                              : 'bg-white/[0.02] text-white/35 hover:text-white/65 hover:border-luxury-gold/25',
+                          )}
+                          style={{
+                            borderColor: roomType === r.value
+                              ? 'rgba(201,169,110,0.55)'
+                              : 'rgba(255,255,255,0.08)',
+                          }}
+                        >
+                          {r.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Message */}
+                  <div>
+                    <Label>Message / Special Requests</Label>
+                    <Textarea
+                      {...register('message')}
+                      rows={4}
+                      placeholder="Any special requests, dietary needs, or questions…"
+                    />
+                  </div>
+
+                  {/* Submit row */}
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-5 pt-2">
+                    <Button type="submit" size="lg" disabled={isSubmitting} className="sm:w-auto w-full">
+                      {isSubmitting ? (
+                        <span className="flex items-center gap-2.5">
+                          <span
+                            className="w-4 h-4 border-2 border-t-transparent rounded-full animate-spin"
+                            style={{ borderColor: 'rgba(11,11,11,0.4)', borderTopColor: 'transparent' }}
+                          />
+                          Sending…
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-2.5">
+                          Send Inquiry
+                          <ArrowRight size={13} />
+                        </span>
+                      )}
+                    </Button>
+                    <p className="font-lato text-[10px] tracking-wide"
+                      style={{ color: 'rgba(255,255,255,0.18)' }}>
+                      No payment required · Response within 24h
+                    </p>
+                  </div>
+
+                </form>
+              </div>
+            )}
+          </AnimatedSection>
+        </div>
+
       </div>
     </section>
   )

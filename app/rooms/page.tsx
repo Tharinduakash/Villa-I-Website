@@ -3,13 +3,27 @@ import RoomsIntro from '@/components/sections/RoomsIntro'
 import RoomsList from '@/components/sections/RoomsList'
 import RoomsAmenities from '@/components/sections/RoomsAmenities'
 import BookingBanner from '@/components/BookingBanner'
+import { prisma } from '@/lib/prisma'
 
-export default function RoomsPage() {
+export default async function RoomsPage() {
+  const dbRooms = await prisma.room.findMany({ orderBy: { createdAt: 'asc' } })
+  const rooms = dbRooms.map((r) => ({
+    id: r.id,
+    name: r.name,
+    shortName: r.shortName,
+    description: r.description,
+    features: r.features,
+    price: r.priceLabel,
+    image: r.image,
+    capacity: r.capacity,
+    size: r.size,
+  }))
+
   return (
     <>
       <RoomsHero />
       <RoomsIntro />
-      <RoomsList />
+      <RoomsList rooms={rooms} />
       <RoomsAmenities />
       <BookingBanner />
     </>

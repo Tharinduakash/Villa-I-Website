@@ -5,7 +5,7 @@ import RoomForm from '@/components/admin/RoomForm'
 
 export default function EditRoomPage() {
   const { id } = useParams<{ id: string }>()
-  const [room, setRoom] = useState(null)
+  const [room, setRoom] = useState<Record<string, unknown> | null>(null)
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
 

@@ -28,7 +28,7 @@ const packages = [
 
 export default function ServicesPackages() {
   return (
-    <section className="section-padding bg-luxury-black">
+    <section className="section-padding section-gradient-a">
       <div className="container-padding">
         <AnimatedSection className="text-center mb-14">
           <p className="text-luxury-gold font-lato text-xs tracking-[0.3em] uppercase mb-3">Stay Packages</p>

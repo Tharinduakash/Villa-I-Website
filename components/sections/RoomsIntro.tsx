@@ -3,7 +3,7 @@ import AnimatedSection from '@/components/AnimatedSection'
 
 export default function RoomsIntro() {
   return (
-    <section className="bg-luxury-dark border-b border-white/5 py-12">
+    <section className="section-gradient-mid border-b border-white/5 py-12">
       <div className="container-padding">
         <AnimatedSection className="max-w-2xl">
           <p className="text-white/60 font-lato text-base leading-relaxed">

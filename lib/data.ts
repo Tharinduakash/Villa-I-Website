@@ -55,14 +55,12 @@ export const rooms = [
     size: '350 sqm',
   },
 ]
-
 export const services = [
   {
     id: 'accommodation',
     title: 'Luxury Accommodation',
     description:
       'Choose from our range of thoughtfully designed rooms and suites, each offering a unique blend of comfort and coastal charm.',
-    icon: '🏨',
     features: ['A/C & Non A/C options', 'Family suites available', 'Full villa booking', 'Daily housekeeping'],
   },
   {
@@ -70,7 +68,6 @@ export const services = [
     title: 'Culinary Experience',
     description:
       'Savor authentic Sri Lankan cuisine and international favorites, prepared fresh with local ingredients and ocean-inspired flavors.',
-    icon: '🍽️',
     features: ['Breakfast included', 'Sri Lankan cuisine', 'Western menu options', 'Dietary needs catered'],
   },
   {
@@ -78,7 +75,6 @@ export const services = [
     title: 'Beach Access',
     description:
       'Steps away from the pristine shores of Mount Lavinia beach, perfect for morning swims, sunset walks, and water activities.',
-    icon: '🌊',
     features: ['100m to beach', 'Beach equipment', 'Stunning sunset views', 'Water activities nearby'],
   },
   {
@@ -86,7 +82,6 @@ export const services = [
     title: 'Relaxation & Wellness',
     description:
       'Unwind in our serene garden spaces, enjoy tropical breezes, and experience the restorative calm of coastal living.',
-    icon: '🌿',
     features: ['Tropical garden spaces', 'Meditation areas', 'Yoga sessions on request', 'Spa treatments'],
   },
 ]

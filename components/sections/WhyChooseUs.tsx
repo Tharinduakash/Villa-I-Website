@@ -35,7 +35,7 @@ const cards = [
 
 export default function WhyChooseUs() {
   return (
-    <section className="section-padding bg-luxury-black overflow-hidden">
+    <section className="section-padding section-gradient-a overflow-hidden">
       <div className="container-padding">
         <AnimatedSection className="text-center mb-16">
           <div className="flex items-center justify-center gap-4 mb-4">
@@ -61,7 +61,7 @@ export default function WhyChooseUs() {
               className="group relative overflow-hidden flex flex-col"
               style={{
                 border: '1px solid rgba(176,141,87,0.10)',
-                background: 'linear-gradient(160deg, #1a1710 0%, #0a0907 100%)',
+                background: 'linear-gradient(160deg, #0f1228 0%, #07091c 100%)',
                 transition: 'border-color 0.4s ease, box-shadow 0.4s ease',
                 boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
               }}
@@ -106,7 +106,7 @@ export default function WhyChooseUs() {
                   className="absolute inset-0"
                   style={{
                     background:
-                      'linear-gradient(180deg, rgba(9,8,6,0.08) 0%, rgba(9,8,6,0.10) 40%, rgba(10,9,7,0.80) 80%, rgba(10,9,7,1) 100%)',
+                      'linear-gradient(180deg, rgba(5,7,14,0.05) 0%, rgba(5,7,14,0.12) 40%, rgba(5,7,14,0.85) 80%, rgba(5,7,14,1) 100%)',
                   }}
                 />
                 <div
@@ -119,7 +119,7 @@ export default function WhyChooseUs() {
                 <div
                   className="absolute top-4 left-4 px-2.5 py-1"
                   style={{
-                    background: 'rgba(9,8,6,0.75)',
+                    background: 'rgba(5,7,14,0.82)',
                     backdropFilter: 'blur(10px)',
                     border: '1px solid rgba(176,141,87,0.25)',
                   }}
