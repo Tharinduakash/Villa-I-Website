@@ -6,6 +6,8 @@ import {
   BedDouble,
   Sparkles,
   CalendarCheck,
+  MessageSquare,
+  Mail,
   LogOut,
   Menu,
   X,
@@ -13,10 +15,12 @@ import {
 import { useState } from 'react'
 
 const navItems = [
-  { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/admin/rooms',     label: 'Rooms',     icon: BedDouble },
-  { href: '/admin/services',  label: 'Services',  icon: Sparkles },
-  { href: '/admin/bookings',  label: 'Bookings',  icon: CalendarCheck },
+  { href: '/admin/dashboard',     label: 'Dashboard',     icon: LayoutDashboard },
+  { href: '/admin/rooms',         label: 'Rooms',         icon: BedDouble },
+  { href: '/admin/services',      label: 'Services',      icon: Sparkles },
+  { href: '/admin/bookings',      label: 'Bookings',      icon: CalendarCheck },
+  { href: '/admin/inquiries',     label: 'Inquiries',     icon: MessageSquare },
+  { href: '/admin/subscriptions', label: 'Subscriptions', icon: Mail },
 ]
 
 export default function Sidebar() {

@@ -97,12 +97,31 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
 export default function Footer() {
   const [email, setEmail] = useState('')
   const [subscribed, setSubscribed] = useState(false)
+  const [subError, setSubError] = useState('')
+  const [subLoading, setSubLoading] = useState(false)
   const [focused, setFocused] = useState(false)
   const year = new Date().getFullYear()
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: { preventDefault(): void }) => {
     e.preventDefault()
-    if (email.trim()) { setSubscribed(true); setEmail('') }
+    if (!email.trim()) return
+    setSubLoading(true)
+    setSubError('')
+    try {
+      const res = await fetch('/api/subscriptions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+      const data = await res.json()
+      if (!res.ok) { setSubError(data.error || 'Something went wrong'); setSubLoading(false); return }
+      setSubscribed(true)
+      setEmail('')
+    } catch {
+      setSubError('Network error. Please try again.')
+    } finally {
+      setSubLoading(false)
+    }
   }
 
   return (
