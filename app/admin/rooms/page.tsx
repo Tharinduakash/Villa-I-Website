@@ -77,7 +77,7 @@ export default function AdminRoomsPage() {
       {rooms.length === 0 ? (
         <EmptyState />
       ) : (
-        <div className="border overflow-hidden" style={{ background: '#111111', borderColor: 'rgba(255,255,255,0.05)' }}>
+        <div className="border overflow-hidden" style={{ background: 'linear-gradient(160deg, rgba(11,14,26,1) 0%, rgba(7,9,17,1) 100%)', borderColor: 'rgba(201,169,110,0.12)' }}>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -163,7 +163,7 @@ export default function AdminRoomsPage() {
 
 function EmptyState() {
   return (
-    <div className="border py-20 text-center" style={{ background: '#111111', borderColor: 'rgba(255,255,255,0.05)' }}>
+    <div className="border py-20 text-center" style={{ background: 'linear-gradient(160deg, rgba(11,14,26,1) 0%, rgba(7,9,17,1) 100%)', borderColor: 'rgba(201,169,110,0.12)' }}>
       <div className="w-14 h-14 border mx-auto mb-4 flex items-center justify-center"
         style={{ borderColor: 'rgba(201,169,110,0.2)', color: 'rgba(201,169,110,0.5)' }}>
         <Plus size={22} />

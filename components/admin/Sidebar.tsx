@@ -35,8 +35,10 @@ export default function Sidebar() {
 
   const NavContent = () => (
     <div className="flex flex-col h-full">
+      {/* Gold top line */}
+      <div className="h-px w-full" style={{ background: 'linear-gradient(to right, transparent, rgba(201,169,110,0.7), transparent)' }} />
       {/* Brand */}
-      <div className="px-6 py-7 border-b border-white/5">
+      <div className="px-6 py-7 border-b border-white/5" style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(201,169,110,0.06) 0%, transparent 70%)' }}>
         <span className="font-playfair text-2xl font-bold text-white tracking-wider">
           VILLA <span className="italic font-light" style={{ color: '#C9A96E' }}>i</span>
         </span>
@@ -87,7 +89,7 @@ export default function Sidebar() {
       {/* Desktop sidebar */}
       <aside
         className="hidden lg:flex flex-col w-60 h-screen fixed left-0 top-0 z-40 border-r border-white/5 flex-shrink-0"
-        style={{ background: '#111111' }}
+        style={{ background: 'linear-gradient(180deg, rgba(10,12,22,1) 0%, rgba(7,9,17,1) 100%)' }}
       >
         <NavContent />
       </aside>
@@ -95,7 +97,7 @@ export default function Sidebar() {
       {/* Mobile top bar */}
       <div
         className="lg:hidden fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-5 h-14 border-b border-white/5"
-        style={{ background: '#111111' }}
+        style={{ background: 'linear-gradient(180deg, rgba(10,12,22,1) 0%, rgba(7,9,17,1) 100%)' }}
       >
         <span className="font-playfair text-lg font-bold text-white">
           VILLA <span className="italic font-light" style={{ color: '#C9A96E' }}>i</span>
@@ -109,7 +111,7 @@ export default function Sidebar() {
       {/* Mobile drawer */}
       {mobileOpen && (
         <div className="lg:hidden fixed inset-0 z-50 flex">
-          <aside className="w-60 h-full border-r border-white/5" style={{ background: '#111111' }}>
+          <aside className="w-60 h-full border-r" style={{ background: 'linear-gradient(180deg, rgba(10,12,22,1) 0%, rgba(7,9,17,1) 100%)', borderColor: 'rgba(201,169,110,0.10)' }}>
             <NavContent />
           </aside>
           <div className="flex-1 bg-black/50" onClick={() => setMobileOpen(false)} />

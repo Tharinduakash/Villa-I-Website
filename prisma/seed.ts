@@ -46,15 +46,15 @@ async function main() {
       available: true,
     },
     {
-      name: 'Family Suite',
-      shortName: 'Family Room',
-      description: 'Spacious and comfortable, our family suites offer extra room for the whole family to relax and enjoy the coastal lifestyle together.',
-      features: ['Air Conditioning', 'Multiple Beds', 'Living Area', 'Kitchen Corner', 'Smart TV', 'Free WiFi'],
-      pricePerNight: 75,
-      priceLabel: 'From $75/night',
+      name: 'Half Board Villa',
+      shortName: 'Half Board',
+      description: 'Reserve an entire floor of Villa i for your family, corporate retreat, or private party. Enjoy dedicated living spaces, personalized service, and a full half-board experience with breakfast and dinner included.',
+      features: ['Full Floor Access', 'Multiple Rooms', 'Private Living Area', 'Event & Party Ready', 'Breakfast & Dinner Included', 'Free WiFi'],
+      pricePerNight: 120,
+      priceLabel: 'From $120/night',
       image: 'https://images.unsplash.com/photo-1566195992011-5f6b21e539aa?w=800&q=80',
-      capacity: '4–6 Guests',
-      size: '45 sqm',
+      capacity: '8–12 Guests',
+      size: '180 sqm',
       available: true,
     },
     {
@@ -71,6 +71,9 @@ async function main() {
     },
   ]
 
+  // Remove old family-suite room if it exists (renamed to Half Board Villa)
+  await prisma.room.deleteMany({ where: { id: 'family-suite' } })
+
   for (const room of roomsData) {
     await prisma.room.upsert({
       where: { id: room.name.toLowerCase().replace(/\s+/g, '-') },
@@ -80,39 +83,61 @@ async function main() {
   }
   console.log(`✅ Seeded ${roomsData.length} rooms`)
 
-  // Services
+  // Services — clear all and reseed with the full 6-service set
+  await prisma.service.deleteMany({})
   const servicesData = [
     {
+      id: 'accommodation',
       title: 'Luxury Accommodation',
       description: 'Choose from our range of thoughtfully designed rooms and suites, each offering a unique blend of comfort and coastal charm.',
       icon: '🏨',
-      features: ['A/C & Non A/C options', 'Family suites available', 'Full villa booking', 'Daily housekeeping'],
+      image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=900&q=85',
+      features: ['A/C & Non A/C options', 'Half Board Villa available', 'Full villa booking', 'Daily housekeeping'],
     },
     {
-      title: 'Culinary Experience',
-      description: 'Savor authentic Sri Lankan cuisine and international favorites, prepared fresh with local ingredients and ocean-inspired flavors.',
-      icon: '🍽️',
-      features: ['Breakfast included', 'Sri Lankan cuisine', 'Western menu options', 'Dietary needs catered'],
+      id: 'spa',
+      title: 'Spa & Wellness',
+      description: 'Indulge in rejuvenating massage and therapy treatments in our serene spa sanctuary. Our skilled therapists blend traditional Sri Lankan healing with modern wellness techniques.',
+      icon: '💆',
+      image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=900&q=85',
+      features: ['Traditional massages', 'Aromatherapy sessions', 'Body scrubs & wraps', 'Therapy treatments'],
     },
     {
+      id: 'beach',
       title: 'Beach Access',
       description: 'Steps away from the pristine shores of Mount Lavinia beach, perfect for morning swims, sunset walks, and water activities.',
       icon: '🌊',
+      image: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=900&q=85',
       features: ['100m to beach', 'Beach equipment', 'Stunning sunset views', 'Water activities nearby'],
     },
     {
-      title: 'Relaxation & Wellness',
-      description: 'Unwind in our serene garden spaces, enjoy tropical breezes, and experience the restorative calm of coastal living.',
-      icon: '🌿',
-      features: ['Tropical garden spaces', 'Meditation areas', 'Yoga sessions on request', 'Spa treatments'],
+      id: 'party',
+      title: 'Party Arrangements',
+      description: 'Host unforgettable events at Villa i. From intimate family celebrations to corporate gatherings, we handle every detail — venue, meals, chef, and décor — so you can simply enjoy.',
+      icon: '🎉',
+      image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=900&q=85',
+      features: ['Event space booking', 'Full meal packages', 'Private chef hire', 'Décor & setup included'],
+    },
+    {
+      id: 'juice-corner',
+      title: 'Juice Corner',
+      description: 'Refresh and revitalize at our vibrant juice corner. We blend the finest tropical fruits and superfoods into a colorful menu of fresh juices, smoothies, and mocktails.',
+      icon: '🍹',
+      image: 'https://images.unsplash.com/photo-1546173159-315724a31696?w=900&q=85',
+      features: ['Fresh tropical juices', 'Smoothies & blends', 'Mocktails & lemonades', 'Seasonal specials'],
+    },
+    {
+      id: 'byob',
+      title: 'BYOB & Bar Lounge',
+      description: 'Bring your own spirits and enjoy them in our dedicated bar lounge area. We provide the setup, glassware, ice, and a relaxed atmosphere for a perfect evening.',
+      icon: '🥂',
+      image: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=900&q=85',
+      features: ['BYOB permitted', 'Dedicated bar lounge', 'Glassware & ice included', 'Relaxed serving area'],
     },
   ]
 
   for (const service of servicesData) {
-    const existing = await prisma.service.findFirst({ where: { title: service.title } })
-    if (!existing) {
-      await prisma.service.create({ data: service })
-    }
+    await prisma.service.create({ data: service })
   }
   console.log(`✅ Seeded ${servicesData.length} services`)
 

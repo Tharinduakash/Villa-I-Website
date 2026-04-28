@@ -30,10 +30,13 @@ export default function AdminLoginPage() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center px-4"
-      style={{ background: 'linear-gradient(135deg, #0B0B0B 0%, #111111 100%)' }}
+      className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden"
+      style={{ background: 'linear-gradient(160deg, #0a0b14 0%, #0d0f1c 100%)' }}
     >
-      <div className="w-full max-w-md">
+      {/* Ambient glows */}
+      <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(201,169,110,0.07) 0%, transparent 55%)' }} />
+      <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(201,169,110,0.04) 0%, transparent 50%)' }} />
+      <div className="w-full max-w-md relative z-10">
         {/* Logo */}
         <div className="text-center mb-10">
           <span className="font-playfair text-4xl font-bold text-white tracking-wider">
@@ -48,8 +51,8 @@ export default function AdminLoginPage() {
         <div
           className="p-8 border"
           style={{
-            background: '#111111',
-            borderColor: 'rgba(201,169,110,0.15)',
+            background: 'linear-gradient(160deg, rgba(11,14,26,1) 0%, rgba(7,9,17,1) 100%)',
+            borderColor: 'rgba(201,169,110,0.22)',
           }}
         >
           <div className="flex items-center justify-center w-12 h-12 rounded-full border mb-6 mx-auto"

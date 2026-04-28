@@ -115,7 +115,7 @@ export default function RoomForm({ defaultValues, roomId }: Props) {
       )}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div className="p-6 border" style={{ background: '#111111', borderColor: 'rgba(255,255,255,0.05)' }}>
+        <div className="p-6 border" style={{ background: 'linear-gradient(160deg, rgba(11,14,26,1) 0%, rgba(7,9,17,1) 100%)', borderColor: 'rgba(201,169,110,0.14)' }}>
           <h2 className="font-playfair text-lg text-white mb-5">Basic Information</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
@@ -141,7 +141,7 @@ export default function RoomForm({ defaultValues, roomId }: Props) {
           </div>
         </div>
 
-        <div className="p-6 border" style={{ background: '#111111', borderColor: 'rgba(255,255,255,0.05)' }}>
+        <div className="p-6 border" style={{ background: 'linear-gradient(160deg, rgba(11,14,26,1) 0%, rgba(7,9,17,1) 100%)', borderColor: 'rgba(201,169,110,0.14)' }}>
           <h2 className="font-playfair text-lg text-white mb-5">Pricing & Details</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
@@ -217,7 +217,7 @@ export default function RoomForm({ defaultValues, roomId }: Props) {
           </div>
         </div>
 
-        <div className="p-6 border" style={{ background: '#111111', borderColor: 'rgba(255,255,255,0.05)' }}>
+        <div className="p-6 border" style={{ background: 'linear-gradient(160deg, rgba(11,14,26,1) 0%, rgba(7,9,17,1) 100%)', borderColor: 'rgba(201,169,110,0.14)' }}>
           <h2 className="font-playfair text-lg text-white mb-5">Features / Amenities</h2>
           <div className="flex gap-2 mb-4">
             <input

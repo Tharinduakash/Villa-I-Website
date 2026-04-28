@@ -25,15 +25,15 @@ export const rooms = [
   },
   {
     id: 'family-room',
-    name: 'Family Suite',
-    shortName: 'Family Room',
+    name: 'Half Board Villa',
+    shortName: 'Half Board',
     description:
-      'Spacious and comfortable, our family suites offer extra room for the whole family to relax and enjoy the coastal lifestyle together.',
-    features: ['Air Conditioning', 'Multiple Beds', 'Living Area', 'Kitchen Corner', 'Smart TV', 'Free WiFi'],
-    price: 'From $75/night',
+      'Reserve an entire floor of Villa i for your family, corporate retreat, or private party. Enjoy dedicated living spaces, personalized service, and a full half-board experience with breakfast and dinner included.',
+    features: ['Full Floor Access', 'Multiple Rooms', 'Private Living Area', 'Event & Party Ready', 'Breakfast & Dinner Included', 'Free WiFi'],
+    price: 'From $120/night',
     image: 'https://images.unsplash.com/photo-1566195992011-5f6b21e539aa?w=800&q=80',
-    capacity: '4–6 Guests',
-    size: '45 sqm',
+    capacity: '8–12 Guests',
+    size: '180 sqm',
   },
   {
     id: 'full-villa',
@@ -62,15 +62,15 @@ export const services = [
     description:
       'Choose from our range of thoughtfully designed rooms and suites, each offering a unique blend of comfort and coastal charm.',
     image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=900&q=85',
-    features: ['A/C & Non A/C options', 'Family suites available', 'Full villa booking', 'Daily housekeeping'],
+    features: ['A/C & Non A/C options', 'Half Board Villa available', 'Full villa booking', 'Daily housekeeping'],
   },
   {
-    id: 'dining',
-    title: 'Culinary Experience',
+    id: 'spa',
+    title: 'Spa & Wellness',
     description:
-      'Savor authentic Sri Lankan cuisine and international favorites, prepared fresh with local ingredients and ocean-inspired flavors.',
-    image: 'https://images.unsplash.com/photo-1596178060671-7a80dc8059ea?w=900&q=85',
-    features: ['Breakfast included', 'Sri Lankan cuisine', 'Western menu options', 'Dietary needs catered'],
+      'Indulge in rejuvenating massage and therapy treatments in our serene spa sanctuary. Our skilled therapists blend traditional Sri Lankan healing with modern wellness techniques.',
+    image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=900&q=85',
+    features: ['Traditional massages', 'Aromatherapy sessions', 'Body scrubs & wraps', 'Therapy treatments'],
   },
   {
     id: 'beach',
@@ -81,12 +81,28 @@ export const services = [
     features: ['100m to beach', 'Beach equipment', 'Stunning sunset views', 'Water activities nearby'],
   },
   {
-    id: 'wellness',
-    title: 'Relaxation & Wellness',
+    id: 'party',
+    title: 'Party Arrangements',
     description:
-      'Unwind in our serene garden spaces, enjoy tropical breezes, and experience the restorative calm of coastal living.',
-    image: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=900&q=85',
-    features: ['Tropical garden spaces', 'Meditation areas', 'Yoga sessions on request', 'Spa treatments'],
+      'Host unforgettable events at Villa i. From intimate family celebrations to corporate gatherings, we handle every detail — venue, meals, chef, and décor — so you can simply enjoy.',
+    image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=900&q=85',
+    features: ['Event space booking', 'Full meal packages', 'Private chef hire', 'Décor & setup included'],
+  },
+  {
+    id: 'juice-corner',
+    title: 'Juice Corner',
+    description:
+      'Refresh and revitalize at our vibrant juice corner. We blend the finest tropical fruits and superfoods into a colorful menu of fresh juices, smoothies, and mocktails.',
+    image: 'https://images.unsplash.com/photo-1546173159-315724a31696?w=900&q=85',
+    features: ['Fresh tropical juices', 'Smoothies & blends', 'Mocktails & lemonades', 'Seasonal specials'],
+  },
+  {
+    id: 'byob',
+    title: 'BYOB & Bar Lounge',
+    description:
+      'Bring your own spirits and enjoy them in our dedicated bar lounge area. We provide the setup, glassware, ice, and a relaxed atmosphere for a perfect evening.',
+    image: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=900&q=85',
+    features: ['BYOB permitted', 'Dedicated bar lounge', 'Glassware & ice included', 'Relaxed serving area'],
   },
 ]
 

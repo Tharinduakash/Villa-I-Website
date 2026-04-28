@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { FaFacebook, FaInstagram, FaWhatsapp, FaTripadvisor } from 'react-icons/fa'
-import { SiBookingdotcom } from 'react-icons/si'
+import { SiBookingdotcom, SiAirbnb } from 'react-icons/si'
 import { MdEmail, MdPhone, MdLocationOn } from 'react-icons/md'
 import { HiArrowRight } from 'react-icons/hi'
 
@@ -20,7 +20,7 @@ const quickLinks = [
 const roomLinks = [
   { href: '/rooms#ac-room',     label: 'A/C Rooms'           },
   { href: '/rooms#non-ac-room', label: 'Garden View Rooms'   },
-  { href: '/rooms#family-room', label: 'Family Suites'       },
+  { href: '/rooms#family-room', label: 'Half Board Villa'     },
   { href: '/rooms#full-villa',  label: 'Full Villa Exclusive' },
   { href: '/services',          label: 'Dining & Cuisine'    },
   { href: '/contact',           label: 'Book Direct'         },
@@ -33,12 +33,13 @@ const legalLinks = [
 ]
 
 const socials = [
-  { Icon: FaInstagram,    href: '#',                      label: 'Instagram',   hoverColor: 'rgba(225,48,108,0.9)'  },
-  { Icon: FaFacebook,     href: '#',                      label: 'Facebook',    hoverColor: 'rgba(24,119,242,0.9)'  },
-  { Icon: FaWhatsapp,     href: 'https://wa.me/94XXXXXXXX', label: 'WhatsApp', hoverColor: 'rgba(37,211,102,0.9)'  },
-  { Icon: FaTripadvisor,  href: '#',                      label: 'TripAdvisor', hoverColor: 'rgba(52,168,83,0.9)'   },
-  { Icon: SiBookingdotcom,href: '#',                      label: 'Booking',     hoverColor: 'rgba(0,114,255,0.9)'   },
-  { Icon: AgodaIcon,      href: '#',                      label: 'Agoda',       hoverColor: 'rgba(230,0,100,0.9)'   },
+  { Icon: FaInstagram,    href: '#',                        label: 'Instagram',   hoverColor: 'rgba(225,48,108,0.9)'  },
+  { Icon: FaFacebook,     href: '#',                        label: 'Facebook',    hoverColor: 'rgba(24,119,242,0.9)'  },
+  { Icon: FaWhatsapp,     href: 'https://wa.me/94XXXXXXXX', label: 'WhatsApp',    hoverColor: 'rgba(37,211,102,0.9)'  },
+  { Icon: FaTripadvisor,  href: '#',                        label: 'TripAdvisor', hoverColor: 'rgba(52,168,83,0.9)'   },
+  { Icon: SiBookingdotcom,href: '#',                        label: 'Booking',     hoverColor: 'rgba(0,114,255,0.9)'   },
+  { Icon: AgodaIcon,      href: '#',                        label: 'Agoda',       hoverColor: 'rgba(230,0,100,0.9)'   },
+  { Icon: SiAirbnb,       href: '#',                        label: 'Airbnb',      hoverColor: 'rgba(255,90,95,0.9)'   },
 ]
 
 function AgodaIcon({ size = 17, ...props }: { size?: number } & React.SVGProps<SVGSVGElement>) {
@@ -279,7 +280,7 @@ export default function Footer() {
             <SectionLabel>Follow &amp; Book</SectionLabel>
 
             {/* Social grid */}
-            <div className="grid grid-cols-3 gap-2 mb-10">
+            <div className="grid grid-cols-4 gap-2 mb-10">
               {socials.map(({ Icon, href, label, hoverColor }) => (
                 <a
                   key={label}

@@ -61,14 +61,14 @@ export default function InquiriesPage() {
       </div>
 
       {inquiries.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-24 border" style={{ background: '#111111', borderColor: 'rgba(255,255,255,0.05)' }}>
+        <div className="flex flex-col items-center justify-center py-24 border" style={{ background: 'linear-gradient(160deg, rgba(11,14,26,1) 0%, rgba(7,9,17,1) 100%)', borderColor: 'rgba(201,169,110,0.12)' }}>
           <MessageSquare size={32} style={{ color: 'rgba(255,255,255,0.15)' }} className="mb-3" />
           <p className="font-lato text-sm" style={{ color: 'rgba(255,255,255,0.3)' }}>No inquiries yet</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
           {/* List */}
-          <div className="lg:col-span-2 border divide-y" style={{ background: '#111111', borderColor: 'rgba(255,255,255,0.05)', divideColor: 'rgba(255,255,255,0.04)' }}>
+          <div className="lg:col-span-2 border divide-y divide-white/[0.04]" style={{ background: 'linear-gradient(160deg, rgba(11,14,26,1) 0%, rgba(7,9,17,1) 100%)', borderColor: 'rgba(201,169,110,0.12)' }}>
             {inquiries.map((inq) => (
               <div
                 key={inq.id}
@@ -99,7 +99,7 @@ export default function InquiriesPage() {
           </div>
 
           {/* Detail */}
-          <div className="lg:col-span-3 border" style={{ background: '#111111', borderColor: 'rgba(255,255,255,0.05)' }}>
+          <div className="lg:col-span-3 border" style={{ background: 'linear-gradient(160deg, rgba(11,14,26,1) 0%, rgba(7,9,17,1) 100%)', borderColor: 'rgba(201,169,110,0.12)' }}>
             {selected ? (
               <div className="p-6">
                 <div className="flex items-start justify-between gap-4 mb-6">

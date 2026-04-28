@@ -8,22 +8,29 @@ import { HiArrowRight } from 'react-icons/hi'
 // Fallback images used when a service has no image set in the DB.
 // Keyed by service id first, then position index.
 const FALLBACK_BY_ID: Record<string, string> = {
-  accommodation: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=900&q=85',
-  dining:        'https://images.unsplash.com/photo-1596178060671-7a80dc8059ea?w=900&q=85',
-  beach:         'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=900&q=85',
-  wellness:      'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=900&q=85',
+  accommodation:  'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=900&q=85',
+  dining:         'https://images.unsplash.com/photo-1596178060671-7a80dc8059ea?w=900&q=85',
+  spa:            'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=900&q=85',
+  beach:          'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=900&q=85',
+  wellness:       'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=900&q=85',
+  party:          'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=900&q=85',
+  'juice-corner': 'https://images.unsplash.com/photo-1546173159-315724a31696?w=900&q=85',
+  byob:           'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=900&q=85',
 }
 
 const FALLBACK_BY_INDEX = [
   'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=900&q=85',
-  'https://images.unsplash.com/photo-1596178060671-7a80dc8059ea?w=900&q=85',
+  'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=900&q=85',
   'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=900&q=85',
-  'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=900&q=85',
+  'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=900&q=85',
+  'https://images.unsplash.com/photo-1546173159-315724a31696?w=900&q=85',
+  'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=900&q=85',
 ]
 
-// Row 0: card[0] = large (col-span-2), card[1] = small
-// Row 1: card[2] = small, card[3] = large (col-span-2)
-const isLarge = (i: number) => i === 0 || i === 3
+// Alternating Large/Small pattern that tiles correctly for any number of services:
+// Pair 0 → Large then Small (L S), Pair 1 → Small then Large (S L), Pair 2 → L S …
+// This ensures every two cards fill exactly 3 columns with no gaps.
+const isLarge = (i: number) => (Math.floor(i / 2) + i) % 2 === 0
 
 const GOLD     = 'rgba(201,169,110,1)'
 const GOLD_DIM = 'rgba(176,141,87,0.55)'

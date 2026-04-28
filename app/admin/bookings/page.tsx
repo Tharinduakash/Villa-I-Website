@@ -111,14 +111,14 @@ export default function AdminBookingsPage() {
       </div>
 
       {displayed.length === 0 ? (
-        <div className="border py-16 text-center" style={{ background: '#111111', borderColor: 'rgba(255,255,255,0.05)' }}>
+        <div className="border py-16 text-center" style={{ background: 'linear-gradient(160deg, rgba(11,14,26,1) 0%, rgba(7,9,17,1) 100%)', borderColor: 'rgba(201,169,110,0.12)' }}>
           <p className="font-playfair text-xl text-white mb-2">No bookings found</p>
           <p className="font-lato text-sm" style={{ color: 'rgba(255,255,255,0.3)' }}>
             {filter !== 'ALL' ? 'Try a different filter' : 'Bookings will appear here once submitted'}
           </p>
         </div>
       ) : (
-        <div className="border overflow-hidden" style={{ background: '#111111', borderColor: 'rgba(255,255,255,0.05)' }}>
+        <div className="border overflow-hidden" style={{ background: 'linear-gradient(160deg, rgba(11,14,26,1) 0%, rgba(7,9,17,1) 100%)', borderColor: 'rgba(201,169,110,0.12)' }}>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>

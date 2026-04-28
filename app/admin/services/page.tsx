@@ -137,7 +137,7 @@ export default function AdminServicesPage() {
 
       {/* ── Form ── */}
       {showForm && (
-        <div className="mb-8 p-6 border" style={{ background: '#111111', borderColor: 'rgba(201,169,110,0.2)' }}>
+        <div className="mb-8 p-6 border" style={{ background: 'linear-gradient(160deg, rgba(11,14,26,1) 0%, rgba(7,9,17,1) 100%)', borderColor: 'rgba(201,169,110,0.22)' }}>
           <div className="flex items-center justify-between mb-5">
             <h2 className="font-playfair text-xl text-white">{editingId ? 'Edit Service' : 'New Service'}</h2>
             <button onClick={cancelForm} style={{ color: 'rgba(255,255,255,0.35)' }}><X size={18} /></button>
@@ -267,11 +267,11 @@ export default function AdminServicesPage() {
 
       {/* ── Table ── */}
       {services.length === 0 ? (
-        <div className="border py-16 text-center" style={{ background: '#111111', borderColor: 'rgba(255,255,255,0.05)' }}>
+        <div className="border py-16 text-center" style={{ background: 'linear-gradient(160deg, rgba(11,14,26,1) 0%, rgba(7,9,17,1) 100%)', borderColor: 'rgba(201,169,110,0.12)' }}>
           <p className="font-playfair text-xl text-white mb-2">No services yet</p>
         </div>
       ) : (
-        <div className="border overflow-hidden" style={{ background: '#111111', borderColor: 'rgba(255,255,255,0.05)' }}>
+        <div className="border overflow-hidden" style={{ background: 'linear-gradient(160deg, rgba(11,14,26,1) 0%, rgba(7,9,17,1) 100%)', borderColor: 'rgba(201,169,110,0.12)' }}>
           <table className="w-full">
             <thead>
               <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>

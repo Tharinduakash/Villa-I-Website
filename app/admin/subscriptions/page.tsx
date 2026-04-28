@@ -35,7 +35,7 @@ export default function SubscriptionsPage() {
         </p>
       </div>
 
-      <div className="border" style={{ background: '#111111', borderColor: 'rgba(255,255,255,0.05)' }}>
+      <div className="border" style={{ background: 'linear-gradient(160deg, rgba(11,14,26,1) 0%, rgba(7,9,17,1) 100%)', borderColor: 'rgba(201,169,110,0.12)' }}>
         {subscriptions.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24">
             <Mail size={32} style={{ color: 'rgba(255,255,255,0.15)' }} className="mb-3" />
@@ -46,7 +46,7 @@ export default function SubscriptionsPage() {
             {/* Table header */}
             <div
               className="grid grid-cols-12 px-6 py-3 border-b"
-              style={{ borderColor: 'rgba(255,255,255,0.05)' }}
+              style={{ borderColor: 'rgba(201,169,110,0.10)' }}
             >
               <span className="col-span-1 font-lato text-[10px] tracking-[0.15em] uppercase" style={{ color: 'rgba(255,255,255,0.25)' }}>#</span>
               <span className="col-span-7 font-lato text-[10px] tracking-[0.15em] uppercase" style={{ color: 'rgba(255,255,255,0.25)' }}>Email</span>

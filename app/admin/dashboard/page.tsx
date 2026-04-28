@@ -19,9 +19,11 @@ interface Room { id: string; name: string; available: boolean }
 
 function StatCard({ label, value, icon: Icon, color }: { label: string; value: number | string; icon: React.ElementType; color: string }) {
   return (
-    <div className="p-6 border" style={{ background: '#111111', borderColor: 'rgba(255,255,255,0.05)' }}>
+    <div className="p-6 border relative overflow-hidden" style={{ background: 'linear-gradient(160deg, rgba(11,14,26,1) 0%, rgba(7,9,17,1) 100%)', borderColor: 'rgba(201,169,110,0.14)' }}>
+      {/* Vertical color accent */}
+      <div className="absolute left-0 top-0 bottom-0 w-0.5" style={{ background: `linear-gradient(180deg, transparent, ${color}80, transparent)` }} />
       <div className="flex items-start justify-between mb-4">
-        <div className="w-10 h-10 flex items-center justify-center border" style={{ borderColor: `${color}30`, color }}>
+        <div className="w-10 h-10 flex items-center justify-center border" style={{ borderColor: `${color}30`, color, background: `${color}10` }}>
           <Icon size={18} />
         </div>
       </div>
@@ -80,8 +82,8 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent bookings */}
-        <div className="lg:col-span-2 border" style={{ background: '#111111', borderColor: 'rgba(255,255,255,0.05)' }}>
-          <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
+        <div className="lg:col-span-2 border" style={{ background: 'linear-gradient(160deg, rgba(11,14,26,1) 0%, rgba(7,9,17,1) 100%)', borderColor: 'rgba(201,169,110,0.12)' }}>
+          <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: 'rgba(201,169,110,0.10)' }}>
             <h2 className="font-playfair text-lg text-white">Recent Bookings</h2>
             <Link href="/admin/bookings" className="font-lato text-xs tracking-wider uppercase transition-colors" style={{ color: '#C9A96E' }}>
               View all
@@ -113,8 +115,8 @@ export default function DashboardPage() {
         </div>
 
         {/* Rooms status */}
-        <div className="border" style={{ background: '#111111', borderColor: 'rgba(255,255,255,0.05)' }}>
-          <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
+        <div className="border" style={{ background: 'linear-gradient(160deg, rgba(11,14,26,1) 0%, rgba(7,9,17,1) 100%)', borderColor: 'rgba(201,169,110,0.12)' }}>
+          <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: 'rgba(201,169,110,0.10)' }}>
             <h2 className="font-playfair text-lg text-white">Rooms</h2>
             <Link href="/admin/rooms" className="font-lato text-xs tracking-wider uppercase" style={{ color: '#C9A96E' }}>
               Manage
@@ -134,7 +136,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Summary mini stats */}
-          <div className="px-6 py-4 border-t grid grid-cols-3 gap-2" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
+          <div className="px-6 py-4 border-t grid grid-cols-3 gap-2" style={{ borderColor: 'rgba(201,169,110,0.10)' }}>
             {[
               { label: 'Pending',   value: pending,   color: '#F59E0B' },
               { label: 'Confirmed', value: confirmed, color: '#10B981' },
