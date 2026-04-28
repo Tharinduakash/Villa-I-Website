@@ -1,62 +1,52 @@
 'use client'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { HiArrowRight } from 'react-icons/hi'
 
 const slides = [
- {
-  image: '/webp/hotel.png',
-  eyebrow: 'Mount Lavinia, Sri Lanka',
-  title: 'Ocean Meets',
-  titleItalic: 'Paradise',
-  titleEnd: 'Luxury Living',
-
-  cta: { label: 'Reserve Your Stay', href: '/contact' },
-  ctaSecondary: { label: 'Explore Rooms', href: '/rooms' },
-},
-
+  {
+    image: '/webp/hotel.png',
+    eyebrow: 'Mount Lavinia, Sri Lanka',
+    title: 'Ocean Meets',
+    titleItalic: 'Paradise',
+    titleEnd: 'Luxury Living',
+    cta: { label: 'Reserve Your Stay', href: '/contact' },
+    ctaSecondary: { label: 'Explore Rooms', href: '/rooms' },
+  },
   {
     image: '/webp/room1.jpg',
     eyebrow: 'Comfort for Every Stay',
     title: 'Relax in',
     titleItalic: 'Non A/C  A/C',
     titleEnd: 'Rooms',
-   
     cta: { label: 'View Rooms', href: '/rooms' },
     ctaSecondary: { label: 'Book Now', href: '/contact' },
   },
-
   {
     image: '/webp/fruit juices.webp',
     eyebrow: 'Refreshing Moments',
     title: 'Enjoy Our',
     titleItalic: 'Drinks',
     titleEnd: 'Corner',
-  
     cta: { label: 'View Services', href: '/services' },
     ctaSecondary: { label: 'Contact Us', href: '/contact' },
   },
-
   {
     image: '/webp/Accommodation One Bedroom.jpg',
     eyebrow: 'Private & Exclusive',
     title: 'Book the',
     titleItalic: 'Full Villa',
     titleEnd: 'Experience',
-   
     cta: { label: 'Book Full Villa', href: '/rooms#full-villa' },
     ctaSecondary: { label: 'View All Rooms', href: '/rooms' },
   },
-
   {
     image: '/webp/Waves.png',
     eyebrow: '100m from the Beach',
     title: 'Wake Up to',
     titleItalic: 'Ocean',
     titleEnd: 'Breezes',
-  
     cta: { label: 'Reserve Your Stay', href: '/contact' },
     ctaSecondary: { label: 'Explore Experience', href: '/about' },
   },
@@ -66,159 +56,133 @@ const SLIDE_DURATION = 6500
 const TRANSITION_MS = 1000
 const TOTAL = slides.length
 
+/* ─── Hero particle canvas ─────────────────────────────────────── */
+function HeroParticles() {
+  const ref = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    const canvas = ref.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+    let w = (canvas.width = canvas.offsetWidth)
+    let h = (canvas.height = canvas.offsetHeight)
+
+    interface P { x: number; y: number; vx: number; vy: number; r: number; alpha: number; pulse: number; speed: number }
+    const COUNT = 60
+    const pts: P[] = Array.from({ length: COUNT }, () => ({
+      x: Math.random() * w, y: Math.random() * h,
+      vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+      r: Math.random() * 1.5 + 0.3, alpha: Math.random() * 0.35 + 0.05,
+      pulse: Math.random() * Math.PI * 2, speed: Math.random() * 0.018 + 0.008,
+    }))
+
+    let raf: number
+    const draw = () => {
+      ctx.clearRect(0, 0, w, h)
+      pts.forEach(p => {
+        p.pulse += p.speed
+        const a = p.alpha * (0.5 + 0.5 * Math.sin(p.pulse))
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(201,169,110,${a})`; ctx.fill()
+        p.x += p.vx; p.y += p.vy
+        if (p.x < 0) p.x = w; if (p.x > w) p.x = 0
+        if (p.y < 0) p.y = h; if (p.y > h) p.y = 0
+      })
+      for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) {
+        const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        if (dist < 130) {
+          ctx.beginPath(); ctx.moveTo(pts[i].x, pts[i].y); ctx.lineTo(pts[j].x, pts[j].y)
+          ctx.strokeStyle = `rgba(201,169,110,${0.06 * (1 - dist / 130)})`
+          ctx.lineWidth = 0.5; ctx.stroke()
+        }
+      }
+      raf = requestAnimationFrame(draw)
+    }
+    draw()
+    const onResize = () => { w = canvas.width = canvas.offsetWidth; h = canvas.height = canvas.offsetHeight }
+    window.addEventListener('resize', onResize)
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', onResize) }
+  }, [])
+
+  return <canvas ref={ref} className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 5 }} />
+}
+
+/* ─── Animated letter reveal ───────────────────────────────────── */
+const letterVars = {
+  hidden: { opacity: 0, y: 30, rotateX: -70, filter: 'blur(4px)' },
+  visible: (i: number) => ({
+    opacity: 1, y: 0, rotateX: 0, filter: 'blur(0px)',
+    transition: { duration: 0.55, delay: 0.3 + i * 0.035, ease: [0.22, 1, 0.36, 1] },
+  }),
+}
+
 export default function HeroSlider() {
   const heroRef = useRef<HTMLElement>(null)
   const [current, setCurrent] = useState(0)
   const [prev, setPrev] = useState<number | null>(null)
   const [transitioning, setTransitioning] = useState(false)
-
   const currentRef = useRef(0)
   const transitioningRef = useRef(false)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const transRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const { scrollYProgress: heroScroll } = useScroll({
-    target: heroRef,
-    offset: ['start start', 'end start'],
-  })
+  const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
   const heroY = useTransform(heroScroll, [0, 1], ['0%', '28%'])
   const heroOpacity = useTransform(heroScroll, [0, 0.75], [1, 0])
+  const heroScale = useTransform(heroScroll, [0, 1], [1, 1.06])
 
   const goTo = useCallback((toIndex: number) => {
     if (transitioningRef.current) return
     const fromIndex = currentRef.current
     if (toIndex === fromIndex) return
-    transitioningRef.current = true
-    setTransitioning(true)
-    setPrev(fromIndex)
-    currentRef.current = toIndex
-    setCurrent(toIndex)
+    transitioningRef.current = true; setTransitioning(true); setPrev(fromIndex)
+    currentRef.current = toIndex; setCurrent(toIndex)
     if (transRef.current) clearTimeout(transRef.current)
-    transRef.current = setTimeout(() => {
-      setPrev(null)
-      setTransitioning(false)
-      transitioningRef.current = false
-    }, TRANSITION_MS)
+    transRef.current = setTimeout(() => { setPrev(null); setTransitioning(false); transitioningRef.current = false }, TRANSITION_MS)
   }, [])
 
   const startTimer = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current)
-    timerRef.current = setInterval(() => {
-      goTo((currentRef.current + 1) % TOTAL)
-    }, SLIDE_DURATION)
+    timerRef.current = setInterval(() => { goTo((currentRef.current + 1) % TOTAL) }, SLIDE_DURATION)
   }, [goTo])
 
-  useEffect(() => {
-    startTimer()
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current)
-      if (transRef.current) clearTimeout(transRef.current)
-    }
-  }, [startTimer])
+  useEffect(() => { startTimer(); return () => { if (timerRef.current) clearInterval(timerRef.current); if (transRef.current) clearTimeout(transRef.current) } }, [startTimer])
 
-  const handleDot = useCallback(
-    (i: number) => { goTo(i); startTimer() },
-    [goTo, startTimer]
-  )
-
+  const handleDot = useCallback((i: number) => { goTo(i); startTimer() }, [goTo, startTimer])
   const slide = slides[current]
   const padNum = (n: number) => String(n).padStart(2, '0')
 
   return (
     <>
       <style>{`
-        .villa-slide { position: absolute; inset: 0; }
-        .villa-slide.leaving {
-          z-index: 1;
-          animation: villaFadeOut ${TRANSITION_MS}ms ease forwards;
-        }
-        .villa-slide.entering {
-          z-index: 2;
-          animation: villaFadeIn ${TRANSITION_MS}ms ease forwards;
-        }
-        .villa-slide.idle { z-index: 2; }
+        .vs { position: absolute; inset: 0; }
+        .vs.leaving { z-index: 1; animation: vsFadeOut ${TRANSITION_MS}ms ease forwards; }
+        .vs.entering { z-index: 2; animation: vsFadeIn ${TRANSITION_MS}ms ease forwards; }
+        .vs.idle { z-index: 2; }
+        @keyframes vsFadeIn { from { opacity:0; transform:scale(1.06); } to { opacity:1; transform:scale(1); } }
+        @keyframes vsFadeOut { from { opacity:1; } to { opacity:0; transform:scale(0.97); } }
 
-        @keyframes villaFadeIn {
-          from { opacity: 0; transform: scale(1.04); }
-          to   { opacity: 1; transform: scale(1); }
-        }
-        @keyframes villaFadeOut {
-          from { opacity: 1; transform: scale(1); }
-          to   { opacity: 0; transform: scale(0.97); }
-        }
+        .vs-progress { position:absolute; bottom:0; left:0; height:2px; background:linear-gradient(to right,rgba(176,141,87,0.5),rgba(201,169,110,1)); z-index:20; animation:vsProgress ${SLIDE_DURATION}ms linear forwards; }
+        @keyframes vsProgress { from{width:0%} to{width:100%} }
 
-        .villa-progress {
-          position: absolute; bottom: 0; left: 0; height: 2px;
-          background: linear-gradient(to right, rgba(176,141,87,0.5), rgba(201,169,110,1));
-          z-index: 20;
-          animation: villaProgress ${SLIDE_DURATION}ms linear forwards;
-        }
-        @keyframes villaProgress {
-          from { width: 0%; }
-          to   { width: 100%; }
-        }
+        .vs-dot { height:2px; border-radius:2px; border:none; cursor:pointer; padding:0; background:rgba(255,255,255,0.22); transition:width 0.4s cubic-bezier(.4,0,.2,1),background 0.3s; width:20px; }
+        .vs-dot.active { width:44px; background:rgba(201,169,110,1); }
+        .vs-dot:hover:not(.active) { background:rgba(255,255,255,0.5); }
 
-        .villa-content-in {
-          animation: villaContentIn 1.1s cubic-bezier(.4,0,.2,1) forwards;
-        }
-        @keyframes villaContentIn {
-          from { opacity: 0; transform: translateY(20px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
+        .vs-scroll-line { width:1px; height:36px; background:linear-gradient(180deg,rgba(201,169,110,0.9),transparent); animation:vsPulse 2.2s ease-in-out infinite; }
+        @keyframes vsPulse { 0%,100%{opacity:0.3;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(0.55)} }
 
-        .villa-dot {
-          height: 2px; border-radius: 2px; border: none; cursor: pointer; padding: 0;
-          background: rgba(255,255,255,0.25);
-          transition: width 0.4s cubic-bezier(.4,0,.2,1), background 0.35s ease;
-          width: 20px;
-        }
-        .villa-dot.active { width: 44px; background: rgba(201,169,110,1); }
-        .villa-dot:hover:not(.active) { background: rgba(255,255,255,0.55); }
+        .vs-btn-p { display:inline-flex; align-items:center; justify-content:center; padding:13px 30px; background:rgba(201,169,110,1); color:#0a0906; font-family:var(--font-lato,sans-serif); font-size:10px; letter-spacing:0.28em; text-transform:uppercase; text-decoration:none; white-space:nowrap; transition:background 0.3s,transform 0.2s; flex-shrink:0; }
+        .vs-btn-p:hover { background:#e8d5b0; transform:translateY(-1px); }
+        .vs-btn-s { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:13px 26px; border:1px solid rgba(255,255,255,0.22); color:rgba(255,255,255,0.78); font-family:var(--font-lato,sans-serif); font-size:10px; letter-spacing:0.28em; text-transform:uppercase; text-decoration:none; white-space:nowrap; transition:border-color 0.3s,color 0.3s,transform 0.2s; flex-shrink:0; }
+        .vs-btn-s:hover { border-color:rgba(201,169,110,0.6); color:rgba(201,169,110,1); transform:translateY(-1px); }
+        .vs-btn-s .arrow { transition:transform 0.3s; flex-shrink:0; }
+        .vs-btn-s:hover .arrow { transform:translateX(3px); }
 
-        .villa-scroll-line {
-          width: 1px; height: 36px;
-          background: linear-gradient(180deg, rgba(201,169,110,0.9), transparent);
-          animation: villaScrollPulse 2.2s ease-in-out infinite;
-        }
-        @keyframes villaScrollPulse {
-          0%,100% { opacity: 0.3; transform: scaleY(1); }
-          50%      { opacity: 1;  transform: scaleY(0.55); }
-        }
-
-        /* ── Button hover states ── */
-        .villa-btn-primary {
-          display: inline-flex; align-items: center; justify-content: center;
-          padding: 12px 28px;
-          background: rgba(201,169,110,1);
-          color: #0a0906;
-          font-family: var(--font-lato, sans-serif);
-          font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
-          text-decoration: none; white-space: nowrap;
-          transition: background 0.3s ease;
-          flex-shrink: 0;
-        }
-        .villa-btn-primary:hover { background: #e8d5b0; }
-
-        .villa-btn-secondary {
-          display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-          padding: 12px 24px;
-          border: 1px solid rgba(255,255,255,0.22);
-          color: rgba(255,255,255,0.78);
-          font-family: var(--font-lato, sans-serif);
-          font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
-          text-decoration: none; white-space: nowrap;
-          transition: border-color 0.3s ease, color 0.3s ease;
-          flex-shrink: 0;
-        }
-        .villa-btn-secondary:hover {
-          border-color: rgba(201,169,110,0.6);
-          color: rgba(201,169,110,1);
-        }
-        .villa-btn-secondary .arrow {
-          transition: transform 0.3s ease;
-          flex-shrink: 0;
-        }
-        .villa-btn-secondary:hover .arrow { transform: translateX(3px); }
+        .hero-orb { position:absolute; border-radius:50%; pointer-events:none; filter:blur(70px); animation:orbFloat 8s ease-in-out infinite alternate; }
+        @keyframes orbFloat { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(20px,-30px) scale(1.1)} }
       `}</style>
 
       <section
@@ -226,177 +190,124 @@ export default function HeroSlider() {
         className="relative h-screen min-h-[680px] overflow-hidden"
         style={{ background: '#06080f' }}
       >
+        {/* Ambient orbs */}
+        <div className="hero-orb" style={{ top: '-10%', left: '15%', width: '55vw', height: '55vw', background: 'radial-gradient(ellipse,rgba(201,169,110,0.09) 0%,transparent 65%)', animationDuration: '9s' }} />
+        <div className="hero-orb" style={{ bottom: '-20%', right: '5%', width: '45vw', height: '45vw', background: 'radial-gradient(ellipse,rgba(100,60,200,0.07) 0%,transparent 65%)', animationDuration: '12s', animationDelay: '-4s' }} />
+        <div className="hero-orb" style={{ top: '30%', right: '10%', width: '30vw', height: '30vw', background: 'radial-gradient(ellipse,rgba(201,169,110,0.06) 0%,transparent 65%)', animationDuration: '7s', animationDelay: '-2s' }} />
 
-        {/* ── Outgoing slide ── */}
+        {/* Particle canvas */}
+        <HeroParticles />
+
+        {/* Grid overlay */}
+        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(201,169,110,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(201,169,110,0.025) 1px,transparent 1px)', backgroundSize: '90px 90px', zIndex: 3 }} />
+
+        {/* Outgoing slide */}
         {prev !== null && (
-          <div className="villa-slide leaving" key={`prev-${prev}`}>
-            <motion.div className="absolute inset-0" style={{ y: heroY }}>
-              <Image
-                src={slides[prev].image}
-                alt={slides[prev].title}
-                fill
-                className="object-cover object-center"
-                sizes="100vw"
-              />
+          <div className="vs leaving" key={`prev-${prev}`} style={{ zIndex: 1 }}>
+            <motion.div className="absolute inset-0" style={{ y: heroY, scale: heroScale }}>
+              <Image src={slides[prev].image} alt={slides[prev].title} fill className="object-cover object-center" sizes="100vw" />
             </motion.div>
-            <div className="absolute inset-0" style={{
-              background: 'linear-gradient(105deg, rgba(5,7,14,0.93) 0%, rgba(5,7,14,0.62) 45%, rgba(5,7,14,0.14) 100%)',
-            }} />
-            <div className="absolute inset-0" style={{
-              background: 'linear-gradient(to top, rgba(5,7,14,0.90) 0%, rgba(5,7,14,0.18) 30%, transparent 55%)',
-            }} />
+            <div className="absolute inset-0" style={{ background: 'linear-gradient(105deg,rgba(5,7,14,0.93) 0%,rgba(5,7,14,0.62) 45%,rgba(5,7,14,0.14) 100%)' }} />
+            <div className="absolute inset-0" style={{ background: 'linear-gradient(to top,rgba(5,7,14,0.90) 0%,rgba(5,7,14,0.18) 30%,transparent 55%)' }} />
           </div>
         )}
 
-        {/* ── Active slide ── */}
-        <div
-          className={`villa-slide ${transitioning ? 'entering' : 'idle'}`}
-          key={`curr-${current}`}
-        >
-          <motion.div className="absolute inset-0" style={{ y: heroY }}>
-            <Image
-              src={slide.image}
-              alt={slide.title}
-              fill
-              priority={current === 0}
-              className="object-cover object-center"
-              sizes="100vw"
-            />
+        {/* Active slide */}
+        <div className={`vs ${transitioning ? 'entering' : 'idle'}`} key={`curr-${current}`} style={{ zIndex: 2 }}>
+          <motion.div className="absolute inset-0" style={{ y: heroY, scale: heroScale }}>
+            <Image src={slide.image} alt={slide.title} fill priority={current === 0} className="object-cover object-center" sizes="100vw" />
           </motion.div>
-          <div className="absolute inset-0" style={{
-            background: 'linear-gradient(105deg, rgba(5,7,14,0.93) 0%, rgba(5,7,14,0.62) 45%, rgba(5,7,14,0.12) 100%)',
-          }} />
-          <div className="absolute inset-0" style={{
-            background: 'linear-gradient(to top, rgba(5,7,14,0.92) 0%, rgba(5,7,14,0.18) 30%, rgba(5,7,14,0.32) 100%)',
-          }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(105deg,rgba(5,7,14,0.93) 0%,rgba(5,7,14,0.60) 45%,rgba(5,7,14,0.12) 100%)' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to top,rgba(5,7,14,0.92) 0%,rgba(5,7,14,0.18) 30%,rgba(5,7,14,0.30) 100%)' }} />
         </div>
 
-        {/* ── Decorative vertical line (desktop) ── */}
+        {/* Decorative vertical line */}
         <motion.div
-          initial={{ scaleY: 0 }}
-          animate={{ scaleY: 1 }}
-          transition={{ duration: 1.2, delay: 0.3, ease: 'easeOut' }}
-          className="absolute left-10 top-0 h-full w-px hidden lg:block z-10"
-          style={{
-            originY: '0',
-            background: 'linear-gradient(to bottom, transparent, rgba(176,141,87,0.35) 30%, rgba(176,141,87,0.35) 70%, transparent)',
-          }}
+          initial={{ scaleY: 0 }} animate={{ scaleY: 1 }} transition={{ duration: 1.4, delay: 0.3, ease: 'easeOut' }}
+          className="absolute left-10 top-0 h-full w-px hidden lg:block"
+          style={{ originY: '0', background: 'linear-gradient(to bottom,transparent,rgba(176,141,87,0.3) 25%,rgba(176,141,87,0.3) 75%,transparent)', zIndex: 10 }}
         />
 
-        {/* ── Hero Content ── */}
-        <motion.div
-          className="relative z-10 h-full flex flex-col justify-center"
-          style={{ opacity: heroOpacity }}
-        >
-          {/* Content wrapper — constrained width, left aligned */}
-          <div
-            className="px-8 sm:px-12 md:px-16 lg:px-24"
-            style={{ maxWidth: '680px' }}
-          >
-            <div
-              key={`content-${current}`}
-              className={transitioning ? 'villa-content-in' : ''}
-            >
+        {/* Hero Content */}
+        <motion.div className="relative h-full flex flex-col justify-center" style={{ opacity: heroOpacity, zIndex: 10 }}>
+          <div className="px-8 sm:px-12 md:px-16 lg:px-24" style={{ maxWidth: '720px' }}>
+            <div key={`content-${current}`}>
               {/* Eyebrow */}
-              <motion.div
-                initial={{ opacity: 0, x: -16 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.7, delay: 0.4 }}
-                className="flex items-center gap-3 mb-5"
-              >
-                <span
-                  className="block h-px w-8"
-                  style={{ background: 'rgba(176,141,87,0.75)', flexShrink: 0 }}
-                />
-                <p
-                  className="font-lato text-[10px] tracking-[0.38em] uppercase"
-                  style={{ color: 'rgba(201,169,110,0.95)' }}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`eyebrow-${current}`}
+                  initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className="flex items-center gap-3 mb-6"
                 >
-                  {slide.eyebrow}
-                </p>
-              </motion.div>
+                  <span className="block h-px w-10" style={{ background: 'linear-gradient(to right,transparent,rgba(176,141,87,0.8))' }} />
+                  <p className="font-lato text-[10px] tracking-[0.42em] uppercase" style={{ color: 'rgba(201,169,110,0.9)' }}>{slide.eyebrow}</p>
+                  <span className="block h-px w-5" style={{ background: 'rgba(176,141,87,0.3)' }} />
+                </motion.div>
+              </AnimatePresence>
 
-              {/* Headline */}
-              <motion.h1
-                initial={{ opacity: 0, y: 32 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, delay: 0.55 }}
-                className="font-playfair mb-5"
-                style={{ lineHeight: 1 }}
-              >
-                {/* Supporting intro — small, tracked, muted */}
-                <span
-                  style={{
-                    display: 'block',
-                    fontSize: 'clamp(0.85rem, 1.8vw, 1.25rem)',
-                    fontWeight: 400,
-                    letterSpacing: '0.22em',
-                    textTransform: 'uppercase',
-                    color: 'rgba(255,255,255,0.55)',
-                    lineHeight: 1.2,
-                    marginBottom: '0.3em',
-                  }}
-                >
-                  {slide.title}
-                </span>
+              {/* 3D letter headline */}
+              <div style={{ perspective: '900px', marginBottom: '1.25rem' }}>
+                <div className="font-lato mb-1" style={{ fontSize: 'clamp(0.82rem,1.8vw,1.2rem)', fontWeight: 400, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', lineHeight: 1.2 }}>
+                  <AnimatePresence mode="wait">
+                    <motion.span key={`t-${current}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
+                      {slide.title}
+                    </motion.span>
+                  </AnimatePresence>
+                </div>
 
-                {/* Hero word — dominant bold italic, gold */}
-                <span
-                  style={{
-                    display: 'block',
-                    fontSize: 'clamp(3.8rem, 9vw, 7.2rem)',
-                    fontWeight: 800,
-                    fontStyle: 'italic',
-                    color: 'rgba(201,169,110,1)',
-                    letterSpacing: '-0.02em',
-                    lineHeight: 0.92,
-                    marginBottom: '0.18em',
-                  }}
-                >
-                  {slide.titleItalic}
-                </span>
+                <div className="overflow-visible" style={{ lineHeight: 0.9, marginBottom: '0.15em' }}>
+                  {slide.titleItalic.split('').map((ch, ci) => (
+                    <motion.span
+                      key={`${current}-italic-${ci}`}
+                      custom={ci}
+                      variants={letterVars}
+                      initial="hidden"
+                      animate="visible"
+                      className="inline-block font-playfair"
+                      style={{
+                        fontSize: 'clamp(3.6rem,8.5vw,7rem)',
+                        fontWeight: 800,
+                        fontStyle: 'italic',
+                        color: 'rgba(201,169,110,1)',
+                        letterSpacing: ch === ' ' ? '0.15em' : '-0.02em',
+                        transformOrigin: 'top center',
+                        textShadow: '0 0 40px rgba(201,169,110,0.35), 0 0 80px rgba(201,169,110,0.15)',
+                      }}
+                    >
+                      {ch === ' ' ? ' ' : ch}
+                    </motion.span>
+                  ))}
+                </div>
 
-                {/* Closing line — medium, tracked, white */}
-                <span
-                  style={{
-                    display: 'block',
-                    fontSize: 'clamp(1rem, 2.2vw, 1.6rem)',
-                    fontWeight: 700,
-                    letterSpacing: '0.18em',
-                    textTransform: 'uppercase',
-                    color: 'rgba(255,255,255,0.88)',
-                    lineHeight: 1.2,
-                  }}
-                >
-                  {slide.titleEnd}
-                </span>
-              </motion.h1>
+                <div className="font-lato" style={{ fontSize: 'clamp(1rem,2.2vw,1.6rem)', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.88)', lineHeight: 1.2 }}>
+                  <AnimatePresence mode="wait">
+                    <motion.span key={`te-${current}`} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5, delay: 0.4 }}>
+                      {slide.titleEnd}
+                    </motion.span>
+                  </AnimatePresence>
+                </div>
+              </div>
 
               {/* Divider */}
               <motion.div
-                initial={{ scaleX: 0, opacity: 0 }}
-                animate={{ scaleX: 1, opacity: 1 }}
-                transition={{ duration: 0.65, delay: 0.8 }}
-                style={{ originX: '0' }}
-                className="flex items-center gap-3 mb-5"
+                initial={{ scaleX: 0, opacity: 0 }} animate={{ scaleX: 1, opacity: 1 }}
+                transition={{ duration: 0.7, delay: 0.85 }} style={{ originX: '0' }}
+                className="flex items-center gap-3 mb-7"
               >
-                <span className="block h-px w-14" style={{ background: 'rgba(176,141,87,0.48)' }} />
-                <span className="block w-1.5 h-1.5 rotate-45" style={{ background: 'rgba(176,141,87,0.65)' }} />
-                <span className="block h-px w-5" style={{ background: 'rgba(176,141,87,0.26)' }} />
+                <span className="block h-px w-16" style={{ background: 'rgba(176,141,87,0.45)' }} />
+                <span className="block w-1.5 h-1.5 rotate-45 flex-shrink-0" style={{ background: 'rgba(176,141,87,0.7)' }} />
+                <span className="block h-px w-6" style={{ background: 'rgba(176,141,87,0.22)' }} />
               </motion.div>
 
-
-              {/* ── CTA Buttons ── */}
+              {/* CTA Buttons */}
               <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 1.1 }}
+                initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 1.05 }}
                 style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}
               >
-                <a href={slide.cta.href} className="villa-btn-primary">
-                  {slide.cta.label}
-                </a>
-                <a href={slide.ctaSecondary.href} className="villa-btn-secondary">
+                <a href={slide.cta.href} className="vs-btn-p">{slide.cta.label}</a>
+                <a href={slide.ctaSecondary.href} className="vs-btn-s">
                   {slide.ctaSecondary.label}
                   <HiArrowRight size={11} className="arrow" />
                 </a>
@@ -405,83 +316,40 @@ export default function HeroSlider() {
           </div>
         </motion.div>
 
-        {/* ── Top-right ornament (desktop) ── */}
+        {/* Top-right ornament */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.6 }}
-          className="absolute top-8 right-8 hidden lg:flex flex-col items-end gap-1.5 z-10"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 1.8 }}
+          className="absolute top-8 right-8 hidden lg:flex flex-col items-end gap-1.5"
+          style={{ zIndex: 10 }}
         >
-          <span className="block h-px w-14" style={{ background: 'rgba(176,141,87,0.22)' }} />
-          <span className="block h-px w-7" style={{ background: 'rgba(176,141,87,0.13)' }} />
+          <span className="block h-px w-16" style={{ background: 'rgba(176,141,87,0.2)' }} />
+          <span className="block h-px w-8" style={{ background: 'rgba(176,141,87,0.12)' }} />
         </motion.div>
 
-        {/* ── Bottom HUD ── */}
-        <div
-          className="absolute bottom-0 left-0 right-0 z-20"
-          style={{ padding: '0 2rem 2rem' }}
-        >
-          {/* Slide counter — left */}
-          <div
-            className="hidden sm:flex flex-col leading-none absolute"
-            style={{ left: '2rem', bottom: '2rem' }}
-          >
-            <span
-              className="font-playfair italic"
-              style={{ fontSize: '1.4rem', color: 'rgba(201,169,110,0.85)' }}
-            >
-              {padNum(current + 1)}
-            </span>
-            <span
-              className="font-lato mt-1"
-              style={{ fontSize: '10px', letterSpacing: '0.15em', color: 'rgba(255,255,255,0.25)' }}
-            >
-              / {padNum(TOTAL)}
-            </span>
+        {/* Bottom HUD */}
+        <div className="absolute bottom-0 left-0 right-0" style={{ padding: '0 2rem 2rem', zIndex: 20 }}>
+          {/* Slide counter */}
+          <div className="hidden sm:flex flex-col leading-none absolute" style={{ left: '2rem', bottom: '2rem' }}>
+            <span className="font-playfair italic" style={{ fontSize: '1.4rem', color: 'rgba(201,169,110,0.85)' }}>{padNum(current + 1)}</span>
+            <span className="font-lato mt-1" style={{ fontSize: '10px', letterSpacing: '0.15em', color: 'rgba(255,255,255,0.22)' }}>/ {padNum(TOTAL)}</span>
           </div>
 
-          {/* Dots — centered */}
-          <div
-            className="absolute flex items-center gap-2"
-            style={{
-              left: '50%',
-              bottom: '2.2rem',
-              transform: 'translateX(-50%)',
-            }}
-          >
+          {/* Dots */}
+          <div className="absolute flex items-center gap-2" style={{ left: '50%', bottom: '2.2rem', transform: 'translateX(-50%)' }}>
             {slides.map((_, i) => (
-              <button
-                key={i}
-                className={`villa-dot ${i === current ? 'active' : ''}`}
-                onClick={() => handleDot(i)}
-                aria-label={`Slide ${i + 1}`}
-              />
+              <button key={i} className={`vs-dot ${i === current ? 'active' : ''}`} onClick={() => handleDot(i)} aria-label={`Slide ${i + 1}`} />
             ))}
           </div>
 
-          {/* Scroll hint — right (desktop) */}
-          <div
-            className="hidden md:flex flex-col items-center gap-2 absolute"
-            style={{ right: '2rem', bottom: '2rem', opacity: 0.45 }}
-          >
-            <span
-              className="font-lato"
-              style={{
-                fontSize: '8px',
-                letterSpacing: '0.3em',
-                textTransform: 'uppercase',
-                writingMode: 'vertical-rl',
-                color: 'rgba(255,255,255,0.6)',
-              }}
-            >
-              Scroll
-            </span>
-            <div className="villa-scroll-line" />
+          {/* Scroll hint */}
+          <div className="hidden md:flex flex-col items-center gap-2 absolute" style={{ right: '2rem', bottom: '2rem', opacity: 0.4 }}>
+            <span className="font-lato" style={{ fontSize: '8px', letterSpacing: '0.3em', textTransform: 'uppercase', writingMode: 'vertical-rl', color: 'rgba(255,255,255,0.6)' }}>Scroll</span>
+            <div className="vs-scroll-line" />
           </div>
         </div>
 
-        {/* ── Progress bar ── */}
-        <div className="villa-progress" key={`prog-${current}`} />
+        {/* Progress bar */}
+        <div className="vs-progress" key={`prog-${current}`} />
       </section>
     </>
   )

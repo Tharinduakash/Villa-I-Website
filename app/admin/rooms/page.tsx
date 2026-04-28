@@ -23,7 +23,7 @@ export default function AdminRoomsPage() {
   const [togglingId, setTogglingId] = useState<string | null>(null)
 
   const fetchRooms = () =>
-    fetch('/api/rooms')
+    fetch('/api/rooms', { cache: 'no-store' })
       .then((r) => r.json())
       .then((data) => { setRooms(Array.isArray(data) ? data : []); setLoading(false) })
       .catch(() => setLoading(false))

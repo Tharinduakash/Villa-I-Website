@@ -38,7 +38,7 @@ export default function AdminServicesPage() {
   const watchedImage = watch('image')
 
   const fetchServices = () =>
-    fetch('/api/services')
+    fetch('/api/services', { cache: 'no-store' })
       .then((r) => r.json())
       .then((data) => { setServices(Array.isArray(data) ? data : []); setLoading(false) })
       .catch(() => setLoading(false))

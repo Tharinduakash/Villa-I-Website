@@ -87,7 +87,6 @@ export default function RoomForm({ defaultValues, roomId }: Props) {
     }
 
     router.push('/admin/rooms')
-    router.refresh()
   }
 
   const inputClass = "w-full px-4 py-2.5 font-lato text-sm text-white outline-none transition-colors duration-200"

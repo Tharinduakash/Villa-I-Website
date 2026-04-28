@@ -1,7 +1,10 @@
 'use client'
 import { usePathname } from 'next/navigation'
+import dynamic from 'next/dynamic'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+
+const GlobalParticleCanvas = dynamic(() => import('@/components/three/GlobalParticleCanvas'), { ssr: false })
 
 export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
@@ -13,8 +16,9 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
 
   return (
     <>
+      <GlobalParticleCanvas />
       <Navbar />
-      <main>{children}</main>
+      <main style={{ position: 'relative', zIndex: 1 }}>{children}</main>
       <Footer />
     </>
   )

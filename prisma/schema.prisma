@@ -82,3 +82,17 @@ model Subscription {
   email     String   @unique
   createdAt DateTime @default(now())
 }
+
+model GalleryReview {
+  id        String   @id @default(cuid())
+  guestName String
+  email     String
+  title     String
+  image     String?
+  roomType  String
+  rating    Int
+  review    String
+  approved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

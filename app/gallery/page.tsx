@@ -1,19 +1,30 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'framer-motion'
 import { GALLERY_PHOTOS, GalleryPhoto } from '@/components/Gallery'
+import ReviewModal from '@/components/ReviewModal'
 
 const GOLD     = 'rgba(201,169,110,1)'
 const GOLD_DIM = 'rgba(176,141,87,0.55)'
 
 const ROOM_TYPES = ['All', 'A/C Room', 'Non A/C Room', 'Family Room', 'Full Villa']
-const YEARS      = ['All', '2025', '2024']
 const PAGE_SIZE  = 12
 
 const H: Record<number, string> = { 1: '160px', 2: '240px', 3: '320px' }
+
+interface DbReview {
+  id: string
+  guestName: string
+  title: string
+  image: string | null
+  roomType: string
+  rating: number
+  review: string
+  createdAt: string
+}
 
 function Pill({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
   return (
@@ -56,7 +67,7 @@ function PhotoCard({ photo, index }: { photo: GalleryPhoto; index: number }) {
         onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(176,141,87,0.10)'; e.currentTarget.style.boxShadow = '0 2px 20px rgba(0,0,0,0.5)' }}
       >
         <Image
-          src={photo.image} alt={photo.title} fill
+          src={photo.image} alt={photo.title} fill unoptimized
           sizes="(max-width:640px) 50vw, (max-width:1024px) 25vw, 17vw"
           className="object-cover object-center transition-transform duration-600 group-hover:scale-105"
         />
@@ -91,7 +102,7 @@ function PhotoCard({ photo, index }: { photo: GalleryPhoto; index: number }) {
           <h3 className="font-playfair text-white text-[11px] leading-snug mb-1 line-clamp-1">{photo.title}</h3>
           {photo.review && (
             <p className="font-lato text-[9px] leading-relaxed italic line-clamp-1 mb-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ color: 'rgba(255,255,255,0.50)' }}>
-              "{photo.review}"
+              &ldquo;{photo.review}&rdquo;
             </p>
           )}
           <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -112,9 +123,42 @@ export default function GalleryPage() {
   const [search,   setSearch]   = useState('')
   const [page,     setPage]     = useState(1)
   const [focused,  setFocused]  = useState(false)
+  const [showModal, setShowModal] = useState(false)
+  const [dbReviews, setDbReviews] = useState<DbReview[]>([])
+
+  // Fetch approved customer reviews from DB
+  useEffect(() => {
+    fetch('/api/gallery/reviews?approved=true', { cache: 'no-store' })
+      .then((r) => r.json())
+      .then((data) => setDbReviews(Array.isArray(data) ? data : []))
+      .catch(() => {})
+  }, [])
+
+  // Convert DB reviews to GalleryPhoto format and combine with static photos
+  const allPhotos = useMemo<GalleryPhoto[]>(() => {
+    const SPANS: (1 | 2 | 3)[] = [2, 1, 3, 2, 1, 2]
+    const dbAsPhotos: GalleryPhoto[] = dbReviews.map((r, i) => ({
+      id: `review-${r.id}` as unknown as number,
+      title: r.title,
+      image: r.image || 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=85',
+      guestName: r.guestName,
+      roomType: r.roomType,
+      rating: r.rating,
+      review: r.review,
+      year: new Date(r.createdAt).getFullYear(),
+      span: SPANS[i % SPANS.length],
+    }))
+    return [...GALLERY_PHOTOS, ...dbAsPhotos]
+  }, [dbReviews])
+
+  // Dynamic years from all photos
+  const YEARS = useMemo(() => {
+    const years = new Set(allPhotos.map((p) => String(p.year)).filter(Boolean))
+    return ['All', ...Array.from(years).sort((a, b) => Number(b) - Number(a))]
+  }, [allPhotos])
 
   const filtered = useMemo(() =>
-    GALLERY_PHOTOS.filter((p) => {
+    allPhotos.filter((p) => {
       const rOk = roomType === 'All' || p.roomType === roomType
       const yOk = year     === 'All' || String(p.year) === year
       const sOk = !search  ||
@@ -122,7 +166,7 @@ export default function GalleryPage() {
         p.guestName.toLowerCase().includes(search.toLowerCase()) ||
         (p.roomType ?? '').toLowerCase().includes(search.toLowerCase())
       return rOk && yOk && sOk
-    }), [roomType, year, search])
+    }), [allPhotos, roomType, year, search])
 
   const paginated  = filtered.slice(0, page * PAGE_SIZE)
   const hasMore    = paginated.length < filtered.length
@@ -131,6 +175,8 @@ export default function GalleryPage() {
 
   return (
     <>
+      {showModal && <ReviewModal onClose={() => setShowModal(false)} />}
+
       <style>{`
         @keyframes hgFadeUp { from { opacity:0; transform:translateY(14px) } to { opacity:1; transform:translateY(0) } }
         .hgp-masonry { columns: 3; column-gap: 8px; }
@@ -170,8 +216,6 @@ export default function GalleryPage() {
                   <p className="font-lato text-[10px] tracking-[0.4em] uppercase" style={{ color: GOLD_DIM }}>Guest Memories</p>
                 </div>
                 <h1 className="font-playfair text-white leading-none" style={{ fontSize: 'clamp(2.4rem, 6.5vw, 5rem)' }}>
-                  VILLA i,
-                  <br />
                   <span className="italic" style={{ color: GOLD }}>Your Moments.</span>
                 </h1>
                 <div className="h-px w-14 mt-4" style={{ background: `linear-gradient(to right, ${GOLD}, rgba(176,141,87,0.2))` }} />
@@ -180,18 +224,32 @@ export default function GalleryPage() {
                 </p>
               </div>
 
-              {/* Stats */}
-              <div className="flex gap-10 shrink-0">
-                {[
-                  { n: `${GALLERY_PHOTOS.length}+`, l: 'Photos' },
-                  { n: '4', l: 'Room Types' },
-                  { n: '4.9★', l: 'Avg Rating' },
-                ].map(({ n, l }) => (
-                  <div key={l} className="group flex flex-col gap-1 cursor-default">
-                    <span className="font-playfair text-2xl md:text-3xl group-hover:text-luxury-gold transition-colors duration-300" style={{ color: GOLD }}>{n}</span>
-                    <span className="font-lato text-[9px] tracking-[0.22em] uppercase" style={{ color: 'rgba(255,255,255,0.28)' }}>{l}</span>
-                  </div>
-                ))}
+              {/* Stats + Share button */}
+              <div className="flex flex-col gap-6 shrink-0 items-start lg:items-end">
+                <div className="flex gap-10">
+                  {[
+                    { n: `${allPhotos.length}+`, l: 'Photos' },
+                    { n: '4', l: 'Room Types' },
+                    { n: '4.9★', l: 'Avg Rating' },
+                  ].map(({ n, l }) => (
+                    <div key={l} className="group flex flex-col gap-1 cursor-default">
+                      <span className="font-playfair text-2xl md:text-3xl group-hover:text-luxury-gold transition-colors duration-300" style={{ color: GOLD }}>{n}</span>
+                      <span className="font-lato text-[9px] tracking-[0.22em] uppercase" style={{ color: 'rgba(255,255,255,0.28)' }}>{l}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Share Your Experience button */}
+                <button
+                  onClick={() => setShowModal(true)}
+                  className="group inline-flex items-center gap-3 font-lato text-xs tracking-[0.25em] uppercase px-7 py-3.5 transition-all duration-300"
+                  style={{ border: `1px solid rgba(201,169,110,0.55)`, color: GOLD }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = GOLD; e.currentTarget.style.color = '#0a0906' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = GOLD }}
+                >
+                  <span className="text-base leading-none">✦</span>
+                  Share Your Experience
+                </button>
               </div>
             </div>
           </div>
@@ -266,7 +324,7 @@ export default function GalleryPage() {
                   exit={{ opacity: 0 }} transition={{ duration: 0.25 }}
                   className="hgp-masonry"
                 >
-                  {paginated.map((photo, i) => <PhotoCard key={photo.id} photo={photo} index={i} />)}
+                  {paginated.map((photo, i) => <PhotoCard key={String(photo.id)} photo={photo} index={i} />)}
                 </motion.div>
               </AnimatePresence>
 
@@ -295,6 +353,31 @@ export default function GalleryPage() {
               )}
             </>
           )}
+        </div>
+
+        {/* ── Share CTA (bottom) ── */}
+        <div
+          className="relative z-10 mx-6 lg:mx-10 mb-16 max-w-7xl lg:mx-auto"
+          style={{ background: 'linear-gradient(135deg, rgba(11,14,26,0.9) 0%, rgba(7,9,17,0.9) 100%)', border: '1px solid rgba(201,169,110,0.18)', padding: '2.5rem' }}
+        >
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div>
+              <p className="font-lato text-[9px] tracking-[0.4em] uppercase mb-2" style={{ color: GOLD_DIM }}>Your Turn</p>
+              <h3 className="font-playfair text-xl text-white mb-1">Stayed at Villa i?</h3>
+              <p className="font-lato text-sm" style={{ color: 'rgba(255,255,255,0.38)' }}>
+                Share your photos and memories with fellow travellers.
+              </p>
+            </div>
+            <button
+              onClick={() => setShowModal(true)}
+              className="flex-shrink-0 font-lato text-xs tracking-[0.28em] uppercase px-8 py-3.5 transition-all duration-300"
+              style={{ background: GOLD, color: '#0a0906' }}
+              onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.85')}
+              onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+            >
+              Submit Your Review
+            </button>
+          </div>
         </div>
       </div>
     </>

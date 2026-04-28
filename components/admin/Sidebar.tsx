@@ -11,16 +11,18 @@ import {
   LogOut,
   Menu,
   X,
+  Images,
 } from 'lucide-react'
 import { useState } from 'react'
 
 const navItems = [
-  { href: '/admin/dashboard',     label: 'Dashboard',     icon: LayoutDashboard },
-  { href: '/admin/rooms',         label: 'Rooms',         icon: BedDouble },
-  { href: '/admin/services',      label: 'Services',      icon: Sparkles },
-  { href: '/admin/bookings',      label: 'Bookings',      icon: CalendarCheck },
-  { href: '/admin/inquiries',     label: 'Inquiries',     icon: MessageSquare },
-  { href: '/admin/subscriptions', label: 'Subscriptions', icon: Mail },
+  { href: '/admin/dashboard',     label: 'Dashboard',       icon: LayoutDashboard },
+  { href: '/admin/rooms',         label: 'Rooms',           icon: BedDouble },
+  { href: '/admin/services',      label: 'Services',        icon: Sparkles },
+  { href: '/admin/gallery',       label: 'Gallery Reviews', icon: Images },
+  { href: '/admin/bookings',      label: 'Bookings',        icon: CalendarCheck },
+  { href: '/admin/inquiries',     label: 'Inquiries',       icon: MessageSquare },
+  { href: '/admin/subscriptions', label: 'Subscriptions',   icon: Mail },
 ]
 
 export default function Sidebar() {
