@@ -2,9 +2,9 @@
 import AnimatedSection from '@/components/AnimatedSection'
 
 const values = [
-  { label: 'Established', value: '2010' },
-  { label: 'Happy Guests', value: '5000+' },
-  { label: 'To the Beach', value: '100m' },
+  { label: 'Established', value: '2026' },
+  { label: 'Happy Guests', value: '100+' },
+  { label: 'To the Beach', value: '50m' },
   { label: 'Room Types', value: '4' },
 ]
 

@@ -11,7 +11,7 @@ export default function BookingBanner() {
       {/* ── Background image ─────────────────────────────────────── */}
       <div className="absolute inset-0">
         <Image
-          src="/webp/room1.jpg"
+          src="/webp/beach.avif"
           alt="Mount Lavinia Beach"
           fill
           className="object-cover object-center"
@@ -209,7 +209,7 @@ export default function BookingBanner() {
           style={{ borderTop: '1px solid rgba(201,169,110,0.1)' }}
         >
           {[
-            { value: '100m', label: 'To the Beach' },
+            { value: '50m', label: 'To the Beach' },
             { value: '4.9★', label: 'Guest Rating' },
             { value: '24/7', label: 'Support' },
           ].map((item) => (

@@ -16,7 +16,7 @@ export default function AboutIntro() {
             </h2>
             <p className="text-white/60 font-lato text-base leading-relaxed mb-5">
               Villa i Hotel is a boutique luxury retreat nestled in the heart of Mount Lavinia, Sri Lanka.
-              Located just 100 metres from the Indian Ocean, we offer a rare combination of privacy,
+              Located just 50 metres from the Indian Ocean, we offer a rare combination of privacy,
               comfort, and authentic Sri Lankan hospitality.
             </p>
             <p className="text-white/60 font-lato text-base leading-relaxed mb-8">
@@ -44,7 +44,7 @@ export default function AboutIntro() {
                 />
               </div>
               <div className="absolute -bottom-6 -left-6 bg-luxury-dark border border-luxury-gold/30 p-6">
-                <p className="text-luxury-gold font-playfair text-3xl font-bold">14+</p>
+                <p className="text-luxury-gold font-playfair text-3xl font-bold">10+</p>
                 <p className="text-white/50 font-lato text-xs tracking-wide mt-1">Years of Excellence</p>
               </div>
             </div>

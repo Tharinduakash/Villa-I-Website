@@ -47,7 +47,7 @@ export default function Gallery() {
           </h2>
 
           <p className="font-lato text-sm leading-relaxed max-w-md" style={{ color: 'rgba(255,255,255,0.4)' }}>
-            From sun-drenched mornings to candlelit evenings — every corner of Villa i tells a story.
+            Experience the vibrant tapestry of life at Villa i Hotel through our curated gallery. Each image captures the essence of our luxurious accommodations, breathtaking surroundings, and unforgettable moments shared by our guests. 
           </p>
 
           {/* Divider ornament */}
@@ -78,8 +78,9 @@ export default function Gallery() {
                 src={img.src}
                 alt={img.alt}
                 fill
+                quality={100}
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07]"
-                sizes="(max-width: 768px) 50vw, 33vw"
+                sizes={i === 0 ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 50vw, 33vw"}
               />
 
               {/* Base dark vignette — always present, subtle */}
@@ -87,7 +88,7 @@ export default function Gallery() {
                 className="absolute inset-0"
                 style={{
                   background:
-                    'linear-gradient(to top, rgba(5,7,14,0.60) 0%, rgba(5,7,14,0.08) 50%, transparent 100%)',
+                    'linear-gradient(to top, rgba(0,0,0,0.60) 0%, rgba(0,0,0,0.08) 50%, transparent 100%)',
                 }}
               />
 
@@ -96,7 +97,7 @@ export default function Gallery() {
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                 style={{
                   background:
-                    'linear-gradient(to top, rgba(5,7,14,0.90) 0%, rgba(5,7,14,0.35) 50%, rgba(176,141,87,0.06) 100%)',
+                    'linear-gradient(to top, rgba(0,0,0,0.90) 0%, rgba(0,0,0,0.35) 50%, rgba(176,141,87,0.06) 100%)',
                 }}
               />
 

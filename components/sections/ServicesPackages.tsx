@@ -4,24 +4,24 @@ import AnimatedSection from '@/components/AnimatedSection'
 
 const packages = [
   {
-    name: 'Beach Escape',
+    name: 'DayOut',
     subtitle: 'Ideal for Couples',
-    price: 'From $80/night',
+    price: 'From 8500/night',
     features: ['A/C Room', 'Daily Breakfast', 'Beach Access', 'Welcome Drink', 'Free WiFi'],
     highlight: false,
   },
   {
     name: 'Family Retreat',
     subtitle: 'Perfect for Families',
-    price: 'From $130/night',
-    features: ['Family Suite', 'Full Board Meals', 'Beach Access', 'Children Activities', 'Airport Transfer'],
+    price: 'From 25000/night',
+    features: ['Family Suite', 'Full Board Meals', 'Beach Access', 'Outdoor Area', 'Welcome Drinks'],
     highlight: true,
   },
   {
     name: 'Villa Exclusive',
     subtitle: 'For Groups & Events',
-    price: 'From $300/night',
-    features: ['Full Villa', 'All Meals Included', 'Private Garden', 'Concierge Service', 'Event Setup'],
+    price: 'From 45000/night',
+    features: ['Full Villa', 'All Meals Included', 'Welcome Drinks', 'Concierge Service', 'Event Setup'],
     highlight: false,
   },
 ]

@@ -6,7 +6,7 @@ import { Clock, Star, MapPin } from 'lucide-react'
 const stats = [
   { icon: Clock,  value: '24h',  label: 'Response Time' },
   { icon: Star,   value: '5★',   label: 'Guest Rating'  },
-  { icon: MapPin, value: '100m', label: 'From Beach'    },
+  { icon: MapPin, value: '50m', label: 'From Beach'    },
 ]
 
 export default function ContactHero() {

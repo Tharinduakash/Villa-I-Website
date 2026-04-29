@@ -169,14 +169,14 @@ export default function ContactSection() {
     {
       icon: <MdLocationOn size={15} />,
       label: 'Address',
-      value: 'Mount Lavinia, Colombo\nSri Lanka',
+      value: '37/1/1 Sri,\nDharmapala Road,\nMount Lavinia.',
       href: '#map',
     },
     {
       icon: <MdPhone size={15} />,
-      label: 'Phone',
-      value: '+94 XX XXX XXXX',
-      href: 'tel:+94XXXXXXXXX',
+      label: 'Telephone',
+      value: '0112714701 / +94 77 786 3412 ',
+      href: 'tel:0112714701',
     },
     {
       icon: <MdEmail size={15} />,
@@ -188,7 +188,7 @@ export default function ContactSection() {
       icon: <FaWhatsapp size={15} />,
       label: 'WhatsApp',
       value: 'Message Us Directly',
-      href: 'https://wa.me/94XXXXXXXXX',
+      href: 'https://wa.me/94777863412',
     },
   ]
 
@@ -198,7 +198,7 @@ export default function ContactSection() {
     { icon: <FaTripadvisor size={16} />,   href: '#', label: 'TripAdvisor', hover: 'hover:border-green-500/40  hover:text-green-400' },
     { icon: <SiBookingdotcom size={16} />, href: '#', label: 'Booking.com', hover: 'hover:border-blue-600/40   hover:text-blue-500' },
     { icon: <AgodaIcon size={16} />,       href: '#', label: 'Agoda',       hover: 'hover:border-red-500/40    hover:text-red-400' },
-    { icon: <FaWhatsapp size={16} />,      href: 'https://wa.me/94XXXXXXXXX', label: 'WhatsApp', hover: 'hover:border-green-500/40 hover:text-green-400' },
+    { icon: <FaWhatsapp size={16} />,      href: 'https://wa.me/94777863412', label: 'WhatsApp', hover: 'hover:border-green-500/40 hover:text-green-400' },
   ]
 
   return (

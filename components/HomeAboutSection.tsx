@@ -10,7 +10,7 @@ const stats = [
   { value: '10+',  label: 'Years of Hospitality' },
   { value: '1K+',  label: 'Happy Guests'          },
   { value: '4.9',  label: 'Guest Rating'           },
-  { value: '100m', label: 'From the Beach'         },
+  { value: '50m', label: 'From the Beach'         },
 ]
 
 const highlights = [
@@ -141,7 +141,7 @@ export default function HomeAboutSection() {
             <motion.span className="block h-px w-12" style={{ background: GOLD_DIM }} initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.3 }} />
           </div>
           <h2 className="font-playfair text-white leading-tight" style={{ fontSize: 'clamp(2rem,5vw,3.5rem)', textShadow: '0 0 80px rgba(201,169,110,0.1)' }}>
-            More Than a Hotel —
+            More Than a Hotel
             <br />
             <motion.span
               className="italic"
@@ -193,7 +193,7 @@ export default function HomeAboutSection() {
               </div>
 
               <div className="space-y-3 font-lato text-sm leading-relaxed mb-8" style={{ color: 'rgba(255,255,255,0.44)' }}>
-                <p>Villa i Hotel was born from a passion for Sri Lankan hospitality and a love of the sea. What began as a family home steps from the beach in Mount Lavinia has grown into a cherished coastal retreat for guests from around the world.</p>
+                <p>Villa I Hotel was born from a passion for Sri Lankan hospitality and a love of the sea. What began as a family home steps from the beach in Mount Lavinia has grown into a cherished coastal retreat for guests from around the world.</p>
                 <p>We believe luxury isn't about grandeur — it's about the warmth of a welcome, the taste of a home-cooked meal, and waking up to the sound of the Indian Ocean.</p>
               </div>
 
@@ -236,7 +236,7 @@ export default function HomeAboutSection() {
               src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=800&q=85"
               alt="Mount Lavinia Beach"
               caption="Location"
-              sub="100m from the Indian Ocean"
+              sub="50m from the Indian Ocean"
               delay={0.1}
             />
           </motion.div>

@@ -6,7 +6,7 @@ export const rooms = [
     description:
       'A serene retreat with modern amenities and cooling comfort. Perfect for couples and solo travelers seeking a refreshing stay near the beach.',
     features: ['Air Conditioning', 'Private Bathroom', 'Sea-view Balcony', 'Mini Bar', 'Smart TV', 'Free WiFi'],
-    price: 'From $45/night',
+    price: 'From 6000/night',
     image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80',
     capacity: '2 Guests',
     size: '25 sqm',
@@ -18,7 +18,7 @@ export const rooms = [
     description:
       'Embrace the natural coastal breeze in our garden-view rooms. Designed for eco-conscious travelers who appreciate natural ventilation.',
     features: ['Ceiling Fans', 'Private Bathroom', 'Garden View', 'Natural Ventilation', 'Smart TV', 'Free WiFi'],
-    price: 'From $30/night',
+    price: 'From 4000/night',
     image: 'https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800&q=80',
     capacity: '2 Guests',
     size: '22 sqm',
@@ -29,8 +29,8 @@ export const rooms = [
     shortName: 'Half Board',
     description:
       'Reserve an entire floor of Villa i for your family, corporate retreat, or private party. Enjoy dedicated living spaces, personalized service, and a full half-board experience with breakfast and dinner included.',
-    features: ['Full Floor Access', 'Multiple Rooms', 'Private Living Area', 'Event & Party Ready', 'Breakfast & Dinner Included', 'Free WiFi'],
-    price: 'From $120/night',
+    features: ['Full Floor Access', 'Multiple Rooms', 'Private Living Area', 'Event & Party Ready', 'BYOB Area', 'Free WiFi'],
+    price: 'From 25000/night',
     image: 'https://images.unsplash.com/photo-1566195992011-5f6b21e539aa?w=800&q=80',
     capacity: '8–12 Guests',
     size: '180 sqm',
@@ -43,13 +43,12 @@ export const rooms = [
       'The ultimate private luxury experience. Book the entire Villa i for your group or event and enjoy exclusive access to all amenities.',
     features: [
       'All Rooms Included',
-      'Private Garden',
       'Full Kitchen',
       'Event Space',
       'Concierge Service',
       'Free WiFi',
     ],
-    price: 'From $250/night',
+    price: 'From 40000/night',
     image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80',
     capacity: 'Up to 15 Guests',
     size: '350 sqm',
@@ -96,29 +95,22 @@ export const services = [
     image: 'https://images.unsplash.com/photo-1546173159-315724a31696?w=900&q=85',
     features: ['Fresh tropical juices', 'Smoothies & blends', 'Mocktails & lemonades', 'Seasonal specials'],
   },
-  {
-    id: 'byob',
-    title: 'BYOB & Bar Lounge',
-    description:
-      'Bring your own spirits and enjoy them in our dedicated bar lounge area. We provide the setup, glassware, ice, and a relaxed atmosphere for a perfect evening.',
-    image: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=900&q=85',
-    features: ['BYOB permitted', 'Dedicated bar lounge', 'Glassware & ice included', 'Relaxed serving area'],
-  },
+ 
 ]
 
 export const galleryImages = [
   {
-    src: '/webp/room1.jpg',
+    src: '/webp/Anantara Tangalle - Dining by Design.jpg',
     alt: 'Mount Lavinia Beach',
-    span: 'col-span-2 row-span-2',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=80',
-    alt: 'Villa Pool Area',
     span: '',
   },
   {
-    src: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80',
+    src: '/webp/drinks1.jpg',
+    alt: 'Juice Corner',
+    span: '',
+  },
+  {
+    src: '/webp/room7.jpg',
     alt: 'Luxury Room',
     span: '',
   },
@@ -128,19 +120,19 @@ export const galleryImages = [
     span: '',
   },
   {
-    src: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80',
+    src: '/webp/hotel3.jpg',
     alt: 'Full Villa',
     span: '',
   },
   {
-    src: 'https://images.unsplash.com/photo-1566195992011-5f6b21e539aa?w=800&q=80',
+    src: '/webp/hotel.png',
     alt: 'Family Suite',
     span: '',
   },
 ]
 
 export const highlights = [
-  { icon: 'beach', label: '100m to Beach' },
+  { icon: 'beach', label: '50m to Beach' },
   { icon: 'privacy', label: 'Full Villa Privacy' },
   { icon: 'meals', label: 'Meals Included' },
   { icon: 'climate', label: 'A/C & Non A/C' },

@@ -5,28 +5,28 @@ import AnimatedSection from '@/components/AnimatedSection'
 
 const cards = [
   {
-    title: 'Local Experience',
+    title: 'Party Arrangements',
     description:
-      'Immerse yourself in authentic Sri Lankan hospitality, culture, and cuisine, guided by a passionate local team.',
-    image: 'https://images.unsplash.com/photo-1596178060671-7a80dc8059ea?w=800&q=80',
-    tag: 'Culture & Heritage',
-    stat: '10+ Years',
-    statLabel: 'Local Expertise',
+      'Celebrate in style with our expert party planning services. From intimate gatherings to grand celebrations, we create unforgettable experiences tailored to your vision.',
+    image: '/webp/party.webp',
+    tag: 'Unforgettable Events',
+    stat: '70+',
+    statLabel: 'Events Hosted',
   },
   {
-    title: 'Private & Peaceful',
+    title: 'BYOB & Private Dining',
     description:
-      'Escape the crowds with our secluded villa setting. Your personal oasis awaits, with garden spaces and quiet luxury.',
-    image: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800&q=80',
-    tag: 'Seclusion & Nature',
-    stat: '100m',
-    statLabel: 'From the Beach',
+      'Indulge in personalized dining experiences with our BYOB and private dining options. Savor exquisite meals in an intimate setting, crafted to your preferences.',
+    image: '/webp/byob.jpg',
+    tag: 'Exclusive Dining',
+    stat: '5 mins',
+    statLabel: 'From Your Room',
   },
   {
-    title: 'Affordable Luxury',
+    title: 'Beach Access',
     description:
-      'Experience world-class comfort and service at prices that make luxury accessible. Exceptional value by the sea.',
-    image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80',
+      'Enjoy direct access to pristine beaches from our luxurious accommodations. Experience the perfect blend of comfort and coastal beauty, just steps away from your room.',
+    image: '/webp/girls3.jpg',
     tag: 'Premium Value',
     stat: '4.9★',
     statLabel: 'Guest Rating',

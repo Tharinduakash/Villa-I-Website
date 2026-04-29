@@ -21,8 +21,8 @@ export interface GalleryPhoto {
 export const GALLERY_PHOTOS: GalleryPhoto[] = [
   {
     id: 1,
-    title: 'Ocean View at Sunrise',
-    image: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=800&q=85',
+    title: 'Comfort with a View',
+    image: '/webp/room8.jpg',
     guestName: 'Sarah Mitchell',
     roomType: 'A/C Room',
     rating: 5,
@@ -32,19 +32,19 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 2,
-    title: 'Garden Villa Morning',
-    image: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800&q=85',
+    title: 'Beach Expierience',
+    image: '/webp/beach.avif',
     guestName: 'James O\'Brien',
-    roomType: 'Full Villa',
+    roomType: 'A/C Room',
     rating: 5,
-    review: 'Complete privacy, lush garden, absolute peace.',
+    review: 'The beach access was a dream come true.',
     year: 2025,
     span: 2,
   },
   {
     id: 3,
     title: 'Luxury Suite Interior',
-    image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=85',
+    image: '/webp/room5 (2).jpg',
     guestName: 'Lena Hoffmann',
     roomType: 'A/C Room',
     rating: 5,
@@ -55,7 +55,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   {
     id: 4,
     title: 'Beach Walk at Dusk',
-    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=85',
+    image: '/webp/pexels-vika-glitter-392079-31277449.jpg',
     guestName: 'Priya Wijesekara',
     roomType: 'Family Room',
     rating: 5,
@@ -66,7 +66,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   {
     id: 5,
     title: 'Sri Lankan Breakfast Spread',
-    image: 'https://images.unsplash.com/photo-1596178060671-7a80dc8059ea?w=800&q=85',
+    image: '/webp/girls1.jpg',
     guestName: 'Marco Rossi',
     roomType: 'Non A/C Room',
     rating: 5,
@@ -77,7 +77,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   {
     id: 6,
     title: 'Villa Pool & Garden',
-    image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=85',
+    image: '/webp/beach-girl.jpg',
     guestName: 'Emma Thornton',
     roomType: 'Full Villa',
     rating: 5,
@@ -88,7 +88,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   {
     id: 7,
     title: 'Sunset from the Balcony',
-    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=85',
+    image: '/webp/room12.jpg',
     guestName: 'Amal Perera',
     roomType: 'A/C Room',
     rating: 5,
@@ -99,7 +99,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   {
     id: 8,
     title: 'Family Suite Living Area',
-    image: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=800&q=85',
+    image: '/webp/room3.jpg',
     guestName: 'Thilini Kumari',
     roomType: 'Family Room',
     rating: 4,
@@ -110,7 +110,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   {
     id: 9,
     title: 'Mount Lavinia Shoreline',
-    image: 'https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?w=800&q=85',
+    image: '/webp/room5 (2).jpg',
     guestName: 'Chathu Silva',
     roomType: 'Non A/C Room',
     rating: 5,
@@ -121,7 +121,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   {
     id: 10,
     title: 'Room with Tropical Breeze',
-    image: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=85',
+    image: '/webp/room7.jpg',
     guestName: 'Dinesh Rathnayake',
     roomType: 'Non A/C Room',
     rating: 4,
@@ -132,7 +132,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   {
     id: 11,
     title: 'Evening by the Shore',
-    image: 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800&q=85',
+    image: '/webp/room11.jpg',
     guestName: 'Nina Schreiber',
     roomType: 'A/C Room',
     rating: 5,
@@ -143,7 +143,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   {
     id: 12,
     title: 'Villa Exterior at Night',
-    image: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&q=85',
+    image: '/webp/foods4.jpg',
     guestName: 'Oliver Jensen',
     roomType: 'Full Villa',
     rating: 5,
@@ -180,7 +180,8 @@ function PhotoCard({ photo, index }: { photo: GalleryPhoto; index: number }) {
           src={photo.image}
           alt={photo.title}
           fill
-          sizes="(max-width:640px) 50vw, (max-width:1024px) 25vw, 17vw"
+          quality={90}
+          sizes="(max-width:640px) 50vw, (max-width:1024px) 25vw, 20vw"
           className="object-cover object-center transition-transform duration-600 group-hover:scale-105"
         />
 
@@ -291,6 +292,7 @@ function MobileCard({ photo, index }: { photo: GalleryPhoto; index: number }) {
           src={photo.image}
           alt={photo.title}
           fill
+          quality={90}
           sizes="160px"
           className="object-cover object-center"
         />

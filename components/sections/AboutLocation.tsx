@@ -3,8 +3,8 @@ import Image from 'next/image'
 import AnimatedSection from '@/components/AnimatedSection'
 
 const points = [
-  '100m walk to Mount Lavinia Beach',
-  '10 minutes from Colombo City Centre',
+  '50m walk to Mount Lavinia Beach',
+  '20 minutes from Colombo City Centre',
   'Easy access from Bandaranaike Airport',
   'Near local restaurants and seafood shacks',
   'Adjacent to Galle Road (A2 Highway)',
@@ -31,7 +31,7 @@ export default function AboutLocation() {
               <span className="italic text-luxury-gold">Ocean</span>
             </h2>
             <p className="text-white/60 font-lato text-sm leading-relaxed mb-6">
-              Mount Lavinia is one of Sri Lanka&apos;s most celebrated coastal destinations — a
+              Mount Lavinia is one of Sri Lanka&apos;s most celebrated coastal destinations. A
               vibrant yet tranquil suburb of Colombo, beloved for its golden beaches, fresh seafood,
               and legendary sunsets.
             </p>

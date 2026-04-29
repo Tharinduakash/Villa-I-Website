@@ -26,7 +26,7 @@ export default function RoomsPreview({ rooms }: { rooms: Room[] }) {
             Our <span className="italic text-luxury-gold">Rooms</span>
           </h2>
           <p className="text-white/50 font-lato text-base max-w-xl mx-auto">
-            From intimate rooms to full villa exclusives — every space crafted for your perfect stay.
+            From intimate rooms to full villa exclusives. Every space crafted for your perfect stay.
           </p>
         </AnimatedSection>
 

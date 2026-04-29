@@ -53,7 +53,7 @@ export default function ContactMap() {
             Sri Lanka
           </p>
           <a
-            href="https://maps.google.com/?q=Mount+Lavinia+Sri+Lanka"
+            href="https://maps.app.goo.gl/9KqLbALmuvyWWAFp6"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 font-lato text-[10px] tracking-[0.2em] uppercase transition-colors duration-200 group"

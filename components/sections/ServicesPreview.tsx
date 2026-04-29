@@ -165,7 +165,7 @@ export default function ServicesPreview({ services }: { services: Service[] }) {
                         />
           </h2>
           <p className="font-lato text-sm leading-relaxed max-w-md mx-auto" style={{ color: 'rgba(255,255,255,0.40)' }}>
-            From soothing spa retreats to vibrant celebrations, every service at Villa i is crafted for your comfort.
+            Every service at Villa I is crafted for your comfort. We ensure every moment is unforgettable.
           </p>
         </div>
 

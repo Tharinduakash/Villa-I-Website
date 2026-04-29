@@ -19,7 +19,7 @@ const quickLinks = [
 
 const roomLinks = [
   { href: '/rooms#ac-room',     label: 'A/C Rooms'           },
-  { href: '/rooms#non-ac-room', label: 'Garden View Rooms'   },
+  { href: '/rooms#non-ac-room', label: 'Non A/C Rooms'   },
   { href: '/rooms#family-room', label: 'Half Board Villa'     },
   { href: '/rooms#full-villa',  label: 'Full Villa Exclusive' },
   { href: '/services',          label: 'Dining & Cuisine'    },

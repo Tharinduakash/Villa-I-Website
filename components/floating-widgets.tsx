@@ -10,8 +10,8 @@ export function FloatingWidgets() {
   const [errorMsg, setErrorMsg] = useState('')
 
   const handleWhatsAppClick = () => {
-    const phoneNumber = '+94716787530'
-    const message = 'Hi! I would like to inquire about your travel gears.'
+    const phoneNumber = '+94765375285'
+    const message = 'Hi! I would like to inquire about your villa and hotel services. Please provide more details.'
     window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank')
   }
 

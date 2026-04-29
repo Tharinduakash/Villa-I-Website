@@ -7,9 +7,7 @@ export default function RoomsIntro() {
       <div className="container-padding">
         <AnimatedSection className="max-w-2xl">
           <p className="text-white/60 font-lato text-base leading-relaxed">
-            Each room at Villa i has been thoughtfully designed to bring comfort and coastal elegance
-            together. Choose the space that suits your journey — from intimate rooms to an exclusive
-            full villa experience.
+            At Villa i Hotel, we believe that a room is more than just a place to rest.It's your personal sanctuary, a canvas for unforgettable memories, and the heart of your experience with us. 
           </p>
         </AnimatedSection>
       </div>
