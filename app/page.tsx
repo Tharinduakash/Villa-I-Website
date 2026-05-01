@@ -12,7 +12,7 @@ import BookingBanner from '@/components/BookingBanner'
 import { prisma } from '@/lib/prisma'
 
 export default async function HomePage() {
-  let rooms: { id: any; name: any; shortName: any; description: any; features: any; price: any; image: any; capacity: any; size: any }[] = []
+  let rooms: { id: any; name: any; shortName: any; description: any; features: any; priceUSD: any; price: any; image: any; capacity: any; size: any }[] = []
   let services: { id: string; title: string; description: string; image: string; features: string[] }[] = []
 
   try {
@@ -20,12 +20,13 @@ export default async function HomePage() {
       prisma.room.findMany({ orderBy: { createdAt: 'asc' } }),
       prisma.service.findMany({ orderBy: { createdAt: 'asc' }, take: 3 }),
     ])
-    rooms = dbRooms.map((r: { id: any; name: any; shortName: any; description: any; features: any; priceLabel: any; image: any; capacity: any; size: any }) => ({
+    rooms = dbRooms.map((r: { id: any; name: any; shortName: any; description: any; features: any; pricePerNight: any; priceLabel: any; image: any; capacity: any; size: any }) => ({
       id: r.id,
       name: r.name,
       shortName: r.shortName,
       description: r.description,
       features: r.features,
+      priceUSD: r.pricePerNight,
       price: r.priceLabel,
       image: r.image,
       capacity: r.capacity,

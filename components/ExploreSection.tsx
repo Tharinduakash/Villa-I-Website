@@ -11,7 +11,7 @@ const panels = [
     description:
       'Choose between cool air-conditioned rooms or naturally breezy spaces designed for a relaxing coastal stay.',
     href: '/rooms',
-    image: '/webp/hotel.png',
+    image: '/webp/rooms.png',
     cta: 'View Rooms',
     accent: 'rgba(201,169,110,1)',
     tag: 'Flexible Comfort',
@@ -24,7 +24,7 @@ const panels = [
     description:
       'Book the entire villa for your family or group — perfect for gatherings, celebrations, and peaceful escapes.',
     href: '/rooms#full-villa',
-    image: '/webp/Accommodation One Bedroom.jpg',
+    image: '/webp/villa.png',
     cta: 'Book Villa',
     accent: 'rgba(176,141,87,1)',
     tag: 'Group Friendly',
@@ -37,7 +37,7 @@ const panels = [
     description:
       'Enjoy home-cooked Sri Lankan meals, fresh fruit juices, and light refreshments in a cozy tropical setting.',
     href: '/services',
-    image: '/webp/drinks8.jpg',
+    image: '/webp/drinks2.jpg',
     cta: 'Explore Services',
     accent: 'rgba(201,169,110,0.85)',
     tag: 'Fresh & Local',
@@ -50,7 +50,7 @@ const panels = [
     description:
       'Only 100m from Mount Lavinia beach — wake up to ocean breezes and unwind by the sea any time of day.',
     href: '/about',
-    image: '/webp/Anantara Tangalle - Dining By Design 4.jpg',
+    image: '/webp/pexels-vika-glitter-392079-31277449.jpg',
     cta: 'Discover More',
     accent: 'rgba(176,141,87,0.85)',
     tag: '100m to Ocean',
@@ -61,6 +61,9 @@ export function ExploreSection() {
   return (
     <>
       <style>{`
+        /* ── Font imports ── */
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap');
+
         .exp-section {
           background: linear-gradient(160deg, #0a0d1c 0%, #06080f 60%, #080b18 100%);
           padding: 72px 0 0;
@@ -145,7 +148,6 @@ export function ExploreSection() {
         }
         .exp-panel:hover .exp-panel-glow { opacity: 1; }
 
-        /* Description slide-in on hover (desktop only) */
         .exp-panel-desc {
           max-height: 0; overflow: hidden; opacity: 0;
           transition: max-height 0.4s ease, opacity 0.35s ease, margin-bottom 0.35s ease;
@@ -154,11 +156,9 @@ export function ExploreSection() {
           .exp-panel:hover .exp-panel-desc { max-height: 72px; opacity: 1; margin-bottom: 10px; }
         }
 
-        /* CTA arrow nudge on hover */
         .exp-panel:hover .exp-cta-arrow { transform: translateX(3px); }
         .exp-cta-arrow { transition: transform 0.25s ease; }
 
-        /* Vertical dividers */
         @media (min-width: 768px) {
           .exp-panel:not(:last-child)::after {
             content: '';
@@ -167,11 +167,14 @@ export function ExploreSection() {
           }
         }
 
-        /* Colour transitions driven by parent hover */
         .exp-panel:hover .exp-subtitle   { color: rgba(201,169,110,0.85); }
         .exp-panel:hover .exp-panel-num  { color: rgba(201,169,110,0.7); }
         .exp-panel:hover .exp-tag        { border-color: rgba(176,141,87,0.55); color: rgba(201,169,110,1); }
         .exp-panel:hover .exp-cta-btn    { background: rgba(201,169,110,1); border-color: rgba(201,169,110,1); color: #0a0906; transform: translateY(-2px); }
+
+        /* ── Typography system ── */
+        .t-outfit   { font-family: 'Outfit', sans-serif; }
+        .t-cormorant { font-family: 'Cormorant', serif; }
       `}</style>
 
       <section className="exp-section">
@@ -180,17 +183,30 @@ export function ExploreSection() {
         <div className="relative z-10 text-center px-5 mb-10">
           <div className="flex items-center justify-center gap-4 mb-4">
             <span className="block h-px w-8" style={{ background: 'rgba(176,141,87,0.55)' }} />
-            <p className="font-lato text-[10px] font-bold tracking-[0.38em] uppercase" style={{ color: 'rgba(176,141,87,0.75)' }}>
+            <p
+              className="t-outfit text-[10px] font-semibold tracking-[0.38em] uppercase"
+              style={{ color: 'rgba(176,141,87,0.75)' }}
+            >
               Everything You Need
             </p>
             <span className="block h-px w-8" style={{ background: 'rgba(176,141,87,0.55)' }} />
           </div>
 
-          <h2 className="font-playfair text-[clamp(1.8rem,4vw,2.8rem)] font-bold leading-[1.1] text-white/90 mb-3">
-            Explore Our <em className="italic" style={{ color: 'rgba(201,169,110,1)' }}>World</em>
+          {/* Cormorant for the display heading — elegant but modern */}
+          <h2
+            className="t-cormorant font-semibold leading-[1.1] text-white/90 mb-3"
+            style={{ fontSize: 'clamp(2rem, 4.5vw, 3.2rem)', letterSpacing: '-0.01em' }}
+          >
+            Explore Our{' '}
+            <em className="italic" style={{ color: 'rgba(201,169,110,1)' }}>
+              World
+            </em>
           </h2>
 
-          <p className="font-lato text-sm leading-relaxed text-white/40 max-w-md mx-auto">
+          <p
+            className="t-outfit text-sm font-light leading-relaxed text-white/40 max-w-md mx-auto"
+            style={{ letterSpacing: '0.01em' }}
+          >
             From private villa exclusives to beachfront mornings — discover every experience Villa i has to offer.
           </p>
         </div>
@@ -207,9 +223,9 @@ export function ExploreSection() {
               <div className="exp-panel-glow" />
               <div className="exp-panel-tint" style={{ background: panel.accent }} />
 
-              {/* Tag */}
+              {/* Tag — Outfit medium, tight tracking */}
               <div
-                className="exp-tag font-lato absolute top-3 left-3 z-10 text-[10px] font-700 tracking-[0.22em] uppercase px-2.5 py-1 backdrop-blur-sm"
+                className="exp-tag t-outfit absolute top-3 left-3 z-10 text-[9px] font-medium tracking-[0.2em] uppercase px-2.5 py-1 backdrop-blur-sm"
                 style={{
                   color: 'rgba(201,169,110,0.85)',
                   background: 'rgba(5,7,14,0.78)',
@@ -220,36 +236,46 @@ export function ExploreSection() {
                 {panel.tag}
               </div>
 
-              {/* Index number */}
+              {/* Index — Cormorant italic, numerals look beautiful */}
               <div
-                className="exp-panel-num font-playfair italic absolute top-3 right-3 z-10 text-xs"
-                style={{ color: 'rgba(255,255,255,0.25)', transition: 'color 0.3s' }}
+                className="exp-panel-num t-cormorant italic absolute top-3 right-3 z-10 font-normal"
+                style={{ fontSize: '13px', color: 'rgba(255,255,255,0.25)', transition: 'color 0.3s', letterSpacing: '0.05em' }}
               >
                 {panel.label}
               </div>
 
               {/* Content */}
               <div className="absolute inset-0 z-10 flex flex-col justify-end p-3 sm:p-5 lg:p-6">
+
+                {/* Subtitle — Outfit light, generous tracking */}
                 <p
-                  className="exp-subtitle font-lato text-[10px] sm:text-xs font-700 tracking-[0.28em] uppercase mb-1.5"
+                  className="exp-subtitle t-outfit text-[9px] sm:text-[10px] font-medium tracking-[0.3em] uppercase mb-2"
                   style={{ color: 'rgba(176,141,87,0.55)', transition: 'color 0.3s' }}
                 >
                   {panel.subtitle}
                 </p>
 
+                {/* Title — Cormorant semibold, crisp and luxurious */}
                 <h3
-                  className="font-playfair font-bold leading-snug text-white/92 mb-2"
-                  style={{ fontSize: 'clamp(0.95rem, 1.8vw, 1.3rem)', transition: 'color 0.3s' }}
+                  className="t-cormorant font-semibold leading-tight text-white/92 mb-2.5"
+                  style={{
+                    fontSize: 'clamp(1.15rem, 2vw, 1.55rem)',
+                    letterSpacing: '0.01em',
+                    transition: 'color 0.3s',
+                  }}
                 >
                   {panel.title}
                 </h3>
 
-                <p className="exp-panel-desc font-lato text-[11px] sm:text-xs leading-relaxed text-white/55">
+                {/* Description — Outfit light, readable */}
+                <p className="exp-panel-desc t-outfit font-light text-[11px] sm:text-xs leading-relaxed text-white/55"
+                  style={{ letterSpacing: '0.01em' }}>
                   {panel.description}
                 </p>
 
+                {/* CTA — Outfit medium, clean button */}
                 <div
-                  className="exp-cta-btn font-lato inline-flex items-center gap-1.5 self-start px-3.5 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-[11px] font-bold tracking-[0.18em] uppercase backdrop-blur-sm"
+                  className="exp-cta-btn t-outfit inline-flex items-center gap-1.5 self-start px-3.5 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-[11px] font-medium tracking-[0.16em] uppercase backdrop-blur-sm"
                   style={{
                     color: 'rgba(201,169,110,0.85)',
                     border: '1px solid rgba(176,141,87,0.35)',

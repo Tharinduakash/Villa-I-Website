@@ -23,10 +23,10 @@ const cards = [
     statLabel: 'From Your Room',
   },
   {
-    title: 'Beach Access',
+    title: 'Beach Vibes',
     description:
       'Enjoy direct access to pristine beaches from our luxurious accommodations. Experience the perfect blend of comfort and coastal beauty, just steps away from your room.',
-    image: '/webp/girls3.jpg',
+    image: '/webp/pexels-freestockpro-320184.webp',
     tag: 'Premium Value',
     stat: '4.9★',
     statLabel: 'Guest Rating',

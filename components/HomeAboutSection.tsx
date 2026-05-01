@@ -105,8 +105,8 @@ export default function HomeAboutSection() {
   const sectionRef = useRef<HTMLDivElement>(null)
 
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] })
-  const leftY  = useTransform(scrollYProgress, [0, 1], [60, -60])
-  const rightY = useTransform(scrollYProgress, [0, 1], [-60, 60])
+  const leftY  = useTransform(scrollYProgress, [0, 1], [120, -120])
+  const rightY = useTransform(scrollYProgress, [0, 1], [-120, 120])
   const bgY    = useTransform(scrollYProgress, [0, 1], ['0%', '15%'])
 
   return (
@@ -159,7 +159,7 @@ export default function HomeAboutSection() {
           {/* Left image — parallax up */}
           <motion.div className="col-span-4" style={{ y: leftY }}>
             <TiltFrame
-              src="https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800&q=85"
+              src="/webp/girls3.jpg"
               alt="Villa i Hotel Garden"
               caption="Established"
               sub="Mount Lavinia, Sri Lanka"
@@ -233,7 +233,7 @@ export default function HomeAboutSection() {
           {/* Right image — parallax down */}
           <motion.div className="col-span-4" style={{ y: rightY }}>
             <TiltFrame
-              src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=800&q=85"
+              src="/webp/Anantara Tangalle - Dining by Design.jpg"
               alt="Mount Lavinia Beach"
               caption="Location"
               sub="50m from the Indian Ocean"
@@ -246,8 +246,8 @@ export default function HomeAboutSection() {
         <div className="lg:hidden">
           <motion.div className="grid grid-cols-2 gap-3 mb-8" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
             {[
-              { src: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800&q=85', label: 'Our Gardens', sub: 'Tropical Oasis' },
-              { src: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=800&q=85', label: 'Location',    sub: '100m from Beach' },
+              { src: '/webp/Anantara Tangalle - Dining by Design.jpg', label: 'BEACH', sub: 'Night Sky' },
+              { src: '/webp/girls3.jpg', label: 'Mount Lavinia',    sub: 'Sun Set' },
             ].map((img) => (
               <div key={img.label} className="relative overflow-hidden" style={{ aspectRatio: '3/4', border: '1px solid rgba(176,141,87,0.12)' }}>
                 <Image src={img.src} alt={img.sub} fill className="object-cover" />

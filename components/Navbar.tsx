@@ -78,9 +78,15 @@ export default function Navbar() {
           display:flex; flex-direction:column; overflow:hidden;
           background:rgba(4,6,14,0.98);
           opacity:0; visibility:hidden;
-          transition:opacity 0.38s ease,visibility 0.38s;
+          transform: translateY(-12px);
+          transition:opacity 0.35s cubic-bezier(0.22,1,0.36,1),
+                     visibility 0.35s,
+                     transform 0.35s cubic-bezier(0.22,1,0.36,1);
         }
-        .vi-mega-overlay.open { opacity:1; visibility:visible; }
+        .vi-mega-overlay.open {
+          opacity:1; visibility:visible;
+          transform: translateY(0);
+        }
         .vi-mega-topbar {
           flex-shrink:0; display:flex; align-items:center; justify-content:space-between;
           padding:0 20px; height:64px;
@@ -120,37 +126,48 @@ export default function Navbar() {
           background:rgba(201,169,110,0.9);
         }
         .vi-mega-col-item {
-          display:block; padding:8px 0;
+          display:block; padding:10px 0;
           font-family:var(--font-lato,sans-serif);
-          font-size:13px; font-weight:400;
+          font-size:14px; font-weight:400;
           color:rgba(255,255,255,0.48); text-decoration:none; letter-spacing:0.04em;
           border-bottom:1px solid rgba(176,141,87,0.06);
-          transition:all 0.18s ease;
+          transition:color 0.2s ease, padding-left 0.2s ease, background 0.2s ease;
           background:none; border-left:none; border-right:none; border-top:none;
           width:100%; text-align:left; cursor:pointer;
+          -webkit-tap-highlight-color:transparent;
+          min-height:44px; display:flex; align-items:center;
         }
         .vi-mega-col-item:last-child { border-bottom:none; }
-        .vi-mega-col-item:hover { color:rgba(201,169,110,1); padding-left:6px; }
+        .vi-mega-col-item:hover,
+        .vi-mega-col-item:active { color:rgba(201,169,110,1); padding-left:6px; }
         .vi-mega-cta { margin-top:36px; padding-top:24px; border-top:1px solid rgba(176,141,87,0.10); display:flex; flex-direction:column; gap:12px; }
         .vi-mega-location { display:flex; align-items:center; gap:10px; margin-bottom:4px; }
         .vi-mega-location-line { display:block; height:1px; width:28px; background:rgba(176,141,87,0.4); }
         .vi-mega-location-text { font-family:var(--font-lato,sans-serif); font-size:9px; letter-spacing:0.35em; text-transform:uppercase; color:rgba(255,255,255,0.22); }
         .vi-mega-cta-primary {
-          display:block; width:100%; padding:14px 0; text-align:center;
-          background:rgba(201,169,110,1); color:#0a0906;
-          font-family:var(--font-lato,sans-serif); font-size:10px; font-weight:700;
+          display:block; width:100%; padding:16px 0; text-align:center;
+          background:rgba(201,169,110,1); color:#06080f;
+          font-family:var(--font-lato,sans-serif); font-size:11px; font-weight:700;
           letter-spacing:0.3em; text-transform:uppercase; text-decoration:none;
-          border:none; cursor:pointer; transition:background 0.25s ease;
+          border:none; cursor:pointer;
+          transition:background 0.25s ease, transform 0.15s ease;
+          -webkit-tap-highlight-color:transparent;
+          min-height:52px; display:flex; align-items:center; justify-content:center;
         }
-        .vi-mega-cta-primary:hover { background:#e8d5b0; }
+        .vi-mega-cta-primary:active { transform:scale(0.98); background:#e8d5b0; }
         .vi-mega-cta-secondary {
-          display:block; width:100%; padding:13px 0; text-align:center;
+          display:flex; align-items:center; justify-content:center;
+          width:100%; padding:15px 0; text-align:center;
           background:transparent; color:rgba(255,255,255,0.55);
           font-family:var(--font-lato,sans-serif); font-size:10px; font-weight:600;
           letter-spacing:0.3em; text-transform:uppercase; text-decoration:none;
-          border:1px solid rgba(255,255,255,0.12); transition:all 0.25s ease;
+          border:1px solid rgba(255,255,255,0.12);
+          transition:all 0.25s ease, transform 0.15s ease;
+          -webkit-tap-highlight-color:transparent;
+          min-height:52px;
         }
         .vi-mega-cta-secondary:hover { border-color:rgba(176,141,87,0.45); color:rgba(201,169,110,1); }
+        .vi-mega-cta-secondary:active { transform:scale(0.98); }
 
         /* ── Nav link 3D hover ── */
         .vi-nav-link {
@@ -183,18 +200,23 @@ export default function Navbar() {
         .vi-book-btn {
           padding:9px 22px; font-family:var(--font-lato,sans-serif);
           font-size:10px; letter-spacing:0.22em; text-transform:uppercase;
-          text-decoration:none; transition:all 0.3s ease; white-space:nowrap;
-          position:relative; overflow:hidden;
+          text-decoration:none; transition:color 0.3s ease, border-color 0.3s ease;
+          white-space:nowrap; position:relative; overflow:hidden;
+          color:rgba(201,169,110,1);
+          border:1px solid rgba(201,169,110,0.55);
         }
         .vi-book-btn::before {
           content:''; position:absolute; inset:0;
           background:rgba(201,169,110,1);
           transform:scaleX(0); transform-origin:left;
-          transition:transform 0.3s ease;
-          z-index:-1;
+          transition:transform 0.35s cubic-bezier(0.22,1,0.36,1);
+          z-index:0;
+        }
+        .vi-book-btn span {
+          position:relative; z-index:1;
         }
         .vi-book-btn:hover::before { transform:scaleX(1); }
-        .vi-book-btn:hover { color:#0a0906; border-color:rgba(201,169,110,1); }
+        .vi-book-btn:hover { color:#06080f; border-color:rgba(201,169,110,1); }
       `}</style>
 
       {/* Mobile Mega Overlay */}
@@ -296,12 +318,8 @@ export default function Navbar() {
 
             {/* Book Now */}
             <div className="hidden md:block">
-              <Link
-                href="/contact"
-                className="vi-book-btn"
-                style={{ border: `1px solid rgba(201,169,110,0.55)`, color: GOLD, zIndex: 1 }}
-              >
-                Book Now
+              <Link href="/contact" className="vi-book-btn">
+                <span>Book Now</span>
               </Link>
             </div>
 

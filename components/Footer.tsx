@@ -222,8 +222,8 @@ export default function Footer() {
                 },
                 {
                   icon: <MdPhone size={14} />,
-                  content: '+94 XX XXX XXXX',
-                  href: 'tel:+94XXXXXXXXX',
+                  content: '+94 76 537 5285',
+                  href: 'tel:+94765375285',
                 },
                 {
                   icon: <MdEmail size={14} />,

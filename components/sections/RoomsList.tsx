@@ -11,6 +11,7 @@ interface Room {
   shortName: string
   description: string
   features: string[]
+  priceUSD: number
   price: string
   image: string
   images: string[]
@@ -18,7 +19,7 @@ interface Room {
   size: string
 }
 
-function RoomGallery({ image, images, price }: { image: string; images: string[]; price: string }) {
+function RoomGallery({ image, images, price, priceUSD }: { image: string; images: string[]; price: string; priceUSD: number }) {
   const allImages = images && images.length > 0 ? images : [image]
   const [current, setCurrent] = useState(0)
 
@@ -44,8 +45,9 @@ function RoomGallery({ image, images, price }: { image: string; images: string[]
       ))}
 
       {/* Price badge */}
-      <div className="absolute top-5 right-5 z-10 bg-luxury-black/80 backdrop-blur-sm border border-luxury-gold/40 px-4 py-2">
-        <span className="text-luxury-gold font-lato text-sm tracking-wide">{price}</span>
+      <div className="absolute top-5 right-5 z-10 bg-luxury-black/80 backdrop-blur-sm border border-luxury-gold/40 px-4 py-2 flex flex-col items-end gap-0.5">
+        <span className="text-luxury-gold font-lato text-sm tracking-wide">${priceUSD.toLocaleString()} <span className="text-xs opacity-70">USD</span></span>
+        <span className="text-white/60 font-lato text-xs tracking-wide">{price}</span>
       </div>
 
       {allImages.length > 1 && (
@@ -106,7 +108,7 @@ export default function RoomsList({ rooms }: { rooms: Room[] }) {
             >
               {/* Gallery — pushed to column 2 on reversed rows via lg:order-last */}
               <div className={reversed ? 'lg:order-last' : ''}>
-                <RoomGallery image={room.image} images={room.images} price={room.price} />
+                <RoomGallery image={room.image} images={room.images} price={room.price} priceUSD={room.priceUSD} />
               </div>
 
               {/* Content — pulled to column 1 on reversed rows via lg:order-first */}

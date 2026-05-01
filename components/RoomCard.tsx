@@ -1,4 +1,5 @@
 'use client'
+import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
@@ -11,14 +12,23 @@ interface Room {
   shortName: string
   description: string
   features: string[]
+  priceUSD: number
   price: string
   image: string
   capacity: string
   size: string
 }
 
+const ROOM_FALLBACKS = [
+  'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80',
+  'https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800&q=80',
+  'https://images.unsplash.com/photo-1566195992011-5f6b21e539aa?w=800&q=80',
+  'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80',
+]
+
 export default function RoomCard({ room, index = 0 }: { room: Room; index?: number }) {
   const roomNumber = String(index + 1).padStart(2, '0')
+  const [imgSrc, setImgSrc] = useState(room.image || ROOM_FALLBACKS[index % ROOM_FALLBACKS.length])
 
   return (
     <motion.div
@@ -82,12 +92,13 @@ export default function RoomCard({ room, index = 0 }: { room: Room; index?: numb
       {/* ── IMAGE ─────────────────────────────────────────────── */}
       <div className="relative h-60 flex-shrink-0 overflow-hidden">
         <Image
-          src={room.image}
+          src={imgSrc}
           alt={room.name}
           fill
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-108"
           style={{ transform: 'scale(1.0)', transition: 'transform 0.7s ease-out' }}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+          onError={() => setImgSrc(ROOM_FALLBACKS[index % ROOM_FALLBACKS.length])}
         />
 
         {/* Rich layered gradient — cinematic fade into card */}
@@ -136,12 +147,17 @@ export default function RoomCard({ room, index = 0 }: { room: Room; index?: numb
         {/* Price — bottom left with gold line */}
         <div className="absolute bottom-4 left-5 flex items-center gap-2">
           <span
-            className="block h-px w-5 transition-all duration-300 group-hover:w-8"
+            className="block h-px w-5 flex-shrink-0 transition-all duration-300 group-hover:w-8"
             style={{ background: 'rgba(176,141,87,0.8)' }}
           />
-          <span className="font-lato text-xs tracking-[0.18em] text-luxury-gold">
-            {room.price}
-          </span>
+          <div className="flex flex-col gap-0.5">
+            <span className="font-lato text-xs tracking-[0.18em] text-luxury-gold leading-none">
+              ${room.priceUSD.toLocaleString()} <span className="text-[9px] opacity-70">USD</span>
+            </span>
+            <span className="font-lato text-[9px] tracking-wide leading-none" style={{ color: 'rgba(255,255,255,0.45)' }}>
+              {room.price}
+            </span>
+          </div>
         </div>
       </div>
 

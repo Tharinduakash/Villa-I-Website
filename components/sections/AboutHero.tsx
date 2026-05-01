@@ -6,14 +6,17 @@ export default function AboutHero() {
   return (
     <section className="relative h-[70vh] min-h-[500px] overflow-hidden flex items-end">
       <Image
-        src="/webp/hotel.png"
+        src="/webp/IMG_3123.webp"
         alt="Villa i Hotel Exterior"
         fill
         priority
         className="object-cover"
         sizes="100vw"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-luxury-black via-luxury-black/40 to-luxury-black/20" />
+   <div className="absolute inset-0 bg-gradient-to-b from-luxury-black via-luxury-black/5 to-luxury-black/10" />
+      
+      {/* Bottom bleed — fully erases the seam with the next section */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none" style={{ background: 'linear-gradient(to bottom, transparent 0%, #06080f 75%)' }} />
       <div className="relative z-10 container-padding w-full pb-16">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
