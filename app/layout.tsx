@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${lato.variable}`}>
+    <html lang="en" className={`${playfair.variable} ${lato.variable}`} data-scroll-behavior="smooth">
       <body className="bg-luxury-black text-white font-lato antialiased">
         <ConditionalLayout>{children}</ConditionalLayout>
       </body>

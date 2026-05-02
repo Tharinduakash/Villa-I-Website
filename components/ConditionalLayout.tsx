@@ -3,7 +3,8 @@ import { usePathname } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import MobileActionBar from '@/components/MobileActionBar'
+import ScrollProgressBar from '@/components/ScrollProgressBar'
+import BackToTop from '@/components/BackToTop'
 
 const GlobalParticleCanvas = dynamic(() => import('@/components/three/GlobalParticleCanvas'), { ssr: false })
 
@@ -17,11 +18,12 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
 
   return (
     <>
+      <ScrollProgressBar />
       <GlobalParticleCanvas />
       <Navbar />
       <main style={{ position: 'relative', zIndex: 1 }}>{children}</main>
       <Footer />
-      <MobileActionBar />
+      <BackToTop />
     </>
   )
 }

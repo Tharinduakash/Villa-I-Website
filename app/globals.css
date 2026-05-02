@@ -172,6 +172,24 @@
     }
   }
 
+  /* ── Mobile press feedback — scale down on tap ──────────────────── */
+  @media (max-width: 767px) {
+    a, button {
+      transition-property: transform, opacity;
+      transition-duration: 0.1s;
+      transition-timing-function: ease;
+    }
+    a:active, button:active {
+      transform: scale(0.96);
+      opacity: 0.88;
+    }
+    /* Don't apply to elements that already have Framer Motion transforms */
+    .no-tap-scale:active {
+      transform: none !important;
+      opacity: 1 !important;
+    }
+  }
+
   /* ── Swipe hint on horizontal scrollers ─────────────────────────── */
   .scroll-x-snap {
     display: flex;

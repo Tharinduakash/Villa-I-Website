@@ -83,8 +83,10 @@ export function FloatingWidgets() {
         }
         .inquire-float-btn.pulse { animation: pulse-ring 2s infinite; }
 
-        /* Hidden on mobile — MobileActionBar handles these actions */
-        @media (max-width: 767px) { .floating-widgets { display: none !important; } }
+        @media (max-width: 767px) {
+          .floating-widgets { bottom: 20px; right: 16px; gap: 12px; }
+          .floating-btn { width: 52px; height: 52px; }
+        }
         @media (min-width: 768px) {
           .floating-widgets { bottom: 30px; right: 30px; gap: 16px; }
         }

@@ -6,7 +6,7 @@ import { HiArrowRight } from 'react-icons/hi'
 
 const slides = [
   {
-    image: '/webp/villa.png',
+    image: '/webp/pexels-tomas-malik-793526-1998439.webp',
     eyebrow: 'Mount Lavinia, Sri Lanka',
     title: 'Ocean Meets',
     titleItalic: 'Paradise',
@@ -129,6 +129,8 @@ export default function HeroSlider() {
   const transitioningRef = useRef(false)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const transRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const touchStartX = useRef(0)
+  const touchStartY = useRef(0)
 
   const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
   const heroY = useTransform(heroScroll, [0, 1], ['0%', '28%'])
@@ -153,6 +155,22 @@ export default function HeroSlider() {
   useEffect(() => { startTimer(); return () => { if (timerRef.current) clearInterval(timerRef.current); if (transRef.current) clearTimeout(transRef.current) } }, [startTimer])
 
   const handleDot = useCallback((i: number) => { goTo(i); startTimer() }, [goTo, startTimer])
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX
+    touchStartY.current = e.touches[0].clientY
+  }, [])
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    const dx = e.changedTouches[0].clientX - touchStartX.current
+    const dy = Math.abs(e.changedTouches[0].clientY - touchStartY.current)
+    if (Math.abs(dx) > 50 && dy < 80) {
+      if (dx < 0) goTo((currentRef.current + 1) % TOTAL)
+      else goTo((currentRef.current - 1 + TOTAL) % TOTAL)
+      startTimer()
+    }
+  }, [goTo, startTimer])
+
   const slide = slides[current]
   const padNum = (n: number) => String(n).padStart(2, '0')
 
@@ -191,6 +209,8 @@ export default function HeroSlider() {
         ref={heroRef}
         className="relative h-screen min-h-[680px] overflow-hidden"
         style={{ background: '#06080f' }}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
         {/* Ambient orbs */}
         <div className="hero-orb" style={{ top: '-10%', left: '15%', width: '55vw', height: '55vw', background: 'radial-gradient(ellipse,rgba(201,169,110,0.09) 0%,transparent 65%)', animationDuration: '9s' }} />

@@ -24,7 +24,7 @@ const FEATURES = [
 export default function VideoShowcase() {
   const videoRef   = useRef<HTMLVideoElement>(null)
   const sectionRef = useRef<HTMLDivElement>(null)
-  const isInView   = useInView(sectionRef, { once: true, margin: '-80px' })
+  const isInView   = useInView(sectionRef, { once: true, margin: '-30px' })
 
   const [playing,  setPlaying]  = useState(false)
   const [muted,    setMuted]    = useState(true)
@@ -196,13 +196,17 @@ export default function VideoShowcase() {
               onMouseLeave={() => setHovered(false)}
               onClick={togglePlay}
             >
+              {/* muted must be a static HTML attribute (not bound to state) for browsers
+                  to allow autoplay. Mute toggling is handled via videoRef.current.muted */}
               <video
                 ref={videoRef}
-                src="/webp/IMG_3233.mp4"
-                poster="/webp/spa.png"
+                src="/webp/IMG_3234.mp4"
+                poster="/webp/hotel1.png"
                 loop
                 playsInline
-                muted={muted}
+                muted
+                autoPlay
+                preload="metadata"
                 onTimeUpdate={handleTimeUpdate}
                 onLoadedMetadata={handleLoadedMetadata}
                 onPlay={() => setPlaying(true)}

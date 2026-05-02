@@ -105,9 +105,9 @@ export default function HomeAboutSection() {
   const sectionRef = useRef<HTMLDivElement>(null)
 
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] })
-  const leftY  = useTransform(scrollYProgress, [0, 1], [120, -120])
-  const rightY = useTransform(scrollYProgress, [0, 1], [-120, 120])
-  const bgY    = useTransform(scrollYProgress, [0, 1], ['0%', '15%'])
+  const leftY  = useTransform(scrollYProgress, [0, 1], [40, -40])
+  const rightY = useTransform(scrollYProgress, [0, 1], [-40, 40])
+  const bgY    = useTransform(scrollYProgress, [0, 1], ['0%', '8%'])
 
   return (
     <section

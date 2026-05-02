@@ -58,6 +58,7 @@ export default function WhyChooseUs() {
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.7, delay: i * 0.15 }}
               whileHover={{ y: -8 }}
+              whileTap={{ scale: 0.97 }}
               className="group relative overflow-hidden flex flex-col"
               style={{
                 border: '1px solid rgba(176,141,87,0.10)',

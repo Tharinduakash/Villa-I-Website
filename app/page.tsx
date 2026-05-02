@@ -8,7 +8,6 @@ import HomeAboutSection from '@/components/HomeAboutSection'
 import ServicesPreview from '@/components/sections/ServicesPreview'
 import VideoShowcase from '@/components/sections/VideoShowcase'
 import GalleryCard from '@/components/Gallerycard'
-import { ExploreSection } from '@/components/ExploreSection'
 import WhyChooseUs from '@/components/sections/WhyChooseUs'
 import Gallery from '@/components/Gallery'
 import BookingBanner from '@/components/BookingBanner'
@@ -60,7 +59,6 @@ export default async function HomePage() {
       <VideoShowcase />
       <ServicesPreview services={services} />
       <GalleryCard />
-      <ExploreSection />
       <WhyChooseUs />
       <Gallery />
       <BookingBanner />
