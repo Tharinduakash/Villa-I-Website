@@ -16,7 +16,7 @@ export default function AboutLocation() {
       <div className="grid grid-cols-1 lg:grid-cols-2">
         <div className="relative h-[400px] lg:h-auto">
           <Image
-            src="/webp/room8.jpg"
+            src="/webp/Anantara Tangalle - Dining by Design.jpg"
             alt="Mount Lavinia Coastline"
             fill
             className="object-cover"

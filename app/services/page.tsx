@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import ServicesHero from '@/components/sections/ServicesHero'
 import ServicesGrid from '@/components/sections/ServicesGrid'
 import ServicesDining from '@/components/sections/ServicesDining'

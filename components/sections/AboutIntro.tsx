@@ -6,7 +6,9 @@ import AnimatedSection from '@/components/AnimatedSection'
 export default function AboutIntro() {
   return (
     <section className="section-padding section-gradient-a">
+      
       <div className="container-padding">
+        
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <AnimatedSection direction="left">
             <p className="text-luxury-gold font-lato text-xs tracking-[0.3em] uppercase mb-4">Who We Are</p>
@@ -36,7 +38,7 @@ export default function AboutIntro() {
             <div className="relative">
               <div className="relative h-[480px] overflow-hidden">
                 <Image
-                  src="/webp/room7.jpg"
+                  src="/webp/IMG_30.webp"
                   alt="Villa i Pool Garden"
                   fill
                   className="object-cover"

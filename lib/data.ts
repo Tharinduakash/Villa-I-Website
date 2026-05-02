@@ -110,23 +110,23 @@ export const galleryImages = [
     span: '',
   },
   {
-    src: '/webp/room7.jpg',
+    src: '/webp/IMG_3022.webp',
     alt: 'Luxury Room',
     span: '',
   },
   {
-    src: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80',
+    src: '/webp/foods11.jpg',
     alt: 'Fine Dining',
     span: '',
   },
   {
-    src: '/webp/hotel3.jpg',
-    alt: 'Full Villa',
+    src: '/webp/IMG_3123.webp',
+    alt: 'Calming Environment',
     span: '',
   },
   {
-    src: '/webp/hotel.png',
-    alt: 'Family Suite',
+    src: '/webp/IMG_3049.webp',
+    alt: 'Comfortable Room',
     span: '',
   },
 ]

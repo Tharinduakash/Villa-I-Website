@@ -7,7 +7,7 @@ const GOLD     = 'rgba(201,169,110,1)'
 const GOLD_DIM = 'rgba(176,141,87,0.55)'
 
 const stats = [
-  { value: '100m',  label: 'To the Ocean'  },
+  { value: '50m',  label: 'To the Ocean'  },
   { value: '2025',  label: 'Established'   },
   { value: '4.9★', label: 'Guest Rating'  },
 ]
@@ -148,7 +148,7 @@ export default function AboutStory() {
             {' '}<em className="italic" style={{ color: GOLD }}>Story</em>
           </h2>
           <p className="font-lato text-sm leading-relaxed mt-3 mx-auto" style={{ color: 'rgba(255,255,255,0.35)', maxWidth: '26rem' }}>
-            A new chapter in coastal hospitality — rooted in local warmth, shaped by the sea.
+            A new chapter in coastal hospitality rooted in local warmth, shaped by the sea.
           </p>
         </motion.div>
 
@@ -178,7 +178,7 @@ export default function AboutStory() {
                   border: '1px solid rgba(176,141,87,0.2)',
                 }}
               >
-                <Image src="/webp/about-hero.webp" alt="Villa i Hotel" fill quality={90} sizes="(max-width:1024px) 90vw, 42vw" className="object-cover" />
+                <Image src="/webp/IMG_3065.webp" alt="Villa i Hotel" fill quality={90} sizes="(max-width:1024px) 90vw, 42vw" className="object-cover" />
                 {/* Colour grade overlay */}
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(201,169,110,0.05) 0%, transparent 40%, rgba(5,7,14,0.5) 100%)' }} />
                 {/* TL frame */}
@@ -207,14 +207,14 @@ export default function AboutStory() {
                 transform: 'perspective(700px) rotateY(5deg) rotateX(-2deg)',
               }}
             >
-              <Image src="/webp/room8.jpg" alt="Superior Room" fill quality={90} sizes="30vw" className="object-cover" />
+              <Image src="/webp/IMG_299.webp" alt="Superior Room" fill quality={90} sizes="30vw" className="object-cover" />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(5,7,14,0.8) 0%, transparent 55%)' }} />
               <span className="font-lato absolute bottom-2.5 left-3" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 8, letterSpacing: '0.25em', textTransform: 'uppercase' }}>
                 Superior Room
               </span>
             </motion.div>
 
-            {/* Floating badge: 100m */}
+            {/* Floating badge: 50m */}
             <motion.div
               initial={{ opacity: 0, x: -18 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -229,7 +229,7 @@ export default function AboutStory() {
                 padding: '14px 18px',
               }}
             >
-              <div className="font-playfair font-bold" style={{ color: GOLD, fontSize: '1.65rem', lineHeight: 1 }}>100m</div>
+              <div className="font-playfair font-bold" style={{ color: GOLD, fontSize: '1.65rem', lineHeight: 1 }}>50m</div>
               <div className="font-lato" style={{ color: 'rgba(255,255,255,0.38)', fontSize: 8, letterSpacing: '0.3em', textTransform: 'uppercase', marginTop: 5 }}>To the Ocean</div>
             </motion.div>
 
@@ -274,7 +274,7 @@ export default function AboutStory() {
 
             <div className="space-y-4 mb-8">
               <p className="font-lato text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.50)' }}>
-                Villa i was born from a simple desire — to share the beauty of coastal Sri Lanka with the world. Nestled in Mount Lavinia, our family-run villa offers a rare blend of local warmth and refined comfort, just steps from the Indian Ocean.
+                Villa i was born from a simple desire to share the beauty of coastal Sri Lanka with the world. Nestled in Mount Lavinia, our family-run villa offers a rare blend of local warmth and refined comfort, just steps from the Indian Ocean.
               </p>
               <p className="font-lato text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.38)' }}>
                 From hand-crafted interiors to home-cooked meals, we pour our heritage into every detail so your stay feels less like a hotel and more like a homecoming.

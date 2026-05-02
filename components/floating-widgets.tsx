@@ -83,11 +83,10 @@ export function FloatingWidgets() {
         }
         .inquire-float-btn.pulse { animation: pulse-ring 2s infinite; }
 
-        @media (max-width: 767px) { .inquire-float-btn { display: none !important; } }
-        @media (max-width: 768px) {
-          .floating-widgets { bottom: 20px; right: 20px; gap: 12px; }
-          .floating-btn { width: 56px; height: 56px; }
-          .floating-btn svg { width: 24px; height: 24px; }
+        /* Hidden on mobile — MobileActionBar handles these actions */
+        @media (max-width: 767px) { .floating-widgets { display: none !important; } }
+        @media (min-width: 768px) {
+          .floating-widgets { bottom: 30px; right: 30px; gap: 16px; }
         }
 
         /* Modal */

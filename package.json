@@ -34,6 +34,7 @@
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.56.1",
     "react-icons": "^5.5.0",
+    "sharp": "^0.34.5",
     "tailwind-merge": "^3.5.0",
     "three": "^0.184.0"
   },
@@ -45,6 +46,7 @@
     "autoprefixer": "^10.4.21",
     "eslint": "^9",
     "eslint-config-next": "latest",
+    "heic-convert": "^2.1.0",
     "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.19.2",

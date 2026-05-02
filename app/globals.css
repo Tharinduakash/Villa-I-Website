@@ -5,6 +5,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
@@ -13,6 +14,28 @@
     @apply text-white font-lato;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Prevent rubber-band overscroll background flash */
+    overscroll-behavior: none;
+  }
+
+  /* Remove tap highlight on mobile */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Touch-friendly: prevent 300ms click delay */
+  button, a, [role="button"] {
+    touch-action: manipulation;
+  }
+
+  /* Prevent zoom on input focus on iOS */
+  input, textarea, select {
+    font-size: 16px;
+  }
+  @media (min-width: 640px) {
+    input, textarea, select {
+      font-size: inherit;
+    }
   }
 
   ::selection {
@@ -75,9 +98,133 @@
   .card-gradient {
     background: linear-gradient(145deg, #0f1228 0%, #080a1c 100%);
   }
+
+  /* ── Glassmorphism panel ─────────────────────────────────────────── */
+  .glass-panel {
+    background: rgba(15, 18, 40, 0.55);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border: 1px solid rgba(201, 169, 110, 0.12);
+  }
+
+  /* ── Gold glow border ────────────────────────────────────────────── */
+  .gold-border-glow {
+    border: 1px solid rgba(201, 169, 110, 0.25);
+    box-shadow: 0 0 0 0 rgba(201, 169, 110, 0);
+    transition: box-shadow 0.4s ease, border-color 0.4s ease;
+  }
+  .gold-border-glow:hover {
+    border-color: rgba(201, 169, 110, 0.6);
+    box-shadow: 0 0 24px 2px rgba(201, 169, 110, 0.15);
+  }
+
+  /* ── Floating animation ──────────────────────────────────────────── */
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  /* ── Gold pulse ──────────────────────────────────────────────────── */
+  .animate-pulse-gold {
+    animation: pulse-gold 2.5s ease-in-out infinite;
+  }
+
+  /* ── Clip reveal ─────────────────────────────────────────────────── */
+  .animate-reveal-up {
+    animation: reveal-up 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  /* ── Section bleed — eliminates hard seams between sections ─────── */
+  .section-bleed-top {
+    position: relative;
+  }
+  .section-bleed-top::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 120px;
+    background: linear-gradient(to bottom, #06080f, transparent);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ── Image hover zoom wrapper ────────────────────────────────────── */
+  .img-zoom {
+    overflow: hidden;
+  }
+  .img-zoom img, .img-zoom > div {
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .img-zoom:hover img, .img-zoom:hover > div {
+    transform: scale(1.06);
+  }
+
+  /* ── Mobile safe scroll — ensure content clears bottom action bar ── */
+  @media (max-width: 767px) {
+    .section-padding {
+      @apply py-14;
+    }
+  }
+
+  /* ── Mobile card — larger tap target, better contrast ───────────── */
+  @media (max-width: 767px) {
+    .gold-border-glow {
+      border-color: rgba(201, 169, 110, 0.2);
+    }
+  }
+
+  /* ── Swipe hint on horizontal scrollers ─────────────────────────── */
+  .scroll-x-snap {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .scroll-x-snap::-webkit-scrollbar { display: none; }
+  .scroll-x-snap > * {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+
+  /* ── Premium underline link ──────────────────────────────────────── */
+  .link-underline {
+    position: relative;
+    display: inline-block;
+  }
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0;
+    width: 0; height: 1px;
+    background: #C9A96E;
+    transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .link-underline:hover::after {
+    width: 100%;
+  }
 }
 
 @keyframes shimmer {
   0% { background-position: -200% center; }
   100% { background-position: 200% center; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+@keyframes pulse-gold {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,169,110,0); }
+  50%       { box-shadow: 0 0 28px 4px rgba(201,169,110,0.22); }
+}
+
+@keyframes reveal-up {
+  from { clip-path: inset(0 0 100% 0); opacity: 0; }
+  to   { clip-path: inset(0 0 0% 0);   opacity: 1; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }

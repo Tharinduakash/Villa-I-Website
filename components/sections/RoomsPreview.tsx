@@ -10,6 +10,7 @@ interface Room {
   shortName: string
   description: string
   features: string[]
+  priceUSD: number
   price: string
   image: string
   capacity: string

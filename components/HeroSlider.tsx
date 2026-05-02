@@ -6,7 +6,7 @@ import { HiArrowRight } from 'react-icons/hi'
 
 const slides = [
   {
-    image: '/webp/hotel.png',
+    image: '/webp/villa.png',
     eyebrow: 'Mount Lavinia, Sri Lanka',
     title: 'Ocean Meets',
     titleItalic: 'Paradise',
@@ -14,15 +14,25 @@ const slides = [
     cta: { label: 'Reserve Your Stay', href: '/contact' },
     ctaSecondary: { label: 'Explore Rooms', href: '/rooms' },
   },
-  {
-    image: '/webp/room1.jpg',
+   {
+    image: '/webp/roomvilla.png',
     eyebrow: 'Comfort for Every Stay',
     title: 'Relax in',
-    titleItalic: 'Non A/C  A/C',
+    titleItalic: 'Non A/C & A/C',
     titleEnd: 'Rooms',
     cta: { label: 'View Rooms', href: '/rooms' },
     ctaSecondary: { label: 'Book Now', href: '/contact' },
   },
+   {
+    image: '/webp/Anantara Tangalle - Dining by Design.jpg',
+    eyebrow: '50m from the Beach',
+    title: 'Wake Up to',
+    titleItalic: 'Ocean',
+    titleEnd: 'Breezes',
+    cta: { label: 'Reserve Your Stay', href: '/contact' },
+    ctaSecondary: { label: 'Explore Experience', href: '/about' },
+  },
+ 
   {
     image: '/webp/fruit juices.webp',
     eyebrow: 'Refreshing Moments',
@@ -33,7 +43,7 @@ const slides = [
     ctaSecondary: { label: 'Contact Us', href: '/contact' },
   },
   {
-    image: '/webp/Accommodation One Bedroom.jpg',
+    image: '/webp/IMG_3123.webp',
     eyebrow: 'Private & Exclusive',
     title: 'Book the',
     titleItalic: 'Full Villa',
@@ -41,15 +51,7 @@ const slides = [
     cta: { label: 'Book Full Villa', href: '/rooms#full-villa' },
     ctaSecondary: { label: 'View All Rooms', href: '/rooms' },
   },
-  {
-    image: '/webp/Waves.png',
-    eyebrow: '100m from the Beach',
-    title: 'Wake Up to',
-    titleItalic: 'Ocean',
-    titleEnd: 'Breezes',
-    cta: { label: 'Reserve Your Stay', href: '/contact' },
-    ctaSecondary: { label: 'Explore Experience', href: '/about' },
-  },
+ 
 ]
 
 const SLIDE_DURATION = 6500
