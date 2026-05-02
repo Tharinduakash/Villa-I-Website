@@ -7,6 +7,7 @@ import RoomsAmenities from '@/components/sections/RoomsAmenities'
 import BookingBanner from '@/components/BookingBanner'
 import { prisma } from '@/lib/prisma'
 import { rooms as staticRooms } from '@/lib/data'
+import { FloatingWidgets } from '@/components/floating-widgets'
 
 // Static USD approximations used when DB is unreachable
 const STATIC_USD: Record<string, number> = {
@@ -73,6 +74,7 @@ export default async function RoomsPage() {
   return (
     <>
       <RoomsHero />
+      <FloatingWidgets />
       <RoomsList rooms={rooms} />
       <RoomsAmenities />
       <BookingBanner />
