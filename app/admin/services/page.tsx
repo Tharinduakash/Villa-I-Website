@@ -21,6 +21,15 @@ type ServiceForm = {
   features: string
 }
 
+function PageLoader() {
+  return (
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="w-8 h-8 border-2 border-t-transparent rounded-full animate-spin"
+        style={{ borderColor: '#C9A96E', borderTopColor: 'transparent' }} />
+    </div>
+  )
+}
+
 export default function AdminServicesPage() {
   const [services,    setServices]    = useState<Service[]>([])
   const [loading,     setLoading]     = useState(true)
@@ -271,8 +280,9 @@ export default function AdminServicesPage() {
           <p className="font-playfair text-xl text-white mb-2">No services yet</p>
         </div>
       ) : (
-        <div className="border overflow-hidden" style={{ background: 'linear-gradient(160deg, rgba(11,14,26,1) 0%, rgba(7,9,17,1) 100%)', borderColor: 'rgba(201,169,110,0.12)' }}>
-          <table className="w-full">
+        <div className="border" style={{ background: 'linear-gradient(160deg, rgba(11,14,26,1) 0%, rgba(7,9,17,1) 100%)', borderColor: 'rgba(201,169,110,0.12)' }}>
+          <div className="overflow-x-auto">
+          <table className="w-full min-w-[640px]">
             <thead>
               <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                 {['Image', 'Icon', 'Title', 'Features', 'Actions'].map((h) => (
@@ -331,17 +341,10 @@ export default function AdminServicesPage() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       )}
     </div>
   )
 }
 
-function PageLoader() {
-  return (
-    <div className="flex items-center justify-center min-h-[60vh]">
-      <div className="w-8 h-8 border-2 border-t-transparent rounded-full animate-spin"
-        style={{ borderColor: '#C9A96E', borderTopColor: 'transparent' }} />
-    </div>
-  )
-}

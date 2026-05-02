@@ -66,7 +66,7 @@ export default function RoomCard({ room, index = 0 }: { room: Room; index?: numb
       transition={{ duration: 0.7, delay: index * 0.12 }}
       whileHover={{ y: -6 }}
       whileTap={{ scale: 0.97 }}
-      className="group relative flex flex-col overflow-hidden"
+      className="group relative flex flex-col overflow-hidden h-full"
       style={{
         background: 'linear-gradient(145deg, #0f1228 0%, #0a0d1c 40%, #06080f 100%)',
         border: '1px solid rgba(176,141,87,0.12)',

@@ -222,8 +222,8 @@ export default function Footer() {
                 },
                 {
                   icon: <MdPhone size={14} />,
-                  content: '+94 76 537 5285',
-                  href: 'tel:+94765375285',
+                  content: '+94 77 786 3412',
+                  href: 'tel:+94777863412',
                 },
                 {
                   icon: <MdEmail size={14} />,

@@ -6,7 +6,7 @@ export default function RoomsHero() {
   return (
     <section className="relative h-[65vh] min-h-[450px] overflow-hidden flex items-end">
       <Image
-        src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1920&q=85"
+        src="/webp/IMG_3236.png"
         alt="Villa I Hotel Rooms"
         fill
         priority

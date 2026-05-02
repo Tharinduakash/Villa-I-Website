@@ -86,7 +86,7 @@ export default function RoomsPreview({ rooms }: { rooms: Room[] }) {
           <div
             ref={scrollRef}
             onScroll={handleScroll}
-            className="flex overflow-x-auto gap-4 pb-4"
+            className="flex items-stretch overflow-x-auto gap-4 pb-4"
             style={{
               scrollSnapType: 'x mandatory',
               WebkitOverflowScrolling: 'touch' as never,
@@ -99,6 +99,7 @@ export default function RoomsPreview({ rooms }: { rooms: Room[] }) {
             {rooms.map((room, i) => (
               <div
                 key={room.id}
+                className="h-full"
                 style={{
                   flex: '0 0 82vw',
                   scrollSnapAlign: 'center',
