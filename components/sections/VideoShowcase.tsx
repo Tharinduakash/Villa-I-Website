@@ -198,7 +198,7 @@ export default function VideoShowcase() {
             >
               <video
                 ref={videoRef}
-                src="/webp/IMG_3233.kmp"
+                src="/webp/IMG_3233.mp4"
                 poster="/webp/spa.png"
                 loop
                 playsInline
