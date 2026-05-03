@@ -21,6 +21,9 @@ export const metadata: Metadata = {
   description:
     'Experience luxury by the sea at Villa i Hotel, Mount Lavinia, Sri Lanka. A private coastal retreat just 100m from the beach, offering A/C rooms, family suites, full villa bookings, and authentic Sri Lankan hospitality.',
   keywords: 'Villa i Hotel, Mount Lavinia, Sri Lanka, luxury hotel, beach hotel, accommodation, family rooms, villa booking',
+  icons: {
+    icon: '/icon.svg',
+  },
   openGraph: {
     title: 'Villa i Hotel | Luxury Beach Retreat',
     description: 'A private coastal retreat in Mount Lavinia, Sri Lanka.',
