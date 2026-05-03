@@ -99,7 +99,6 @@ export default function RoomsPreview({ rooms }: { rooms: Room[] }) {
             {rooms.map((room, i) => (
               <div
                 key={room.id}
-                className="h-full"
                 style={{
                   flex: '0 0 82vw',
                   scrollSnapAlign: 'center',
@@ -133,7 +132,7 @@ export default function RoomsPreview({ rooms }: { rooms: Room[] }) {
         </div>
 
         {/* ── Tablet / Desktop: standard grid ─────────────────────── */}
-        <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
+        <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {rooms.map((room, i) => (
             <RoomCard key={room.id} room={room} index={i} />
           ))}

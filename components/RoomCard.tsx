@@ -66,7 +66,7 @@ export default function RoomCard({ room, index = 0 }: { room: Room; index?: numb
       transition={{ duration: 0.7, delay: index * 0.12 }}
       whileHover={{ y: -6 }}
       whileTap={{ scale: 0.97 }}
-      className="group relative flex flex-col overflow-hidden h-full"
+      className="group relative flex flex-col overflow-hidden h-[580px]"
       style={{
         background: 'linear-gradient(145deg, #0f1228 0%, #0a0d1c 40%, #06080f 100%)',
         border: '1px solid rgba(176,141,87,0.12)',
@@ -102,7 +102,7 @@ export default function RoomCard({ room, index = 0 }: { room: Room; index?: numb
           src={imgSrc}
           alt={room.name}
           fill
-          className="object-cover transition-transform duration-700 ease-out"
+          className="object-cover object-center transition-transform duration-700 ease-out"
           style={{ transition: 'transform 0.7s ease-out' }}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
           onError={() => setImgSrc(ROOM_FALLBACKS[index % ROOM_FALLBACKS.length])}
@@ -210,7 +210,7 @@ export default function RoomCard({ room, index = 0 }: { room: Room; index?: numb
         {/* CTA */}
         <Link
           href="/contact"
-          className="flex items-center justify-between pt-4"
+          className="flex items-center justify-between pt-4 mt-auto"
           style={{ borderTop: '1px solid rgba(176,141,87,0.10)' }}
         >
           <span className="font-lato text-[10px] tracking-[0.25em] uppercase transition-colors duration-300 group-hover:text-luxury-gold" style={{ color: 'rgba(176,141,87,0.75)' }}>

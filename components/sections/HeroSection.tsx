@@ -1,12 +1,16 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { useRef } from 'react'
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
 import { HiArrowRight } from 'react-icons/hi'
+import { heroDesktopSlides, heroMobileSlides } from '@/lib/data'
+
+const SLIDE_DURATION = 5000
 
 export default function HeroSection() {
   const heroRef = useRef(null)
+  const [currentSlide, setCurrentSlide] = useState(0)
 
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -15,17 +19,61 @@ export default function HeroSection() {
   const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '30%'])
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroDesktopSlides.length)
+    }, SLIDE_DURATION)
+    return () => clearInterval(timer)
+  }, [])
+
   return (
     <section ref={heroRef} className="relative h-screen min-h-[700px] overflow-hidden">
       <motion.div className="absolute inset-0" style={{ y: heroY }}>
-        <Image
-          src="/webp/hotel.png"
-          alt="Mount Lavinia Beach"
-          fill
-          priority
-          className="object-cover object-center"
-          sizes="100vw"
-        />
+        {/* Desktop slides — landscape images */}
+        <div className="hidden md:block absolute inset-0">
+          <AnimatePresence initial={false}>
+            <motion.div
+              key={`desktop-${currentSlide}`}
+              className="absolute inset-0"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.2, ease: 'easeInOut' }}
+            >
+              <Image
+                src={heroDesktopSlides[currentSlide]}
+                alt="Villa i"
+                fill
+                priority={currentSlide === 0}
+                className="object-cover object-center"
+                sizes="100vw"
+              />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Mobile slides — portrait images */}
+        <div className="block md:hidden absolute inset-0">
+          <AnimatePresence initial={false}>
+            <motion.div
+              key={`mobile-${currentSlide}`}
+              className="absolute inset-0"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.2, ease: 'easeInOut' }}
+            >
+              <Image
+                src={heroMobileSlides[currentSlide]}
+                alt="Villa i"
+                fill
+                priority={currentSlide === 0}
+                className="object-cover object-center"
+                sizes="100vw"
+              />
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </motion.div>
 
       <div className="absolute inset-0 bg-gradient-to-r from-luxury-black/90 via-luxury-black/50 to-luxury-black/10" />
@@ -99,6 +147,20 @@ export default function HeroSection() {
           </Link>
         </motion.div>
       </motion.div>
+
+      {/* Slide indicator dots */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+        {heroDesktopSlides.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrentSlide(i)}
+            className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+              i === currentSlide ? 'bg-luxury-gold w-6' : 'bg-white/40'
+            }`}
+            aria-label={`Go to slide ${i + 1}`}
+          />
+        ))}
+      </div>
 
       <motion.div
         initial={{ opacity: 0 }}

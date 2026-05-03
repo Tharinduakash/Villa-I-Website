@@ -13,7 +13,8 @@ export default function RoomsHero() {
         className="object-cover"
         sizes="100vw"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-luxury-black via-luxury-black/40 to-luxury-black/20" />
+      <div className="absolute inset-0 bg-gradient-to-b from-luxury-black via-luxury-black/5 to-luxury-black/10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-luxury-black via-luxury-black/5 to-luxury-black/10" />
       <div className="relative z-10 container-padding w-full pb-16">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
