@@ -207,12 +207,13 @@ export default function HeroSlider() {
         .vs-scroll-line { width:1px; height:36px; background:linear-gradient(180deg,rgba(201,169,110,0.9),transparent); animation:vsPulse 2.2s ease-in-out infinite; }
         @keyframes vsPulse { 0%,100%{opacity:0.3;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(0.55)} }
 
-        .vs-btn-p { display:inline-flex; align-items:center; justify-content:center; padding:13px 30px; background:rgba(201,169,110,1); color:#0a0906; font-family:var(--font-lato,sans-serif); font-size:10px; letter-spacing:0.28em; text-transform:uppercase; text-decoration:none; white-space:nowrap; transition:background 0.3s,transform 0.2s; flex-shrink:0; }
-        .vs-btn-p:hover { background:#e8d5b0; transform:translateY(-1px); }
-        .vs-btn-s { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:13px 26px; border:1px solid rgba(255,255,255,0.22); color:rgba(255,255,255,0.78); font-family:var(--font-lato,sans-serif); font-size:10px; letter-spacing:0.28em; text-transform:uppercase; text-decoration:none; white-space:nowrap; transition:border-color 0.3s,color 0.3s,transform 0.2s; flex-shrink:0; }
-        .vs-btn-s:hover { border-color:rgba(201,169,110,0.6); color:rgba(201,169,110,1); transform:translateY(-1px); }
+        .vs-btn-p { display:inline-flex; align-items:center; justify-content:center; padding:13px 30px; background:rgba(201,169,110,1); color:#0a0906; font-family:var(--font-lato,sans-serif); font-size:10px; letter-spacing:0.28em; text-transform:uppercase; text-decoration:none; white-space:nowrap; transition:background 0.3s,transform 0.2s,box-shadow 0.3s; flex-shrink:0; box-shadow:0 4px 24px rgba(201,169,110,0.4),0 1px 8px rgba(0,0,0,0.5); }
+        .vs-btn-p:hover { background:#e8d5b0; transform:translateY(-1px); box-shadow:0 6px 32px rgba(201,169,110,0.55),0 2px 12px rgba(0,0,0,0.6); }
+        .vs-btn-s { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:13px 30px; border:1px solid rgba(255,255,255,0.45); color:rgba(255,255,255,0.92); background:rgba(5,7,14,0.5); backdrop-filter:blur(8px); font-family:var(--font-lato,sans-serif); font-size:10px; letter-spacing:0.28em; text-transform:uppercase; text-decoration:none; white-space:nowrap; transition:border-color 0.3s,color 0.3s,transform 0.2s,background 0.3s; flex-shrink:0; box-shadow:0 2px 12px rgba(0,0,0,0.4); }
+        .vs-btn-s:hover { border-color:rgba(201,169,110,0.7); color:rgba(201,169,110,1); background:rgba(5,7,14,0.65); transform:translateY(-1px); }
         .vs-btn-s .arrow { transition:transform 0.3s; flex-shrink:0; }
         .vs-btn-s:hover .arrow { transform:translateX(3px); }
+        @media (max-width: 639px) { .vs-btn-p, .vs-btn-s { width:100%; } }
 
         .hero-orb { position:absolute; border-radius:50%; pointer-events:none; filter:blur(70px); animation:orbFloat 8s ease-in-out infinite alternate; }
         @keyframes orbFloat { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(20px,-30px) scale(1.1)} }
@@ -245,6 +246,7 @@ export default function HeroSlider() {
             </motion.div>
             <div className="absolute inset-0" style={{ background: 'linear-gradient(105deg,rgba(5,7,14,0.78) 0%,rgba(5,7,14,0.38) 38%,rgba(5,7,14,0.04) 65%,transparent 80%)' }} />
             <div className="absolute inset-0" style={{ background: 'linear-gradient(to top,rgba(5,7,14,0.62) 0%,rgba(5,7,14,0.08) 22%,transparent 42%)' }} />
+            <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom,rgba(5,7,14,0.65) 0%,rgba(5,7,14,0.2) 18%,transparent 36%)', zIndex: 1 }} />
           </div>
         )}
 
@@ -256,6 +258,8 @@ export default function HeroSlider() {
           </motion.div>
           <div className="absolute inset-0" style={{ background: 'linear-gradient(105deg,rgba(5,7,14,0.78) 0%,rgba(5,7,14,0.38) 38%,rgba(5,7,14,0.04) 65%,transparent 80%)' }} />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to top,rgba(5,7,14,0.62) 0%,rgba(5,7,14,0.08) 22%,transparent 42%)' }} />
+          {/* Top gradient — keeps navbar text readable on any photo */}
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom,rgba(5,7,14,0.65) 0%,rgba(5,7,14,0.2) 18%,transparent 36%)', zIndex: 1 }} />
         </div>
 
         {/* Decorative vertical line */}

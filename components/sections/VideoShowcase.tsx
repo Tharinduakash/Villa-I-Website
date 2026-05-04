@@ -1,7 +1,7 @@
 'use client'
 import { useRef, useState, useEffect, useCallback } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
-import { Play, Pause, Volume2, VolumeX, Maximize2 } from 'lucide-react'
+import { Play, Pause, Volume2, VolumeX, Maximize2, X } from 'lucide-react'
 import Link from 'next/link'
 
 const GOLD     = 'rgba(201,169,110,1)'
@@ -32,6 +32,7 @@ export default function VideoShowcase() {
   const [duration, setDuration] = useState(0)
   const [current,  setCurrent]  = useState(0)
   const [hovered,  setHovered]  = useState(false)
+  const [mobileFs, setMobileFs] = useState(false)
 
   useEffect(() => {
     const vid = videoRef.current
@@ -74,9 +75,39 @@ export default function VideoShowcase() {
 
   const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`
 
-  const handleFullscreen = () => {
-    if (videoRef.current?.requestFullscreen) videoRef.current.requestFullscreen()
+  const handleFullscreen = async () => {
+    const vid = videoRef.current
+    if (!vid) return
+    // Mobile: CSS-rotation fullscreen (works on iOS + Android, no API dependency)
+    if (window.matchMedia('(max-width: 767px)').matches) {
+      setMobileFs(true)
+      return
+    }
+    // Desktop: native browser fullscreen
+    try { await vid.requestFullscreen() } catch {}
   }
+
+  const exitMobileFs = useCallback(() => setMobileFs(false), [])
+
+  // Lock body scroll and handle Escape key while mobile fullscreen is open
+  useEffect(() => {
+    if (!mobileFs) return
+    document.body.style.overflow = 'hidden'
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') exitMobileFs() }
+    window.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [mobileFs, exitMobileFs])
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    // Prevent the browser from also firing a synthetic click (which would double-toggle)
+    e.preventDefault()
+    togglePlay()
+    // Clear any stuck hover state from touch — so the icon hides correctly after playing resumes
+    setHovered(false)
+  }, [togglePlay])
 
   return (
     <section
@@ -184,10 +215,43 @@ export default function VideoShowcase() {
             transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className="relative"
           >
+            {/* ── Mobile fullscreen: black backdrop ── */}
+            {mobileFs && (
+              <div
+                className="fixed inset-0 bg-black md:hidden"
+                style={{ zIndex: 9998 }}
+                onClick={exitMobileFs}
+              />
+            )}
+
+            {/* ── Mobile fullscreen: close button (outside rotated container so it stays upright) ── */}
+            {mobileFs && (
+              <button
+                className="fixed md:hidden flex items-center justify-center w-10 h-10 rounded-full"
+                style={{ top: 16, right: 16, zIndex: 10001, background: 'rgba(0,0,0,0.7)', border: '1px solid rgba(255,255,255,0.25)', color: '#fff' }}
+                onClick={exitMobileFs}
+                onTouchEnd={(e) => { e.stopPropagation(); exitMobileFs() }}
+              >
+                <X size={18} />
+              </button>
+            )}
+
             {/* Video card */}
             <div
               className="relative overflow-hidden cursor-pointer"
-              style={{
+              style={mobileFs ? {
+                // CSS-rotation fullscreen: phone stays portrait, video rotates 90° to fill landscape
+                position: 'fixed',
+                top: '50%',
+                left: '50%',
+                // swap dimensions: width=100vh fills phone height, height=100vw fills phone width
+                width: '100vh',
+                height: '100vw',
+                transform: 'translate(-50%, -50%) rotate(90deg)',
+                zIndex: 9999,
+                border: 'none',
+                borderRadius: 0,
+              } : {
                 aspectRatio: '16 / 10',
                 border: '1px solid rgba(201,169,110,0.18)',
                 boxShadow: '0 30px 80px rgba(0,0,0,0.65), 0 0 0 1px rgba(201,169,110,0.06)',
@@ -195,6 +259,7 @@ export default function VideoShowcase() {
               onMouseEnter={() => setHovered(true)}
               onMouseLeave={() => setHovered(false)}
               onClick={togglePlay}
+              onTouchEnd={handleTouchEnd}
             >
               {/* muted must be a static HTML attribute (not bound to state) for browsers
                   to allow autoplay. Mute toggling is handled via videoRef.current.muted */}
@@ -269,6 +334,7 @@ export default function VideoShowcase() {
                   opacity: hovered || !playing ? 1 : 0,
                 }}
                 onClick={(e) => e.stopPropagation()}
+                onTouchEnd={(e) => e.stopPropagation()}
               >
                 {/* Progress bar */}
                 <div
@@ -301,8 +367,13 @@ export default function VideoShowcase() {
                     <button onClick={toggleMute} className="flex items-center justify-center w-6 h-6 rounded-full hover:bg-white/10 transition-colors">
                       {muted ? <VolumeX size={11} style={{ color: 'rgba(255,255,255,0.40)' }} /> : <Volume2 size={11} style={{ color: GOLD }} />}
                     </button>
-                    <button onClick={handleFullscreen} className="flex items-center justify-center w-6 h-6 rounded-full hover:bg-white/10 transition-colors">
-                      <Maximize2 size={10} style={{ color: 'rgba(255,255,255,0.40)' }} />
+                    <button
+                      onClick={mobileFs ? exitMobileFs : handleFullscreen}
+                      className="flex items-center justify-center w-6 h-6 rounded-full hover:bg-white/10 transition-colors"
+                    >
+                      {mobileFs
+                        ? <X size={10} style={{ color: GOLD }} />
+                        : <Maximize2 size={10} style={{ color: 'rgba(255,255,255,0.40)' }} />}
                     </button>
                   </div>
                 </div>

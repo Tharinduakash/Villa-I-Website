@@ -112,7 +112,7 @@ function ImageUploader({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder="Or paste an image URL…"
-          className="flex-1 px-4 py-2.5 font-lato text-sm text-white outline-none"
+          className="flex-1 min-w-0 px-4 py-2.5 font-lato text-sm text-white outline-none"
           style={{ background: '#0B0B0B', border: '1px solid rgba(255,255,255,0.08)' }}
         />
         <input
@@ -191,13 +191,13 @@ function GalleryUploader({
       </label>
 
       {/* Upload multiple button */}
-      <div className="flex gap-2 mb-3">
+      <div className="flex gap-2 mb-2">
         <input
           value={urlInput}
           onChange={(e) => setUrlInput(e.target.value)}
           onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addUrl() } }}
           placeholder="Paste image URL and press Enter…"
-          className="flex-1 px-4 py-2.5 font-lato text-sm text-white outline-none"
+          className="flex-1 min-w-0 px-4 py-2.5 font-lato text-sm text-white outline-none"
           style={{ background: '#0B0B0B', border: '1px solid rgba(255,255,255,0.08)' }}
         />
         <button type="button" onClick={addUrl}
@@ -205,6 +205,8 @@ function GalleryUploader({
           style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.5)', border: '1px solid rgba(255,255,255,0.1)' }}>
           <Plus size={13} /> Add URL
         </button>
+      </div>
+      <div className="mb-3">
         <input
           ref={fileRef}
           type="file"
@@ -217,7 +219,7 @@ function GalleryUploader({
           type="button"
           onClick={() => fileRef.current?.click()}
           disabled={uploading}
-          className="flex items-center gap-1.5 px-4 py-2.5 font-lato text-xs tracking-[0.15em] uppercase flex-shrink-0 disabled:opacity-50"
+          className="flex w-full items-center justify-center gap-1.5 px-4 py-2.5 font-lato text-xs tracking-[0.15em] uppercase disabled:opacity-50"
           style={{ background: 'rgba(201,169,110,0.15)', border: '1px solid rgba(201,169,110,0.35)', color: GOLD }}
         >
           {uploading
@@ -318,7 +320,7 @@ export default function RoomForm({ defaultValues, roomId }: Props) {
   }
 
   return (
-    <div className="p-6 lg:p-8 max-w-3xl mx-auto">
+    <div className="p-6 lg:p-8 max-w-3xl mx-auto overflow-x-hidden">
       <div className="mb-8">
         <Link href="/admin/rooms"
           className="inline-flex items-center gap-2 font-lato text-xs tracking-wider uppercase mb-5 transition-colors"
@@ -339,7 +341,7 @@ export default function RoomForm({ defaultValues, roomId }: Props) {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 
         {/* Basic Info */}
-        <div className="p-6 border" style={cardStyle}>
+        <div className="p-6 border overflow-hidden" style={cardStyle}>
           <h2 className="font-playfair text-lg text-white mb-5">Basic Information</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
@@ -400,7 +402,7 @@ export default function RoomForm({ defaultValues, roomId }: Props) {
         </div>
 
         {/* Images */}
-        <div className="p-6 border space-y-6" style={cardStyle}>
+        <div className="p-6 border space-y-6 overflow-hidden" style={cardStyle}>
           <h2 className="font-playfair text-lg text-white">Room Images</h2>
 
           {/* Main image */}

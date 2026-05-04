@@ -175,6 +175,7 @@ export default function Navbar() {
           letter-spacing:0.2em; text-transform:uppercase; text-decoration:none;
           transition:color 0.3s; padding:4px 0;
           transform-style:preserve-3d;
+          text-shadow: 0 1px 8px rgba(0,0,0,0.9), 0 0 24px rgba(0,0,0,0.75);
         }
         .vi-nav-link::after {
           content:''; position:absolute; bottom:-2px; left:0; width:0; height:1px;
@@ -204,6 +205,7 @@ export default function Navbar() {
           white-space:nowrap; position:relative; overflow:hidden;
           color:rgba(201,169,110,1);
           border:1px solid rgba(201,169,110,0.55);
+          filter: drop-shadow(0 1px 6px rgba(0,0,0,0.8));
         }
         .vi-book-btn::before {
           content:''; position:absolute; inset:0;
