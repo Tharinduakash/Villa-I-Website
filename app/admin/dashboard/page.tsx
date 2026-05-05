@@ -68,7 +68,7 @@ export default function DashboardPage() {
       <div className="mb-8">
         <h1 className="font-playfair text-3xl text-white mb-1">Dashboard</h1>
         <p className="font-lato text-sm" style={{ color: 'rgba(255,255,255,0.35)' }}>
-          Overview of Villa i Hotel
+          Overview of Villa I Hotel
         </p>
       </div>
 

@@ -1,12 +1,13 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 
 // ── Types ──────────────────────────────────────────────────────────
 export interface GalleryPhoto {
-  id: number
+  id: string
   title: string
   image: string
   guestName: string
@@ -14,144 +15,8 @@ export interface GalleryPhoto {
   rating?: number
   review?: string
   year?: number
-  span?: 1 | 2 | 3
+  span?: number
 }
-
-// ── Shared photo data (used in both section + page) ────────────────
-export const GALLERY_PHOTOS: GalleryPhoto[] = [
-  {
-    id: 1,
-    title: 'Comfort with a View',
-    image: '/webp/IMG_2980.webp',
-    guestName: 'Sarah Mitchell',
-    roomType: 'A/C Room',
-    rating: 5,
-    review: 'Waking up to this view every morning was absolutely magical.',
-    year: 2025,
-    span: 3,
-  },
-  {
-    id: 2,
-    title: 'Beach Expierience',
-    image: '/webp/beach.avif',
-    guestName: 'James O\'Brien',
-    roomType: 'A/C Room',
-    rating: 5,
-    review: 'The beach access was a dream come true.',
-    year: 2025,
-    span: 2,
-  },
-  {
-    id: 3,
-    title: 'Luxury Suite Interior',
-    image: '/webp/IMG_3065.webp',
-    guestName: 'Lena Hoffmann',
-    roomType: 'A/C Room',
-    rating: 5,
-    review: 'Spotless, elegant and so comfortable.',
-    year: 2026,
-    span: 1,
-  },
-  {
-    id: 4,
-    title: 'Beach Walk at Dusk',
-    image: '/webp/pexels-vika-glitter-392079-31277449.jpg',
-    guestName: 'Priya Wijesekara',
-    roomType: 'Family Room',
-    rating: 5,
-    review: 'The beach literally steps away. We went every evening.',
-    year: 2025,
-    span: 2,
-  },
-  {
-    id: 5,
-    title: 'Evining Vibe',
-    image: '/webp/girls1.jpg',
-    guestName: 'Marco Rossi',
-    roomType: 'Non A/C Room',
-    rating: 5,
-    review: 'The home-cooked meals were the highlight of our stay.',
-    year: 2026,
-    span: 3,
-  },
-  {
-    id: 6,
-    title: 'Family Villa Time',
-    image: '/webp/beach-girl.jpg',
-    guestName: 'Emma Thornton',
-    roomType: 'Full Villa',
-    rating: 5,
-    review: 'Booked the whole villa for our family — best decision.',
-    year: 2025,
-    span: 1,
-  },
-  {
-    id: 7,
-    title: 'Sunset from the Balcony',
-    image: '/webp/IMG_3176.webp',
-    guestName: 'Amal Perera',
-    roomType: 'A/C Room',
-    rating: 5,
-    review: 'That golden hour from our balcony — unforgettable.',
-    year: 2026,
-    span: 2,
-  },
-  {
-    id: 8,
-    title: 'Family Suite Living Area',
-    image: '/webp/IMG_3123.webp',
-    guestName: 'Thilini Kumari',
-    roomType: 'Family Room',
-    rating: 4,
-    review: 'Plenty of space for all four of us. Kids loved it.',
-    year: 2025,
-    span: 1,
-  },
-  {
-    id: 9,
-    title: 'Dinner with an Ocean View',
-    image: '/webp/foods11.jpg',
-    guestName: 'Chathu Silva',
-    roomType: 'Non A/C Room',
-    rating: 5,
-    review: 'Incredible location. The sound of waves all night long.',
-    year: 2025,
-    span: 3,
-  },
-  {
-    id: 10,
-    title: 'Room with Living Area',
-    image: '/webp/IMG_3002.webp',
-    guestName: 'Dinesh Rathnayake',
-    roomType: 'Non A/C Room',
-    rating: 4,
-    review: 'Loved the natural ventilation. Very calm and relaxing.',
-    year: 2026,
-    span: 2,
-  },
-  {
-    id: 11,
-    title: 'Washroom with a View',
-    image: '/webp/IMG_3049.webp',
-    guestName: 'Nina Schreiber',
-    roomType: 'A/C Room',
-    rating: 5,
-    review: 'Bathroom was such a unique experience!',
-    year: 2025,
-    span: 1,
-  },
-  {
-    id: 12,
-    title: 'Villa Exterior at Night',
-    image: '/webp/foods4.jpg',
-    guestName: 'Oliver Jensen',
-    roomType: 'Full Villa',
-    rating: 5,
-    review: 'The whole property glows beautifully at night.',
-    year: 2025,
-    span: 1,
-  },
-]
 
 const H: Record<number, string> = { 1: '160px', 2: '240px', 3: '320px' }
 const GOLD     = 'rgba(201,169,110,1)'
@@ -333,7 +198,16 @@ function MobileCard({ photo, index }: { photo: GalleryPhoto; index: number }) {
 
 // ── Main section ───────────────────────────────────────────────────
 export default function Gallery() {
-  const preview = GALLERY_PHOTOS.slice(0, 12)
+  const [photos, setPhotos] = useState<GalleryPhoto[]>([])
+
+  useEffect(() => {
+    fetch('/api/gallery/reviews?approved=true')
+      .then((r) => r.json())
+      .then((data) => setPhotos(Array.isArray(data) ? data : []))
+      .catch(() => {})
+  }, [])
+
+  const preview = photos.slice(0, 12)
 
   return (
     <section
@@ -433,7 +307,7 @@ export default function Gallery() {
           <div className="hg-mob-fade-l" />
           <div className="hg-mob-fade-r" />
           <div className="hg-mob-track">
-            {GALLERY_PHOTOS.map((photo, i) => (
+            {photos.map((photo, i) => (
               <MobileCard key={photo.id} photo={photo} index={i} />
             ))}
             {/* View all card */}
@@ -445,7 +319,7 @@ export default function Gallery() {
                   </svg>
                 </div>
                 <p className="hg-mob-viewall-text">View<br />All</p>
-                <p className="hg-mob-viewall-count">{GALLERY_PHOTOS.length}+ photos</p>
+                <p className="hg-mob-viewall-count">{photos.length}+ photos</p>
               </div>
             </Link>
           </div>
@@ -456,7 +330,7 @@ export default function Gallery() {
           className="hg-masonry hidden sm:block px-6 lg:px-10"
           style={{ columnGap: '8px' }}
         >
-          {preview.map((photo, i) => (
+          {preview.map((photo: GalleryPhoto, i: number) => (
             <PhotoCard key={photo.id} photo={photo} index={i} />
           ))}
         </div>
@@ -485,7 +359,7 @@ export default function Gallery() {
           className="font-lato text-center mt-8 px-6"
           style={{ fontSize: '9px', letterSpacing: '0.3em', color: 'rgba(255,255,255,0.18)', textTransform: 'uppercase' }}
         >
-          Showing {preview.length} of {GALLERY_PHOTOS.length}+ guest moments
+          Showing {preview.length} of {photos.length}+ guest moments
         </p>
       </div>
 

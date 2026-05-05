@@ -27,19 +27,9 @@ const roomLinks = [
 ]
 
 const legalLinks = [
-  { href: '#', label: 'Privacy Policy'    },
-  { href: '#', label: 'Terms & Conditions' },
-  { href: '#', label: 'Cancellation Policy'},
-]
-
-const socials = [
-  { Icon: FaInstagram,    href: '#',                        label: 'Instagram',   hoverColor: 'rgba(225,48,108,0.9)'  },
-  { Icon: FaFacebook,     href: '#',                        label: 'Facebook',    hoverColor: 'rgba(24,119,242,0.9)'  },
-  { Icon: FaWhatsapp,     href: 'https://wa.me/94XXXXXXXX', label: 'WhatsApp',    hoverColor: 'rgba(37,211,102,0.9)'  },
-  { Icon: FaTripadvisor,  href: '#',                        label: 'TripAdvisor', hoverColor: 'rgba(52,168,83,0.9)'   },
-  { Icon: SiBookingdotcom,href: '#',                        label: 'Booking',     hoverColor: 'rgba(0,114,255,0.9)'   },
-  { Icon: AgodaIcon,      href: '#',                        label: 'Agoda',       hoverColor: 'rgba(230,0,100,0.9)'   },
-  { Icon: SiAirbnb,       href: '#',                        label: 'Airbnb',      hoverColor: 'rgba(255,90,95,0.9)'   },
+  { href: '/privacy-policy',      label: 'Privacy Policy'     },
+  { href: '/terms-conditions',    label: 'Terms & Conditions'  },
+  { href: '/cancellation-policy', label: 'Cancellation Policy' },
 ]
 
 function AgodaIcon({ size = 17, ...props }: { size?: number } & React.SVGProps<SVGSVGElement>) {
@@ -49,6 +39,16 @@ function AgodaIcon({ size = 17, ...props }: { size?: number } & React.SVGProps<S
     </svg>
   )
 }
+
+const socials = [
+  { Icon: FaInstagram,    href: '#',                                             label: 'Instagram',   hoverColor: 'rgba(225,48,108,0.9)'  },
+  { Icon: FaFacebook,     href: '#',                                             label: 'Facebook',    hoverColor: 'rgba(24,119,242,0.9)'  },
+  { Icon: FaWhatsapp,     href: 'https://wa.me/94777863412',                     label: 'WhatsApp',    hoverColor: 'rgba(37,211,102,0.9)'  },
+  { Icon: FaTripadvisor,  href: 'https://www.tripadvisor.com/Profile/villiHotel2026', label: 'TripAdvisor', hoverColor: 'rgba(52,168,83,0.9)'   },
+  { Icon: SiBookingdotcom,href: '#',                                             label: 'Booking',     hoverColor: 'rgba(0,114,255,0.9)'   },
+  { Icon: AgodaIcon,      href: '#',                                             label: 'Agoda',       hoverColor: 'rgba(230,0,100,0.9)'   },
+  { Icon: SiAirbnb,       href: '#',                                             label: 'Airbnb',      hoverColor: 'rgba(255,90,95,0.9)'   },
+]
 
 const GOLD = 'rgba(201,169,110,1)'
 const GOLD_DIM = 'rgba(201,169,110,0.55)'
@@ -226,9 +226,14 @@ export default function Footer() {
                   href: 'tel:+94777863412',
                 },
                 {
+                  icon: <MdPhone size={14} />,
+                  content: '+94 11 272 7147',
+                  href: 'tel:+94112727147',
+                },
+                {
                   icon: <MdEmail size={14} />,
-                  content: 'info@villaihotel.com',
-                  href: 'mailto:info@villaihotel.com',
+                  content: 'infovillaimountlavinia@gmail.com',
+                  href: 'mailto:infovillaimountlavinia@gmail.com',
                 },
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-3 group">
@@ -350,7 +355,7 @@ export default function Footer() {
                   <div
                     className="flex overflow-hidden transition-all duration-300"
                     style={{
-                      border: `1px solid ${focused ? 'rgba(201,169,110,0.50)' : 'rgba(255,255,255,0.09)'}`,
+                      border: `1px solid ${subError ? 'rgba(239,68,68,0.5)' : focused ? 'rgba(201,169,110,0.50)' : 'rgba(255,255,255,0.09)'}`,
                       boxShadow: focused ? '0 0 0 3px rgba(201,169,110,0.06)' : 'none',
                     }}
                   >
@@ -358,7 +363,7 @@ export default function Footer() {
                       type="email"
                       required
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e) => { setEmail(e.target.value); setSubError('') }}
                       onFocus={() => setFocused(true)}
                       onBlur={() => setFocused(false)}
                       placeholder="your@email.com"
@@ -367,14 +372,20 @@ export default function Footer() {
                     />
                     <button
                       type="submit"
-                      className="flex items-center justify-center w-11 flex-shrink-0 transition-colors duration-200"
+                      disabled={subLoading}
+                      className="flex items-center justify-center w-11 flex-shrink-0 transition-colors duration-200 disabled:opacity-60"
                       style={{ background: GOLD }}
-                      onMouseEnter={(e) => (e.currentTarget.style.background = '#e8d5b0')}
+                      onMouseEnter={(e) => { if (!subLoading) e.currentTarget.style.background = '#e8d5b0' }}
                       onMouseLeave={(e) => (e.currentTarget.style.background = GOLD)}
                     >
-                      <HiArrowRight size={14} style={{ color: '#0a0906' }} />
+                      {subLoading
+                        ? <span className="w-3.5 h-3.5 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: '#0a0906', borderTopColor: 'transparent' }} />
+                        : <HiArrowRight size={14} style={{ color: '#0a0906' }} />}
                     </button>
                   </div>
+                  {subError && (
+                    <p className="font-lato text-xs mt-2" style={{ color: 'rgba(239,68,68,0.85)' }}>{subError}</p>
+                  )}
                 </form>
               </>
             )}

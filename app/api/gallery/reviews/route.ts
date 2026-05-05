@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { guestName, email, title, image, roomType, rating, review, approved } = body
+    const { guestName, email, title, image, roomType, rating, review, span, year, approved } = body
 
     if (!guestName || !email || !title || !roomType || !rating || !review) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
@@ -46,6 +46,9 @@ export async function POST(request: NextRequest) {
     if (isNaN(ratingNum) || ratingNum < 1 || ratingNum > 5) {
       return NextResponse.json({ error: 'Rating must be between 1 and 5' }, { status: 400 })
     }
+
+    const spanNum = span ? Math.min(3, Math.max(1, parseInt(String(span)))) : 1
+    const yearNum = year ? parseInt(String(year)) : new Date().getFullYear()
 
     // Only admins can create pre-approved entries
     let isApproved = false
@@ -63,6 +66,8 @@ export async function POST(request: NextRequest) {
         roomType,
         rating: ratingNum,
         review,
+        span: spanNum,
+        year: yearNum,
         approved: isApproved,
       },
     })

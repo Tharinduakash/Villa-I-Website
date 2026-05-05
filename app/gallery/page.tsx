@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'framer-motion'
-import { GALLERY_PHOTOS, GalleryPhoto } from '@/components/Gallery'
+import { GalleryPhoto } from '@/components/Gallery'
 import ReviewModal from '@/components/ReviewModal'
 
 const GOLD     = 'rgba(201,169,110,1)'
@@ -14,17 +14,6 @@ const ROOM_TYPES = ['All', 'A/C Room', 'Non A/C Room', 'Family Room', 'Full Vill
 const PAGE_SIZE  = 12
 
 const H: Record<number, string> = { 1: '160px', 2: '240px', 3: '320px' }
-
-interface DbReview {
-  id: string
-  guestName: string
-  title: string
-  image: string | null
-  roomType: string
-  rating: number
-  review: string
-  createdAt: string
-}
 
 function Pill({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
   return (
@@ -124,34 +113,15 @@ export default function GalleryPage() {
   const [page,     setPage]     = useState(1)
   const [focused,  setFocused]  = useState(false)
   const [showModal, setShowModal] = useState(false)
-  const [dbReviews, setDbReviews] = useState<DbReview[]>([])
+  const [allPhotos, setAllPhotos] = useState<GalleryPhoto[]>([])
 
-  // Fetch approved customer reviews from DB
   useEffect(() => {
     fetch('/api/gallery/reviews?approved=true', { cache: 'no-store' })
       .then((r) => r.json())
-      .then((data) => setDbReviews(Array.isArray(data) ? data : []))
+      .then((data) => setAllPhotos(Array.isArray(data) ? data : []))
       .catch(() => {})
   }, [])
 
-  // Convert DB reviews to GalleryPhoto format and combine with static photos
-  const allPhotos = useMemo<GalleryPhoto[]>(() => {
-    const SPANS: (1 | 2 | 3)[] = [2, 1, 3, 2, 1, 2]
-    const dbAsPhotos: GalleryPhoto[] = dbReviews.map((r, i) => ({
-      id: `review-${r.id}` as unknown as number,
-      title: r.title,
-      image: r.image || 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=85',
-      guestName: r.guestName,
-      roomType: r.roomType,
-      rating: r.rating,
-      review: r.review,
-      year: new Date(r.createdAt).getFullYear(),
-      span: SPANS[i % SPANS.length],
-    }))
-    return [...GALLERY_PHOTOS, ...dbAsPhotos]
-  }, [dbReviews])
-
-  // Dynamic years from all photos
   const YEARS = useMemo(() => {
     const years = new Set(allPhotos.map((p) => String(p.year)).filter(Boolean))
     return ['All', ...Array.from(years).sort((a, b) => Number(b) - Number(a))]

@@ -16,6 +16,8 @@ interface GalleryReview {
   roomType: string
   rating: number
   review: string
+  span: number
+  year: number | null
   approved: boolean
   createdAt: string
 }
@@ -24,6 +26,7 @@ type Tab = 'pending' | 'approved' | 'all'
 type EntryForm = {
   guestName: string; email: string; title: string
   image: string; roomType: string; rating: string; review: string
+  span: string; year: string
 }
 
 const ROOM_TYPES = ['A/C Room', 'Non A/C Room', 'Family Room', 'Full Villa']
@@ -219,10 +222,12 @@ export default function AdminGalleryPage() {
     setServerError('')
     const ratingNum = parseInt(data.rating)
     if (!ratingNum || ratingNum < 1 || ratingNum > 5) { setServerError('Rating must be between 1 and 5'); return }
+    const spanNum = parseInt(data.span) || 1
+    const yearNum = data.year ? parseInt(data.year) : new Date().getFullYear()
     const res = await fetch('/api/gallery/reviews', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...data, rating: ratingNum, approved: true }),
+      body: JSON.stringify({ ...data, rating: ratingNum, span: spanNum, year: yearNum, approved: true }),
     })
     if (!res.ok) { const json = await res.json(); setServerError(json.error ?? 'Failed to create entry'); return }
     reset(); setShowForm(false); fetchReviews()
@@ -335,12 +340,25 @@ export default function AdminGalleryPage() {
                 </div>
               )}
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <label className={labelClass} style={labelStyle}>Rating (1–5) *</label>
                 <input {...register('rating', { required: 'Required' })} type="number" min="1" max="5"
                   className={inputClass} style={inputStyle} placeholder="5" />
                 {errors.rating && <p className="font-lato text-xs mt-1 text-red-400">{errors.rating.message}</p>}
+              </div>
+              <div>
+                <label className={labelClass} style={labelStyle}>Card Size (1–3)</label>
+                <select {...register('span')} className={inputClass} style={{ ...inputStyle, background: '#0B0B0B' }}>
+                  <option value="1">1 — Small</option>
+                  <option value="2">2 — Medium</option>
+                  <option value="3">3 — Large</option>
+                </select>
+              </div>
+              <div>
+                <label className={labelClass} style={labelStyle}>Year</label>
+                <input {...register('year')} type="number" min="2020" max="2099"
+                  className={inputClass} style={inputStyle} placeholder={String(new Date().getFullYear())} />
               </div>
             </div>
             <div>

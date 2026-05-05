@@ -92,6 +92,8 @@ model GalleryReview {
   roomType  String
   rating    Int
   review    String
+  span      Int      @default(1)
+  year      Int?
   approved  Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

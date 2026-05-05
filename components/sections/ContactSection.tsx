@@ -195,7 +195,7 @@ export default function ContactSection() {
   const socials = [
     { icon: <FaInstagram size={16} />,     href: '#', label: 'Instagram',   hover: 'hover:border-pink-500/40   hover:text-pink-400' },
     { icon: <FaFacebook size={16} />,      href: '#', label: 'Facebook',    hover: 'hover:border-blue-500/40   hover:text-blue-400' },
-    { icon: <FaTripadvisor size={16} />,   href: '#', label: 'TripAdvisor', hover: 'hover:border-green-500/40  hover:text-green-400' },
+    { icon: <FaTripadvisor size={16} />,   href: 'https://www.tripadvisor.com/Profile/villiHotel2026', label: 'TripAdvisor', hover: 'hover:border-green-500/40  hover:text-green-400' },
     { icon: <SiBookingdotcom size={16} />, href: '#', label: 'Booking.com', hover: 'hover:border-blue-600/40   hover:text-blue-500' },
     { icon: <AgodaIcon size={16} />,       href: '#', label: 'Agoda',       hover: 'hover:border-red-500/40    hover:text-red-400' },
     { icon: <FaWhatsapp size={16} />,      href: 'https://wa.me/94777863412', label: 'WhatsApp', hover: 'hover:border-green-500/40 hover:text-green-400' },

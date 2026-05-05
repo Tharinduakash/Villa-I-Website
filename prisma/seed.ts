@@ -141,6 +141,31 @@ async function main() {
   }
   console.log(`✅ Seeded ${servicesData.length} services`)
 
+  // Gallery reviews — only seed if none exist
+  const galleryCount = await prisma.galleryReview.count()
+  if (galleryCount === 0) {
+    const galleryPhotos = [
+      { title: 'Comfort with a View',      image: '/webp/IMG_2980.webp',                            guestName: 'Sarah Mitchell',    email: 'sarah.mitchell@example.com',    roomType: 'A/C Room',    rating: 5, review: 'Waking up to this view every morning was absolutely magical.', year: 2025, span: 3 },
+      { title: 'Beach Experience',          image: '/webp/beach.avif',                               guestName: "James O'Brien",     email: 'james.obrien@example.com',      roomType: 'A/C Room',    rating: 5, review: 'The beach access was a dream come true.',                     year: 2025, span: 2 },
+      { title: 'Luxury Suite Interior',     image: '/webp/IMG_3065.webp',                            guestName: 'Lena Hoffmann',     email: 'lena.hoffmann@example.com',     roomType: 'A/C Room',    rating: 5, review: 'Spotless, elegant and so comfortable.',                       year: 2026, span: 1 },
+      { title: 'Beach Walk at Dusk',        image: '/webp/pexels-vika-glitter-392079-31277449.jpg',  guestName: 'Priya Wijesekara',  email: 'priya.wijesekara@example.com',  roomType: 'Family Room', rating: 5, review: 'The beach literally steps away. We went every evening.',        year: 2025, span: 2 },
+      { title: 'Evening Vibe',              image: '/webp/girls1.jpg',                               guestName: 'Marco Rossi',       email: 'marco.rossi@example.com',       roomType: 'Non A/C Room',rating: 5, review: 'The home-cooked meals were the highlight of our stay.',        year: 2026, span: 3 },
+      { title: 'Family Villa Time',         image: '/webp/beach-girl.jpg',                           guestName: 'Emma Thornton',     email: 'emma.thornton@example.com',     roomType: 'Full Villa',  rating: 5, review: 'Booked the whole villa for our family — best decision.',        year: 2025, span: 1 },
+      { title: 'Sunset from the Balcony',   image: '/webp/IMG_3176.webp',                            guestName: 'Amal Perera',       email: 'amal.perera@example.com',       roomType: 'A/C Room',    rating: 5, review: 'That golden hour from our balcony — unforgettable.',             year: 2026, span: 2 },
+      { title: 'Family Suite Living Area',  image: '/webp/IMG_3123.webp',                            guestName: 'Thilini Kumari',    email: 'thilini.kumari@example.com',    roomType: 'Family Room', rating: 4, review: 'Plenty of space for all four of us. Kids loved it.',             year: 2025, span: 1 },
+      { title: 'Dinner with an Ocean View', image: '/webp/foods11.jpg',                              guestName: 'Chathu Silva',      email: 'chathu.silva@example.com',      roomType: 'Non A/C Room',rating: 5, review: 'Incredible location. The sound of waves all night long.',        year: 2025, span: 3 },
+      { title: 'Living Area',               image: '/webp/IMG_3002.webp',                            guestName: 'Dinesh Rathnayake', email: 'dinesh.rathnayake@example.com', roomType: 'Non A/C Room',rating: 4, review: 'Cozy and comfortable, with a rustic charm.',                    year: 2026, span: 2 },
+      { title: 'Comfort Washroom',          image: '/webp/IMG_3049.webp',                            guestName: 'Nina Schreiber',    email: 'nina.schreiber@example.com',    roomType: 'A/C Room',    rating: 5, review: 'Bathroom was such a unique experience!',                        year: 2025, span: 1 },
+      { title: 'Villa Exterior at Night',   image: '/webp/foods4.jpg',                               guestName: 'Oliver Jensen',     email: 'oliver.jensen@example.com',     roomType: 'Full Villa',  rating: 5, review: 'The whole property glows beautifully at night.',               year: 2025, span: 1 },
+    ]
+    await prisma.galleryReview.createMany({
+      data: galleryPhotos.map((p) => ({ ...p, approved: true })),
+    })
+    console.log(`✅ Seeded ${galleryPhotos.length} gallery photos`)
+  } else {
+    console.log(`⏭️  Gallery: ${galleryCount} records already exist, skipping`)
+  }
+
   console.log('\n🎉 Seed complete!')
   console.log('   Admin login: admin@villaihotel.com / admin123')
   console.log('   ⚠️  Change the admin password after first login!\n')
