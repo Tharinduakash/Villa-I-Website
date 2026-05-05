@@ -16,7 +16,7 @@ model Room {
   pricePerNight Float
   priceLabel    String
   image         String
-  images        String[] @default([])
+  images        String[]  @default([])
   capacity      String
   size          String
   available     Boolean   @default(true)
@@ -48,9 +48,9 @@ model Booking {
   message   String?
   status    BookingStatus @default(PENDING)
   roomId    String?
-  room      Room?         @relation(fields: [roomId], references: [id], onDelete: SetNull)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
+  room      Room?         @relation(fields: [roomId], references: [id], onDelete: SetNull)
 }
 
 model AdminUser {
@@ -59,12 +59,6 @@ model AdminUser {
   password  String
   name      String
   createdAt DateTime @default(now())
-}
-
-enum BookingStatus {
-  PENDING
-  CONFIRMED
-  CANCELLED
 }
 
 model Inquiry {
@@ -92,9 +86,15 @@ model GalleryReview {
   roomType  String
   rating    Int
   review    String
-  span      Int      @default(1)
-  year      Int?
   approved  Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  span      Int      @default(1)
+  year      Int?
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
 }

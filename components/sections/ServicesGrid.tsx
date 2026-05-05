@@ -161,7 +161,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
               fill
               className="object-cover transition-transform duration-700 ease-out group-hover:scale-108"
               sizes="(max-width:768px) 100vw, 33vw"
-              unoptimized={imageUrl.startsWith('/uploads/')}
+              unoptimized={imageUrl.startsWith('http') || imageUrl.startsWith('/uploads/')}
               onError={() => setImageUrl(FALLBACK_BY_ID[service.id] ?? FALLBACK_BY_INDEX[index % FALLBACK_BY_INDEX.length])}
             />
 
@@ -301,7 +301,7 @@ function HeroServiceCard({ service }: { service: Service }) {
       <div className="relative grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: '420px' }}>
         {/* Image half */}
         <div className="relative overflow-hidden" style={{ minHeight: '280px' }}>
-          <Image src={imageUrl} alt={service.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width:1024px) 100vw, 50vw" unoptimized={imageUrl.startsWith('/uploads/')} onError={() => setImageUrl(FALLBACK_BY_ID[service.id] ?? FALLBACK_BY_INDEX[0])} />
+          <Image src={imageUrl} alt={service.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width:1024px) 100vw, 50vw" unoptimized={imageUrl.startsWith('http') || imageUrl.startsWith('/uploads/')} onError={() => setImageUrl(FALLBACK_BY_ID[service.id] ?? FALLBACK_BY_INDEX[0])} />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(6,8,14,0) 0%, rgba(6,8,14,0) 60%, rgba(6,8,14,0.95) 100%)' }} />
           <div className="lg:hidden absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(6,8,14,0.95) 0%, transparent 60%)' }} />
 

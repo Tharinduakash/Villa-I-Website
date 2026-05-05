@@ -258,7 +258,7 @@ export default function Gallery() {
                 alt="Villa i"
                 width={220}
                 height={80}
-                className="object-contain inline-block w-36 md:w-44 lg:w-50"
+                className="object-contain inline-block w-36 md:w-44 lg:w-50 h-auto"
                 style={{ verticalAlign: 'middle' }}
               />
             </h2>

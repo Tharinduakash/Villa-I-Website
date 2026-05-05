@@ -144,7 +144,7 @@ export default function AboutStory() {
           </div>
           <h2 className="font-playfair font-bold text-white leading-tight" style={{ fontSize: 'clamp(2rem,5vw,3.2rem)' }}>
             The{' '}
-            <Image src="/webp/villa_logo_transparent.png" alt="Villa i" width={220} height={80} className="object-contain inline-block w-32 md:w-44" style={{ verticalAlign: 'middle' }} />
+            <Image src="/webp/villa_logo_transparent.png" alt="Villa i" width={220} height={80} className="object-contain inline-block w-32 md:w-44 h-auto" style={{ verticalAlign: 'middle' }} />
             {' '}<em className="italic" style={{ color: GOLD }}>Story</em>
           </h2>
           <p className="font-lato text-sm leading-relaxed mt-3 mx-auto" style={{ color: 'rgba(255,255,255,0.35)', maxWidth: '26rem' }}>

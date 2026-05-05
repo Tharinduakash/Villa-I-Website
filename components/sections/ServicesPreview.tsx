@@ -63,7 +63,7 @@ function ServicePreviewCard({ service, index }: { service: Service; index: numbe
           fill
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           sizes="(max-width: 768px) 100vw, 33vw"
-          unoptimized={imageUrl.startsWith('/uploads/')}
+          unoptimized={imageUrl.startsWith('http') || imageUrl.startsWith('/uploads/')}
         />
         <div
           className="absolute inset-0"
@@ -160,7 +160,7 @@ export default function ServicesPreview({ services }: { services: Service[] }) {
                           alt="Villa i"
                           width={200}
                           height={80}
-                          className="object-contain inline-block w-36 md:w-48 lg:w-52"
+                          className="object-contain inline-block w-36 md:w-48 lg:w-52 h-auto"
                           style={{ verticalAlign: 'middle' }}
                         />
           </h2>

@@ -19,9 +19,9 @@ const megaColumns = [
     title: 'Accommodation',
     links: [
       { href: '/rooms#ac-room',     label: 'A/C Rooms'            },
-      { href: '/rooms#non-ac-room', label: 'Garden View Rooms'    },
-      { href: '/rooms#family-room', label: 'Family Suites'        },
-      { href: '/rooms#full-villa',  label: 'Full Villa Exclusive' },
+      { href: '/rooms#non-ac-room', label: 'Non A/C Rooms'        },
+      { href: '/rooms#family-room', label: 'Half Board Villa'      },
+      { href: '/rooms#full-villa',  label: 'Full Villa Exclusive'  },
     ],
   },
   {

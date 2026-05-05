@@ -54,7 +54,7 @@ function RoomGallery({ image, images }: { image: string; images: string[] }) {
     <div className="relative h-[360px] lg:h-full min-h-[360px] overflow-hidden group">
       {allImages.map((src, i) => (
         <div key={i} className={`absolute inset-0 transition-opacity duration-700 ${i === current ? 'opacity-100 z-[1]' : 'opacity-0 z-0'}`}>
-          <Image src={src} alt="" fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 1024px) 100vw, 50vw" />
+          <Image src={src} alt="" fill unoptimized={src.startsWith('http')} className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 1024px) 100vw, 50vw" />
         </div>
       ))}
 
@@ -218,6 +218,7 @@ export default function RoomsList({ rooms }: { rooms: Room[] }) {
               viewport={{ once: true, margin: '-80px' }}
               transition={{ duration: 0.9 }}
               className="grid grid-cols-1 lg:grid-cols-2 gap-0 border border-white/5 overflow-hidden"
+              style={{ scrollMarginTop: '80px' }}
             >
               {/* Gallery */}
               <div className={reversed ? 'lg:order-last' : ''}>

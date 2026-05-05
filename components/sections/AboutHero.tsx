@@ -30,7 +30,7 @@ export default function AboutHero() {
               alt="Villa i"
               width={220}
               height={80}
-              className="object-contain inline-block w-36 md:w-48 lg:w-56"
+              className="object-contain inline-block w-36 md:w-48 lg:w-56 h-auto"
               style={{ verticalAlign: 'middle' }}
             />
           </h1>
