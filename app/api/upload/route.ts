@@ -28,16 +28,25 @@ export async function POST(request: NextRequest) {
     if (file.size > MAX_SIZE)
       return NextResponse.json({ error: 'File must be under 5 MB' }, { status: 400 })
 
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
-
     const ext = extname(file.name).toLowerCase() || '.jpg'
     const filename = `${folder}-${Date.now()}${ext}`
-    const uploadDir = join(process.cwd(), 'public', 'uploads', folder)
 
+    // On Vercel (production) the filesystem is read-only — use Vercel Blob instead
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      const { put } = await import('@vercel/blob')
+      const blob = await put(`uploads/${folder}/${filename}`, file, {
+        access: 'public',
+        contentType: file.type,
+      })
+      return NextResponse.json({ url: blob.url })
+    }
+
+    // Local development — write to public/uploads/
+    const bytes = await file.arrayBuffer()
+    const buffer = Buffer.from(bytes)
+    const uploadDir = join(process.cwd(), 'public', 'uploads', folder)
     await mkdir(uploadDir, { recursive: true })
     await writeFile(join(uploadDir, filename), buffer)
-
     return NextResponse.json({ url: `/uploads/${folder}/${filename}` })
   } catch (error) {
     console.error('POST /api/upload error:', error)
