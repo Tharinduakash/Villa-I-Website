@@ -4,72 +4,23 @@ import Image from 'next/image'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { HiArrowRight } from 'react-icons/hi'
 
-const slides = [
-  {
-    desktopImage: '/webp/Anantara Tangalle - Dining by Design.jpg',
-    mobileImage: '/webp/Anantara Tangalle - Dining by Design.jpg',
-    accentColor: 'rgba(201,169,110,1)',       // gold — pops on dark teal ocean
-    accentGlow: 'rgba(201,169,110,0.4)',
-    eyebrow: 'Mount Lavinia, Sri Lanka',
-    title: 'Ocean Meets',
-    titleItalic: 'Paradise',
-    titleEnd: 'Luxury Living',
-    cta: { label: 'Reserve Your Stay', href: '/contact' },
-    ctaSecondary: { label: 'Explore Rooms', href: '/rooms' },
-  },
-  {
-    desktopImage: '/webp/roomvilla.png',
-    mobileImage: '/webp/IMG_2983.webp',
-    accentColor: 'rgba(255,255,255,0.95)',    // white — stands out on warm beige room
-    accentGlow: 'rgba(255,255,255,0.25)',
-    eyebrow: 'Comfort for Every Stay',
-    title: 'Relax in',
-    titleItalic: 'Non A/C & A/C',
-    titleEnd: 'Rooms',
-    cta: { label: 'View Rooms', href: '/rooms' },
-    ctaSecondary: { label: 'Book Now', href: '/contact' },
-  },
-  {
-    desktopImage: '/webp/pexels-tomas-malik-793526-1998439.webp',
-    mobileImage: '/webp/pexels-ollivves-1078983.jpg',
-    accentColor: 'rgba(201,169,110,1)',       // gold — works on dark moody dining scene
-    accentGlow: 'rgba(201,169,110,0.4)',
-    eyebrow: '50m from the Beach',
-    title: 'Wake Up to',
-    titleItalic: 'Ocean',
-    titleEnd: 'Breezes',
-    cta: { label: 'Reserve Your Stay', href: '/contact' },
-    ctaSecondary: { label: 'Explore Experience', href: '/about' },
-  },
-  {
-    desktopImage: '/webp/fruit juices.webp',
-    mobileImage: '/webp/fruit juices.webp',
-    accentColor: 'rgba(255,255,255,0.95)',    // white — bright colourful image needs clean contrast
-    accentGlow: 'rgba(255,255,255,0.25)',
-    eyebrow: 'Refreshing Moments',
-    title: 'Enjoy Our',
-    titleItalic: 'Drinks',
-    titleEnd: 'Corner',
-    cta: { label: 'View Services', href: '/services' },
-    ctaSecondary: { label: 'Contact Us', href: '/contact' },
-  },
-  {
-    desktopImage: '/webp/IMG_3123.webp',
-    mobileImage: '/webp/IMG_3123.webp',
-    accentColor: 'rgba(201,169,110,1)',       // gold — luxury villa exterior
-    accentGlow: 'rgba(201,169,110,0.4)',
-    eyebrow: 'Private & Exclusive',
-    title: 'Book the',
-    titleItalic: 'Full Villa',
-    titleEnd: 'Experience',
-    cta: { label: 'Book Full Villa', href: '/rooms#full-villa' },
-    ctaSecondary: { label: 'View All Rooms', href: '/rooms' },
-  },
-]
+export type SlideData = {
+  desktopImage: string
+  mobileImage: string
+  accentColor: string
+  accentGlow: string
+  eyebrow: string
+  title: string
+  titleItalic: string
+  titleEnd: string
+  cta: { label: string; href: string }
+  ctaSecondary: { label: string; href: string }
+}
+
+const FALLBACK_SLIDES: SlideData[] = []
 
 const SLIDE_DURATION = 6500
 const TRANSITION_MS = 1000
-const TOTAL = slides.length
 
 /* ─── Hero particle canvas ─────────────────────────────────────── */
 function HeroParticles() {
@@ -133,7 +84,10 @@ const letterVars = {
   }),
 }
 
-export default function HeroSlider() {
+export default function HeroSlider({ slides: propSlides }: { slides?: SlideData[] }) {
+  const slides = propSlides?.length ? propSlides : FALLBACK_SLIDES
+  const TOTAL  = slides.length
+
   const heroRef = useRef<HTMLElement>(null)
   const [current, setCurrent] = useState(0)
   const [prev, setPrev] = useState<number | null>(null)
@@ -163,7 +117,7 @@ export default function HeroSlider() {
   const startTimer = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current)
     timerRef.current = setInterval(() => { goTo((currentRef.current + 1) % TOTAL) }, SLIDE_DURATION)
-  }, [goTo])
+  }, [goTo, TOTAL])
 
   useEffect(() => { startTimer(); return () => { if (timerRef.current) clearInterval(timerRef.current); if (transRef.current) clearTimeout(transRef.current) } }, [startTimer])
 
@@ -182,7 +136,7 @@ export default function HeroSlider() {
       else goTo((currentRef.current - 1 + TOTAL) % TOTAL)
       startTimer()
     }
-  }, [goTo, startTimer])
+  }, [goTo, startTimer, TOTAL])
 
   const slide = slides[current]
   const padNum = (n: number) => String(n).padStart(2, '0')
@@ -241,8 +195,8 @@ export default function HeroSlider() {
         {prev !== null && (
           <div className="vs leaving" key={`prev-${prev}`} style={{ zIndex: 1 }}>
             <motion.div className="absolute inset-0" style={{ y: heroY, scale: heroScale }}>
-              <Image src={slides[prev].desktopImage} alt={slides[prev].title} fill className="object-cover object-center hidden md:block" sizes="100vw" />
-              <Image src={slides[prev].mobileImage} alt={slides[prev].title} fill className="object-cover object-center block md:hidden" sizes="100vw" />
+              <Image src={slides[prev].desktopImage} alt={slides[prev].title} fill unoptimized className="object-cover object-center hidden md:block" sizes="100vw" />
+              <Image src={slides[prev].mobileImage} alt={slides[prev].title} fill unoptimized className="object-cover object-center block md:hidden" sizes="100vw" />
             </motion.div>
             <div className="absolute inset-0" style={{ background: 'linear-gradient(105deg,rgba(5,7,14,0.78) 0%,rgba(5,7,14,0.38) 38%,rgba(5,7,14,0.04) 65%,transparent 80%)' }} />
             <div className="absolute inset-0" style={{ background: 'linear-gradient(to top,rgba(5,7,14,0.62) 0%,rgba(5,7,14,0.08) 22%,transparent 42%)' }} />
@@ -253,8 +207,8 @@ export default function HeroSlider() {
         {/* Active slide */}
         <div className={`vs ${transitioning ? 'entering' : 'idle'}`} key={`curr-${current}`} style={{ zIndex: 2 }}>
           <motion.div className="absolute inset-0" style={{ y: heroY, scale: heroScale }}>
-            <Image src={slide.desktopImage} alt={slide.title} fill priority={current === 0} className="object-cover object-center hidden md:block" sizes="100vw" />
-            <Image src={slide.mobileImage} alt={slide.title} fill priority={current === 0} className="object-cover object-center block md:hidden" sizes="100vw" />
+            <Image src={slide.desktopImage} alt={slide.title} fill priority={current === 0} unoptimized className="object-cover object-center hidden md:block" sizes="100vw" />
+            <Image src={slide.mobileImage} alt={slide.title} fill priority={current === 0} unoptimized className="object-cover object-center block md:hidden" sizes="100vw" />
           </motion.div>
           <div className="absolute inset-0" style={{ background: 'linear-gradient(105deg,rgba(5,7,14,0.78) 0%,rgba(5,7,14,0.38) 38%,rgba(5,7,14,0.04) 65%,transparent 80%)' }} />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to top,rgba(5,7,14,0.62) 0%,rgba(5,7,14,0.08) 22%,transparent 42%)' }} />

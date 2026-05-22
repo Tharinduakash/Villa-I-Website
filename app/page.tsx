@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic'
 
-import HeroSlider from '@/components/HeroSlider'
+import HeroSlider, { type SlideData } from '@/components/HeroSlider'
 import { FloatingWidgets } from '@/components/floating-widgets'
 import HighlightsBar from '@/components/sections/HighlightsBar'
 import RoomsPreview from '@/components/sections/RoomsPreview'
@@ -17,11 +17,16 @@ import { rooms as staticRooms, services as staticServices } from '@/lib/data'
 export default async function HomePage() {
   let rooms: { id: any; name: any; shortName: any; description: any; features: any; priceUSD: any; price: any; image: any; capacity: any; size: any }[] = []
   let services: { id: string; title: string; description: string; image: string; features: string[] }[] = []
+  let heroSlides: SlideData[] | undefined
 
   try {
-    const [dbRooms, dbServices] = await Promise.all([
+    const [dbRooms, dbServices, dbSlides] = await Promise.all([
       prisma.room.findMany({ orderBy: { createdAt: 'asc' } }),
       prisma.service.findMany({ orderBy: { createdAt: 'asc' }, take: 3 }),
+      prisma.heroSlide.findMany({
+        where: { active: true },
+        orderBy: [{ order: 'asc' }, { createdAt: 'asc' }],
+      }),
     ])
     rooms = dbRooms.map((r: { id: any; name: any; shortName: any; description: any; features: any; pricePerNight: any; priceLabel: any; image: any; capacity: any; size: any }) => ({
       id: r.id,
@@ -42,6 +47,20 @@ export default async function HomePage() {
       image: s.image,
       features: s.features,
     }))
+    if (dbSlides.length > 0) {
+      heroSlides = dbSlides.map((s: typeof dbSlides[number]) => ({
+        desktopImage: s.desktopImage,
+        mobileImage:  s.mobileImage || s.desktopImage,
+        accentColor:  s.accentColor,
+        accentGlow:   s.accentGlow,
+        eyebrow:      s.eyebrow,
+        title:        s.title,
+        titleItalic:  s.titleItalic,
+        titleEnd:     s.titleEnd,
+        cta:          { label: s.ctaLabel, href: s.ctaHref },
+        ctaSecondary: { label: s.ctaSecondaryLabel, href: s.ctaSecondaryHref },
+      }))
+    }
     if (rooms.length === 0) rooms = staticRooms.map((r) => ({ ...r, priceUSD: 0, size: r.size ?? '' }))
     if (services.length === 0) services = staticServices
   } catch {
@@ -51,7 +70,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <HeroSlider />
+      <HeroSlider slides={heroSlides} />
       <FloatingWidgets />
       <HighlightsBar />
       <RoomsPreview rooms={rooms} />

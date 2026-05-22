@@ -12,11 +12,13 @@ import {
   Menu,
   X,
   Images,
+  Layers,
 } from 'lucide-react'
 import { useState } from 'react'
 
 const navItems = [
   { href: '/admin/dashboard',     label: 'Dashboard',       icon: LayoutDashboard },
+  { href: '/admin/hero-slides',   label: 'Hero Slides',     icon: Layers },
   { href: '/admin/rooms',         label: 'Rooms',           icon: BedDouble },
   { href: '/admin/services',      label: 'Services',        icon: Sparkles },
   { href: '/admin/gallery',       label: 'Gallery Reviews', icon: Images },

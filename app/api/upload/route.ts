@@ -5,7 +5,7 @@ import { getAdminSession } from '@/lib/auth'
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif']
 const MAX_SIZE = 5 * 1024 * 1024 // 5 MB
-const ALLOWED_FOLDERS = ['services', 'rooms', 'gallery'] as const
+const ALLOWED_FOLDERS = ['services', 'rooms', 'gallery', 'hero'] as const
 type Folder = typeof ALLOWED_FOLDERS[number]
 
 export async function POST(request: NextRequest) {
