@@ -41,13 +41,13 @@ function AgodaIcon({ size = 17, ...props }: { size?: number } & React.SVGProps<S
 }
 
 const socials = [
-  { Icon: FaInstagram,    href: '#',                                             label: 'Instagram',   hoverColor: 'rgba(225,48,108,0.9)'  },
-  { Icon: FaFacebook,     href: '#',                                             label: 'Facebook',    hoverColor: 'rgba(24,119,242,0.9)'  },
+  { Icon: FaInstagram,    href: 'https://www.instagram.com/villa_i_mount_lavinia/',                                             label: 'Instagram',   hoverColor: 'rgba(225,48,108,0.9)'  },
+  { Icon: FaFacebook,     href: 'https://www.facebook.com/share/1DWX5zmzZ8/?mibextid=wwXIfr', label: 'Facebook',    hoverColor: 'rgba(24,119,242,0.9)'  },
   { Icon: FaWhatsapp,     href: 'https://wa.me/94777863412',                     label: 'WhatsApp',    hoverColor: 'rgba(37,211,102,0.9)'  },
   { Icon: FaTripadvisor,  href: 'https://www.tripadvisor.com/Profile/villiHotel2026', label: 'TripAdvisor', hoverColor: 'rgba(52,168,83,0.9)'   },
-  { Icon: SiBookingdotcom,href: '#',                                             label: 'Booking',     hoverColor: 'rgba(0,114,255,0.9)'   },
-  { Icon: AgodaIcon,      href: '#',                                             label: 'Agoda',       hoverColor: 'rgba(230,0,100,0.9)'   },
-  { Icon: SiAirbnb,       href: '#',                                             label: 'Airbnb',      hoverColor: 'rgba(255,90,95,0.9)'   },
+  { Icon: SiBookingdotcom,href: 'https://www.booking.com/hotel/lk/villa-i-dehiwala-mount-lavinia.en-gb.html',                                             label: 'Booking',     hoverColor: 'rgba(0,114,255,0.9)'   },
+  { Icon: AgodaIcon,      href: 'https://www.agoda.com/en-gb/villa-i-hotel-mount-lavinia/hotel/mount-lavinia-lk.html',                                             label: 'Agoda',       hoverColor: 'rgba(230,0,100,0.9)'   },
+  { Icon: SiAirbnb,       href: 'https://www.airbnb.com/rooms/1678920644530985002?guests=1&adults=1&s=67&unique_share_id=90cd0289-9340-49f4-b440-7fbca02913fa',                                             label: 'Airbnb',      hoverColor: 'rgba(255,90,95,0.9)'   },
 ]
 
 const GOLD = 'rgba(201,169,110,1)'

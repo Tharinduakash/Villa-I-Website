@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { MdEmail, MdPhone, MdLocationOn } from 'react-icons/md'
-import { FaWhatsapp, FaInstagram, FaFacebook, FaTripadvisor } from 'react-icons/fa'
+import { FaWhatsapp, FaInstagram, FaFacebook, FaTripadvisor, FaAirbnb } from 'react-icons/fa'
 import { SiBookingdotcom } from 'react-icons/si'
 import { CalendarDays, ChevronDown, CheckCircle2, Minus, Plus, ArrowRight } from 'lucide-react'
 import AnimatedSection from '@/components/AnimatedSection'
@@ -193,12 +193,13 @@ export default function ContactSection() {
   ]
 
   const socials = [
-    { icon: <FaInstagram size={16} />,     href: '#', label: 'Instagram',   hover: 'hover:border-pink-500/40   hover:text-pink-400' },
-    { icon: <FaFacebook size={16} />,      href: '#', label: 'Facebook',    hover: 'hover:border-blue-500/40   hover:text-blue-400' },
+    { icon: <FaInstagram size={16} />,     href: 'https://www.instagram.com/villa_i_mount_lavinia/', label: 'Instagram',   hover: 'hover:border-pink-500/40   hover:text-pink-400' },
+    { icon: <FaFacebook size={16} />,      href: 'https://www.facebook.com/share/1DWX5zmzZ8/?mibextid=wwXIfr', label: 'Facebook',    hover: 'hover:border-blue-500/40   hover:text-blue-400' },
     { icon: <FaTripadvisor size={16} />,   href: 'https://www.tripadvisor.com/Profile/villiHotel2026', label: 'TripAdvisor', hover: 'hover:border-green-500/40  hover:text-green-400' },
-    { icon: <SiBookingdotcom size={16} />, href: '#', label: 'Booking.com', hover: 'hover:border-blue-600/40   hover:text-blue-500' },
-    { icon: <AgodaIcon size={16} />,       href: '#', label: 'Agoda',       hover: 'hover:border-red-500/40    hover:text-red-400' },
+    { icon: <SiBookingdotcom size={16} />, href: 'https://www.booking.com/hotel/lk/villa-i-dehiwala-mount-lavinia.en-gb.html', label: 'Booking.com', hover: 'hover:border-blue-600/40   hover:text-blue-500' },
+    { icon: <AgodaIcon size={16} />,       href: 'https://www.agoda.com/en-gb/villa-i-hotel-mount-lavinia/hotel/mount-lavinia-lk.html', label: 'Agoda',       hover: 'hover:border-red-500/40    hover:text-red-400' },
     { icon: <FaWhatsapp size={16} />,      href: 'https://wa.me/94777863412', label: 'WhatsApp', hover: 'hover:border-green-500/40 hover:text-green-400' },
+    { icon: <FaAirbnb size={16} />,         href: 'https://www.airbnb.com/rooms/1678920644530985002?guests=1&adults=1&s=67&unique_share_id=90cd0289-9340-49f4-b440-7fbca02913fa', label: 'Airbnb',      hover: 'hover:border-red-400/40    hover:text-red-300' },
   ]
 
   return (
