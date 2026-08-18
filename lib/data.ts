@@ -92,8 +92,8 @@ export const services = [
 
 export const galleryImages = [
   {
-    src: '/webp/Anantara Tangalle - Dining by Design.jpg',
-    alt: 'Mount Lavinia Beach',
+    src: '/webp/room7.png',
+    alt: 'Luxury Room',
     span: '',
   },
   {
@@ -102,8 +102,8 @@ export const galleryImages = [
     span: '',
   },
   {
-    src: '/webp/IMG_3022.webp',
-    alt: 'Luxury Room',
+    src: '/webp/room5.png',
+    alt: 'Non A/C Room',
     span: '',
   },
   {
@@ -112,12 +112,12 @@ export const galleryImages = [
     span: '',
   },
   {
-    src: '/webp/IMG_3123.webp',
+    src: '/webp/area.png',
     alt: 'Calming Environment',
     span: '',
   },
   {
-    src: '/webp/IMG_3049.webp',
+    src: '/webp/room1.png',
     alt: 'Comfortable Room',
     span: '',
   },

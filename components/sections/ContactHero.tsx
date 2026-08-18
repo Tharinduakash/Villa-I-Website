@@ -13,7 +13,7 @@ export default function ContactHero() {
   return (
     <section className="relative overflow-hidden" style={{ height: '65vh', minHeight: 480 }}>
       <Image
-        src="/webp/hotel.png"
+        src="/webp/area2.png"
         alt="Villa i Hotel"
         fill
         priority

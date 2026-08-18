@@ -38,7 +38,7 @@ export default function AboutIntro() {
             <div className="relative">
               <div className="relative h-[480px] overflow-hidden">
                 <Image
-                  src="/webp/IMG_30.webp"
+                  src="/webp/room3.png"
                   alt="Villa i Pool Garden"
                   fill
                   className="object-cover"

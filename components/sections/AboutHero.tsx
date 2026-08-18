@@ -6,7 +6,7 @@ export default function AboutHero() {
   return (
     <section className="relative h-[70vh] min-h-[500px] overflow-hidden flex items-end">
       <Image
-        src="/webp/IMG_3123.webp"
+        src="/webp/area.png"
         alt="Villa i Hotel Exterior"
         fill
         priority
