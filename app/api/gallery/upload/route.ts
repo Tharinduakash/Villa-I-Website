@@ -21,17 +21,26 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'File must be under 8 MB' }, { status: 400 })
     }
 
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
-
     const ext = extname(file.name).toLowerCase() || '.jpg'
     const unique = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
     const filename = `review-${unique}${ext}`
-    const uploadDir = join(process.cwd(), 'public', 'uploads', 'reviews')
 
+    // On Vercel (production) the filesystem is read-only — use Vercel Blob instead
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      const { put } = await import('@vercel/blob')
+      const blob = await put(`uploads/reviews/${filename}`, file, {
+        access: 'public',
+        contentType: file.type,
+      })
+      return NextResponse.json({ url: blob.url })
+    }
+
+    // Local development — write to public/uploads/
+    const bytes = await file.arrayBuffer()
+    const buffer = Buffer.from(bytes)
+    const uploadDir = join(process.cwd(), 'public', 'uploads', 'reviews')
     await mkdir(uploadDir, { recursive: true })
     await writeFile(join(uploadDir, filename), buffer)
-
     return NextResponse.json({ url: `/uploads/reviews/${filename}` })
   } catch (error) {
     console.error('POST /api/gallery/upload error:', error)
