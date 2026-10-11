@@ -465,11 +465,11 @@ export default function PolicyPage({ title, lastUpdated, children }: Props) {
                 initial={{ y: 90, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.85, ease: [0.21, 0.47, 0.32, 0.98] }}
-                className="font-playfair text-white"
+                className="font-cormorant font-bold text-white"
                 style={{ fontSize: 'clamp(2.4rem, 6.5vw, 4.5rem)', lineHeight: 1.05, letterSpacing: '-0.01em' }}
               >
                 {restWords && <span>{restWords} </span>}
-                <em style={{ fontStyle: 'italic', color: 'rgba(201,169,110,0.95)' }}>{lastWord}</em>
+                <em style={{ fontStyle: 'normal', color: 'rgba(201,169,110,0.95)' }}>{lastWord}</em>
               </motion.h1>
             </div>
 

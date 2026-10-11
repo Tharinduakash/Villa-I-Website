@@ -185,8 +185,8 @@ export default function GalleryPage() {
                   <span className="block h-px w-8" style={{ background: GOLD_DIM }} />
                   <p className="font-lato text-[10px] tracking-[0.4em] uppercase" style={{ color: GOLD_DIM }}>Guest Memories</p>
                 </div>
-                <h1 className="font-playfair text-white leading-none" style={{ fontSize: 'clamp(2.4rem, 6.5vw, 5rem)' }}>
-                  <span className="italic" style={{ color: GOLD }}>Your Moments.</span>
+                <h1 className="font-cormorant font-bold text-white leading-none" style={{ fontSize: 'clamp(2.4rem, 6.5vw, 5rem)' }}>
+                  <span style={{ color: GOLD }}>Your Moments.</span>
                 </h1>
                 <div className="h-px w-14 mt-4" style={{ background: `linear-gradient(to right, ${GOLD}, rgba(176,141,87,0.2))` }} />
                 <p className="font-lato text-sm mt-4 max-w-md leading-relaxed" style={{ color: 'rgba(255,255,255,0.38)' }}>

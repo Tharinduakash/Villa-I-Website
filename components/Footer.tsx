@@ -131,7 +131,7 @@ export default function Footer() {
       {/* ── Background ─────────────────────────────────────────── */}
       <div className="absolute inset-0">
         <Image
-          src="/webp/room2.jfif"
+          src="/webp/room2.png"
           alt="Mount Lavinia Beach"
           fill
           className="object-cover object-center"

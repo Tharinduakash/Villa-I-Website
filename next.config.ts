@@ -1,6 +1,12 @@
+import path from 'path'
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  // Pin the workspace root to this project — a stray lockfile in the user's
+  // home directory otherwise makes Turbopack resolve modules from the wrong place
+  turbopack: {
+    root: path.resolve(__dirname),
+  },
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'images.unsplash.com' },

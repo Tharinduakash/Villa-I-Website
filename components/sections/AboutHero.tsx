@@ -24,7 +24,7 @@ export default function AboutHero() {
           transition={{ duration: 1, delay: 0.3 }}
         >
           <p className="text-luxury-gold font-lato text-xs tracking-[0.4em] uppercase mb-3">Our Story</p>
-          <h1 className="font-playfair text-5xl md:text-7xl text-white">
+          <h1 className="font-cormorant font-bold text-5xl md:text-7xl text-white">
             About <Image
               src="/webp/villa_logo_transparent.png"
               alt="Villa i"

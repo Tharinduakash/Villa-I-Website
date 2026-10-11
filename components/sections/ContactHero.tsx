@@ -41,9 +41,9 @@ export default function ContactHero() {
             >
               Get in Touch
             </motion.p>
-            <h1 className="font-playfair text-6xl md:text-7xl lg:text-8xl text-white leading-none mb-12">
+            <h1 className="font-cormorant font-bold text-6xl md:text-7xl lg:text-8xl text-white leading-none mb-12">
               Contact{' '}
-              <span className="italic text-luxury-gold">Us</span>
+              <span className="text-luxury-gold">Us</span>
             </h1>
           </motion.div>
 

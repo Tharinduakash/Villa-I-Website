@@ -23,6 +23,7 @@ const config: Config = {
       fontFamily: {
         playfair: ['var(--font-playfair)', 'Georgia', 'serif'],
         lato: ['var(--font-lato)', 'system-ui', 'sans-serif'],
+        cormorant: ['var(--font-cormorant)', 'Georgia', 'serif'],
       },
       keyframes: {
         shimmer: {

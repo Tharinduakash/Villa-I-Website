@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Playfair_Display, Lato } from 'next/font/google'
+import { Playfair_Display, Lato, Cormorant_Garamond } from 'next/font/google'
 import './globals.css'
 import ConditionalLayout from '@/components/ConditionalLayout'
 
@@ -13,6 +13,13 @@ const lato = Lato({
   subsets: ['latin'],
   weight: ['300', '400', '700'],
   variable: '--font-lato',
+  display: 'swap',
+})
+
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['500', '600', '700'],
+  variable: '--font-cormorant',
   display: 'swap',
 })
 
@@ -33,7 +40,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${lato.variable}`} data-scroll-behavior="smooth">
+    <html lang="en" className={`${playfair.variable} ${lato.variable} ${cormorant.variable}`} data-scroll-behavior="smooth">
       <body className="bg-luxury-black text-white font-lato antialiased">
         <ConditionalLayout>{children}</ConditionalLayout>
       </body>

@@ -6,8 +6,12 @@ const prisma = new PrismaClient()
 async function main() {
   console.log('🌱 Seeding database...')
 
-  // Admin user
-  const hashedPassword = await hash('admin123', 12)
+  // Admin user — password comes from the environment, never from source
+  const adminPassword = process.env.ADMIN_PASSWORD
+  if (!adminPassword || adminPassword.length < 12) {
+    throw new Error('Set ADMIN_PASSWORD (at least 12 characters) before seeding')
+  }
+  const hashedPassword = await hash(adminPassword, 12)
   const admin = await prisma.adminUser.upsert({
     where: { email: 'admin@villaihotel.com' },
     update: {},

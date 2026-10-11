@@ -24,8 +24,8 @@ export default function ServicesHero() {
           transition={{ duration: 1, delay: 0.3 }}
         >
           <p className="text-luxury-gold font-lato text-xs tracking-[0.4em] uppercase mb-3">What We Offer</p>
-          <h1 className="font-playfair text-5xl md:text-7xl text-white">
-            Our <span className="italic text-luxury-gold">Services</span>
+          <h1 className="font-cormorant font-bold text-5xl md:text-7xl text-white">
+            Our <span className="text-luxury-gold">Services</span>
           </h1>
         </motion.div>
       </div>

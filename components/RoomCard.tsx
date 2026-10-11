@@ -22,14 +22,14 @@ interface Room {
 // ── Pricing packages ─────────────────────────────────────────────────
 const PACKAGES: Record<'ac' | 'nonac', { label: string; price: string }[]> = {
   ac: [
-    { label: 'Full Day',   price: 'Rs. 8,400' },
-    { label: '8 Hours',    price: 'Rs. 5,000' },
-    { label: 'Short Time', price: 'Rs. 4,000' },
+    { label: 'Full Day',   price: 'Rs. 8,500' },
+    { label: '8 Hours',    price: 'Rs. 6,500' },
+    { label: 'Short Time', price: 'Rs. 5,500' },
   ],
   nonac: [
-    { label: 'Full Day',   price: 'Rs. 4,500' },
-    { label: '8 Hours',    price: 'Rs. 3,500' },
-    { label: 'Short Time', price: 'Rs. 3,000' },
+    { label: 'Full Day',   price: 'Rs. 6,500' },
+    { label: '8 Hours',    price: 'Rs. 5,500' },
+    { label: 'Short Time', price: 'Rs. 4,500' },
   ],
 }
 

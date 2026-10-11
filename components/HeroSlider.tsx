@@ -139,6 +139,8 @@ export default function HeroSlider({ slides: propSlides }: { slides?: SlideData[
   }, [goTo, startTimer, TOTAL])
 
   const slide = slides[current]
+  // No slides (e.g. DB unreachable) — render nothing instead of crashing the page
+  if (!slide) return null
   const padNum = (n: number) => String(n).padStart(2, '0')
 
   return (
@@ -259,13 +261,12 @@ export default function HeroSlider({ slides: propSlides }: { slides?: SlideData[
                       variants={letterVars}
                       initial="hidden"
                       animate="visible"
-                      className="inline-block font-playfair"
+                      className="inline-block font-cormorant"
                       style={{
-                        fontSize: 'clamp(3.6rem,8.5vw,7rem)',
-                        fontWeight: 800,
-                        fontStyle: 'italic',
+                        fontSize: 'clamp(3.8rem,9vw,7.5rem)',
+                        fontWeight: 700,
                         color: slide.accentColor,
-                        letterSpacing: ch === ' ' ? '0.15em' : '-0.02em',
+                        letterSpacing: ch === ' ' ? '0.18em' : '0.01em',
                         transformOrigin: 'top center',
                         textShadow: `0 0 40px ${slide.accentGlow}, 0 0 80px ${slide.accentGlow}, 0 2px 12px rgba(0,0,0,0.8)`,
                       }}
