@@ -1,11 +1,17 @@
 import { SignJWT, jwtVerify } from 'jose'
 import { cookies } from 'next/headers'
 
-const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET ?? 'fallback-secret-change-in-production'
-)
+// Read lazily so a missing secret fails loudly at use time instead of
+// silently falling back to a guessable value
+function getSecret(): Uint8Array {
+  const secret = process.env.JWT_SECRET
+  if (!secret || secret.length < 32) {
+    throw new Error('JWT_SECRET must be set and at least 32 characters long')
+  }
+  return new TextEncoder().encode(secret)
+}
 const COOKIE_NAME = 'villa-admin-token'
-const EXPIRES_IN = '7d'
+const EXPIRES_IN = '1d'
 
 export interface AdminPayload {
   id: string
@@ -18,12 +24,12 @@ export async function signToken(payload: AdminPayload): Promise<string> {
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
     .setExpirationTime(EXPIRES_IN)
-    .sign(JWT_SECRET)
+    .sign(getSecret())
 }
 
 export async function verifyToken(token: string): Promise<AdminPayload | null> {
   try {
-    const { payload } = await jwtVerify(token, JWT_SECRET)
+    const { payload } = await jwtVerify(token, getSecret())
     return payload as unknown as AdminPayload
   } catch {
     return null
@@ -45,7 +51,7 @@ export function setAuthCookie(token: string): { name: string; value: string; opt
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7, // 7 days
+      maxAge: 60 * 60 * 24, // 1 day
       path: '/',
     },
   }

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 import { getAdminSession } from '@/lib/auth'
+import { isSafeHref } from '@/lib/security'
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getAdminSession()
@@ -10,6 +11,12 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   try {
     const { id } = await params
     const body = await request.json()
+
+    for (const href of [body.ctaHref, body.ctaSecondaryHref]) {
+      if (href !== undefined && !isSafeHref(href)) {
+        return NextResponse.json({ error: 'Button links must start with / or https://' }, { status: 400 })
+      }
+    }
 
     const slide = await prisma.heroSlide.update({
       where: { id },

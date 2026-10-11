@@ -2,9 +2,6 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { jwtVerify } from 'jose'
 
-const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET ?? 'fallback-secret-change-in-production'
-)
 const COOKIE_NAME = 'villa-admin-token'
 
 export async function proxy(request: NextRequest) {
@@ -22,7 +19,10 @@ export async function proxy(request: NextRequest) {
   }
 
   try {
-    await jwtVerify(token, JWT_SECRET)
+    const secret = process.env.JWT_SECRET
+    // No secret configured → treat every token as invalid rather than trusting a default
+    if (!secret || secret.length < 32) throw new Error('JWT_SECRET is not configured')
+    await jwtVerify(token, new TextEncoder().encode(secret))
     return NextResponse.next()
   } catch {
     const response = NextResponse.redirect(new URL('/admin/login', request.url))

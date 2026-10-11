@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getAdminSession } from '@/lib/auth'
+import { rateLimit, clientIp, tooManyRequests, checkFields, EMAIL_REGEX } from '@/lib/security'
 
 // GET /api/bookings — admin only
 export async function GET() {
@@ -21,6 +22,9 @@ export async function GET() {
 
 // POST /api/bookings — public (contact form submission)
 export async function POST(request: NextRequest) {
+  const limit = rateLimit(`booking:${clientIp(request)}`, 5, 60 * 60 * 1000)
+  if (!limit.ok) return tooManyRequests(limit.retryAfter)
+
   try {
     const body = await request.json()
     const { name, email, phone, checkIn, checkOut, guests, roomType, message } = body
@@ -29,8 +33,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Name, email, check-in, and check-out are required' }, { status: 400 })
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
+    const fieldError = checkFields({
+      name: [name, 100], email: [email, 254], phone: [phone, 30], 'check-in': [checkIn, 40],
+      'check-out': [checkOut, 40], guests: [guests, 20], 'room type': [roomType, 50], message: [message, 2000],
+    })
+    if (fieldError) return NextResponse.json({ error: fieldError }, { status: 400 })
+
+    if (!EMAIL_REGEX.test(email)) {
       return NextResponse.json({ error: 'Invalid email address' }, { status: 400 })
     }
 

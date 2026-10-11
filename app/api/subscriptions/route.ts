@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getAdminSession } from '@/lib/auth'
+import { rateLimit, clientIp, tooManyRequests, checkFields, EMAIL_REGEX } from '@/lib/security'
 
 export async function GET() {
   const session = await getAdminSession()
@@ -16,13 +17,20 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  const limit = rateLimit(`subscribe:${clientIp(request)}`, 5, 60 * 60 * 1000)
+  if (!limit.ok) return tooManyRequests(limit.retryAfter)
+
   try {
     const { email } = await request.json()
 
     if (!email) return NextResponse.json({ error: 'Email is required' }, { status: 400 })
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
+    const fieldError = checkFields({
+      email: [email, 254],
+    })
+    if (fieldError) return NextResponse.json({ error: fieldError }, { status: 400 })
+
+    if (!EMAIL_REGEX.test(email)) {
       return NextResponse.json({ error: 'Invalid email address' }, { status: 400 })
     }
 

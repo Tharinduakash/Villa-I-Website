@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 import { getAdminSession } from '@/lib/auth'
+import { isSafeHref } from '@/lib/security'
 
 export const dynamic = 'force-dynamic'
 
@@ -34,6 +35,11 @@ export async function POST(request: NextRequest) {
 
     if (!desktopImage || !titleItalic || !ctaLabel || !ctaSecondaryLabel) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+    }
+    for (const href of [ctaHref, ctaSecondaryHref]) {
+      if (href !== undefined && !isSafeHref(href)) {
+        return NextResponse.json({ error: 'Button links must start with / or https://' }, { status: 400 })
+      }
     }
 
     const slide = await prisma.heroSlide.create({
